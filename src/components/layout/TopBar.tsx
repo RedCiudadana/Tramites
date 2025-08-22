@@ -1,6 +1,6 @@
 import React from 'react';
-import { Facebook, Twitter, Instagram, Youtube, Mail, Phone } from 'lucide-react';
-import logo from '../assets/logoredblanco.png';
+import { Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
+import logo from '../../assets/logoredblanco.png';
 
 export default function TopBar() {
   return (
@@ -10,7 +10,7 @@ export default function TopBar() {
           {/* Contact Info */}
           <div className="flex items-center space-x-4 mb-2 sm:mb-0">
             <div className="flex items-center space-x-1">
-              <img width={'25px'} src={logo}/>
+              <img width={'25px'} src={logo} alt="Red Ciudadana" />
             </div>
             <div className="flex items-center space-x-1">
               <span>Sitio oficial de la Asociación Civil Red Ciudadana</span>

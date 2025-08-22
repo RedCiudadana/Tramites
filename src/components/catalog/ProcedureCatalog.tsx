@@ -1,26 +1,24 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Filter, Building2, Clock, User, Users, ChevronRight } from 'lucide-react';
-import { procedures } from '../data/procedures';
-import { Procedure } from '../types';
+import { Link, useNavigate } from 'react-router-dom';
+import { procedures } from '../../data/procedures';
+import { Procedure } from '../../types';
 
 interface ProcedureCatalogProps {
   searchQuery?: string;
   selectedCategory?: string;
-  onProcedureSelect: (procedure: Procedure) => void;
-  onSectionChange: (section: string) => void;
 }
 
 export default function ProcedureCatalog({ 
   searchQuery = '', 
-  selectedCategory = '', 
-  onProcedureSelect,
-  onSectionChange 
+  selectedCategory = ''
 }: ProcedureCatalogProps) {
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
   const [typeFilter, setTypeFilter] = useState<string>('');
   const [userTypeFilter, setUserTypeFilter] = useState<string>('');
   const [modalityFilter, setModalityFilter] = useState<string>('');
   const [showFilters, setShowFilters] = useState(false);
+  const navigate = useNavigate();
 
   const filteredProcedures = useMemo(() => {
     return procedures.filter(procedure => {
@@ -38,8 +36,7 @@ export default function ProcedureCatalog({
   }, [localSearchQuery, selectedCategory, typeFilter, modalityFilter]);
 
   const handleProcedureClick = (procedure: Procedure) => {
-    onProcedureSelect(procedure);
-    onSectionChange('tramite-detalle');
+    navigate(`/tramite/${procedure.id}`);
   };
 
   const getTypeIcon = (type: string) => {
@@ -65,12 +62,9 @@ export default function ProcedureCatalog({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumbs */}
         <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-6">
-          <button
-            onClick={() => onSectionChange('inicio')}
-            className="hover:text-blue-800 transition-colors"
-          >
+          <Link to="/" className="hover:text-blue-800 transition-colors">
             Inicio
-          </button>
+          </Link>
           <ChevronRight className="h-4 w-4" />
           <span className="text-gray-900 font-medium">
             {selectedCategory 

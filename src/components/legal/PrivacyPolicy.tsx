@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Eye, Lock, Database, Users, AlertTriangle, CheckCircle, Mail, Phone, Globe } from 'lucide-react';
+import { Shield, Eye, Lock, Database, Users, AlertTriangle, CheckCircle, Scale, Globe, Mail, Phone } from 'lucide-react';
 
 export default function PrivacyPolicy() {
   const lastUpdated = "1 de enero de 2025";

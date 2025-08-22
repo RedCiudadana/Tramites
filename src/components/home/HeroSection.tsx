@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
-import { Search, ArrowRight, FileText, Clock, Shield, Sparkles, TrendingUp } from 'lucide-react';
+import { Search, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-interface HeroSectionProps {
-  onSearch: (query: string) => void;
-  onSectionChange: (section: string) => void;
-}
-
-export default function HeroSection({ onSearch, onSectionChange }: HeroSectionProps) {
+export default function HeroSection() {
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      onSearch(searchQuery);
-      onSectionChange('catalogo');
+      navigate(`/catalogo?search=${encodeURIComponent(searchQuery)}`);
     }
   };
 
@@ -23,6 +19,10 @@ export default function HeroSection({ onSearch, onSectionChange }: HeroSectionPr
     'Antecedentes penales',
     'Certificado de salud'
   ];
+
+  const handlePopularSearch = (search: string) => {
+    navigate(`/catalogo?search=${encodeURIComponent(search)}`);
+  };
 
   return (
     <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white relative overflow-hidden">
@@ -35,15 +35,6 @@ export default function HeroSection({ onSearch, onSectionChange }: HeroSectionPr
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative">
         <div className="text-center">
-          {/* Badge */}
-          {/* <div className="inline-flex items-center space-x-2 bg-blue-800/50 backdrop-blur-sm px-4 py-2 rounded-full mb-6 border border-blue-600/30">
-            <Sparkles className="h-4 w-4 text-blue-200" />
-            <span className="text-sm font-medium text-blue-100">
-              Iniciativa Ciudadana #1 en Información de Trámites
-            </span>
-            <TrendingUp className="h-4 w-4 text-green-400" />
-          </div> */}
-
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
             Observatorio de Trámites
             <br />
@@ -86,11 +77,7 @@ export default function HeroSection({ onSearch, onSectionChange }: HeroSectionPr
               {popularSearches.map((search, index) => (
                 <button
                   key={index}
-                  onClick={() => {
-                    setSearchQuery(search);
-                    onSearch(search);
-                    onSectionChange('catalogo');
-                  }}
+                  onClick={() => handlePopularSearch(search)}
                   className="bg-blue-800/30 backdrop-blur-sm text-blue-100 px-4 py-2 rounded-full text-sm hover:bg-blue-700/40 transition-colors border border-blue-600/30"
                 >
                   {search}
@@ -98,8 +85,6 @@ export default function HeroSection({ onSearch, onSectionChange }: HeroSectionPr
               ))}
             </div>
           </div>
-
-          {/* Benefits */}
         </div>
       </div>
     </div>

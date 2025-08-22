@@ -166,7 +166,7 @@ export default function HelpPage() {
       icon: Clock
     },
     {
-      title: 'Ve al portal oficial',
+      title: 've al portal oficial',
       description: 'Usa los enlaces que proporcionamos para ir directamente al sitio oficial de la institución.',
       icon: Globe
     },

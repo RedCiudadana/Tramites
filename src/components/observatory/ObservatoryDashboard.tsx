@@ -33,15 +33,14 @@ import {
   Area,
   AreaChart
 } from 'recharts';
-import { procedures } from '../data/procedures';
-import { observatoryData } from '../data/observatory';
-import ObservatoryChatbot from './ObservatoryChatbot';
+import { procedures } from '../../data/procedures';
+import { observatoryData } from '../../data/observatory';
 
 export default function ObservatoryDashboard() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedMaturity, setSelectedMaturity] = useState('');
   const [viewMode, setViewMode] = useState<'overview' | 'detailed'>('overview');
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'analysis' | 'chatbot'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'analysis'>('dashboard');
 
   const getMaturityColor = (level: number) => {
     if (level >= 4.5) return 'bg-green-500 text-white';
@@ -336,239 +335,228 @@ export default function ObservatoryDashboard() {
             >
               Análisis Detallado
             </button>
-            {/* <button
-              onClick={() => setActiveTab('chatbot')}
-              className={`px-6 py-4 font-medium text-sm transition-colors ${
-                activeTab === 'chatbot'
-                  ? 'text-blue-800 border-b-2 border-blue-800 bg-blue-50'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
-            >
-              Asistente de Trámites
-            </button> */}
           </div>
         </div>
 
         {/* Content based on active tab */}
-        {activeTab === 'dashboard' ? renderDashboard() : 
-         activeTab === 'chatbot' ? <ObservatoryChatbot /> : (
+        {activeTab === 'dashboard' ? renderDashboard() : (
           <>
             {/* Filters and Controls */}
             <div className="bg-white rounded-xl shadow-sm p-6 mb-8 border border-gray-100">
-          <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
-            <div className="flex flex-col sm:flex-row gap-4 flex-1">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Categoría
-                </label>
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="">Todas las categorías</option>
-                  <option value="identidad">Identidad</option>
-                  <option value="negocios">Negocios</option>
-                  <option value="vivienda">Vivienda</option>
-                  <option value="educacion">Educación</option>
-                  <option value="salud">Salud</option>
-                  <option value="justicia">Justicia</option>
-                </select>
+              <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
+                <div className="flex flex-col sm:flex-row gap-4 flex-1">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Categoría
+                    </label>
+                    <select
+                      value={selectedCategory}
+                      onChange={(e) => setSelectedCategory(e.target.value)}
+                      className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    >
+                      <option value="">Todas las categorías</option>
+                      <option value="identidad">Identidad</option>
+                      <option value="negocios">Negocios</option>
+                      <option value="vivienda">Vivienda</option>
+                      <option value="educacion">Educación</option>
+                      <option value="salud">Salud</option>
+                      <option value="justicia">Justicia</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Nivel de Madurez
+                    </label>
+                    <select
+                      value={selectedMaturity}
+                      onChange={(e) => setSelectedMaturity(e.target.value)}
+                      className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    >
+                      <option value="">Todos los niveles</option>
+                      <option value="excellent">Excelente (4.5-5.0)</option>
+                      <option value="good">Bueno (3.5-4.4)</option>
+                      <option value="regular">Regular (2.5-3.4)</option>
+                      <option value="poor">Necesita Mejora (0-2.4)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setViewMode(viewMode === 'overview' ? 'detailed' : 'overview')}
+                    className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                    <Eye className="h-4 w-4" />
+                    <span>{viewMode === 'overview' ? 'Vista Detallada' : 'Vista General'}</span>
+                  </button>
+
+                  <button className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    <Download className="h-4 w-4" />
+                    <span>Exportar</span>
+                  </button>
+                </div>
               </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Nivel de Madurez
-                </label>
-                <select
-                  value={selectedMaturity}
-                  onChange={(e) => setSelectedMaturity(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="">Todos los niveles</option>
-                  <option value="excellent">Excelente (4.5-5.0)</option>
-                  <option value="good">Bueno (3.5-4.4)</option>
-                  <option value="regular">Regular (2.5-3.4)</option>
-                  <option value="poor">Necesita Mejora (0-2.4)</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="flex gap-3">
-              <button
-                onClick={() => setViewMode(viewMode === 'overview' ? 'detailed' : 'overview')}
-                className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                <Eye className="h-4 w-4" />
-                <span>{viewMode === 'overview' ? 'Vista Detallada' : 'Vista General'}</span>
-              </button>
-
-              <button className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                <Download className="h-4 w-4" />
-                <span>Exportar</span>
-              </button>
-            </div>
-          </div>
             </div>
 
             {/* Procedures Analysis */}
             <div className="space-y-6">
-          {filteredData.map((item) => (
-            <div key={item.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-              <div className="p-6">
-                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-3 mb-4">
-                      <h3 className="text-xl font-semibold text-gray-900">{item.name}</h3>
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${getMaturityColor(item.maturityLevel)}`}>
-                        {item.maturityLevel.toFixed(1)} - {getMaturityLabel(item.maturityLevel)}
-                      </span>
-                      {item.isDigital && (
-                        <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
-                          Digital
-                        </span>
-                      )}
-                    </div>
+              {filteredData.map((item) => (
+                <div key={item.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                  <div className="p-6">
+                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-3 mb-4">
+                          <h3 className="text-xl font-semibold text-gray-900">{item.name}</h3>
+                          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getMaturityColor(item.maturityLevel)}`}>
+                            {item.maturityLevel.toFixed(1)} - {getMaturityLabel(item.maturityLevel)}
+                          </span>
+                          {item.isDigital && (
+                            <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+                              Digital
+                            </span>
+                          )}
+                        </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                      <div className="flex items-center space-x-2 text-sm text-gray-600">
-                        <Clock className="h-4 w-4" />
-                        <span>Tiempo promedio: {item.averageTime}</span>
-                      </div>
-                      <div className="flex items-center space-x-2 text-sm text-gray-600">
-                        <Users className="h-4 w-4" />
-                        <span>Usuarios/mes: {item.monthlyUsers.toLocaleString()}</span>
-                      </div>
-                      <div className="flex items-center space-x-2 text-sm text-gray-600">
-                        <TrendingUp className="h-4 w-4" />
-                        <span>Satisfacción: {item.satisfactionRate}%</span>
-                      </div>
-                    </div>
-
-                    {viewMode === 'detailed' && (
-                      <div className="space-y-4">
-                        {/* Evaluation Score */}
-                        <div>
-                          <div className="bg-blue-50 rounded-lg p-4 mb-4">
-                            <div className="flex items-center justify-between mb-2">
-                              <h4 className="font-semibold text-blue-900">Puntaje de Evaluación</h4>
-                              <span className="text-2xl font-bold text-blue-800">{item.evaluationScore}%</span>
-                            </div>
-                            <div className="w-full bg-blue-200 rounded-full h-3">
-                              <div 
-                                className="bg-blue-600 h-3 rounded-full transition-all duration-500" 
-                                style={{ width: `${item.evaluationScore}%` }}
-                              ></div>
-                            </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                          <div className="flex items-center space-x-2 text-sm text-gray-600">
+                            <Clock className="h-4 w-4" />
+                            <span>Tiempo promedio: {item.averageTime}</span>
                           </div>
-                          
-                          <h4 className="font-medium text-gray-900 mb-3">Componentes de Evaluación</h4>
-                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {Object.entries(item.evaluationComponents).map(([component, score]) => {
-                              const componentLabels: Record<string, string> = {
-                                digitalizacion: '4.1 Digitalización',
-                                simplificacion: '4.2 Simplificación',
-                                interoperabilidad: '4.3 Interoperabilidad',
-                                trazabilidad: '4.4 Trazabilidad',
-                                accesibilidad: '4.5 Accesibilidad',
-                                satisfaccionUsuario: '4.6 Satisfacción del Usuario'
-                              };
-                              
-                              return (
-                              <div key={component} className="bg-gray-50 p-3 rounded-lg">
-                                <div className="flex justify-between items-center mb-2">
-                                  <span className="text-sm font-medium text-gray-700 capitalize">
-                                    {componentLabels[component]}
-                                  </span>
-                                  <span className="text-sm font-bold text-gray-900">{score}/5</span>
+                          <div className="flex items-center space-x-2 text-sm text-gray-600">
+                            <Users className="h-4 w-4" />
+                            <span>Usuarios/mes: {item.monthlyUsers.toLocaleString()}</span>
+                          </div>
+                          <div className="flex items-center space-x-2 text-sm text-gray-600">
+                            <TrendingUp className="h-4 w-4" />
+                            <span>Satisfacción: {item.satisfactionRate}%</span>
+                          </div>
+                        </div>
+
+                        {viewMode === 'detailed' && (
+                          <div className="space-y-4">
+                            {/* Evaluation Score */}
+                            <div>
+                              <div className="bg-blue-50 rounded-lg p-4 mb-4">
+                                <div className="flex items-center justify-between mb-2">
+                                  <h4 className="font-semibold text-blue-900">Puntaje de Evaluación</h4>
+                                  <span className="text-2xl font-bold text-blue-800">{item.evaluationScore}%</span>
                                 </div>
-                                <div className="w-full bg-gray-200 rounded-full h-2">
+                                <div className="w-full bg-blue-200 rounded-full h-3">
                                   <div 
-                                    className={`h-2 rounded-full ${
-                                      score >= 4.5 ? 'bg-green-500' :
-                                      score >= 3.5 ? 'bg-blue-500' :
-                                      score >= 2.5 ? 'bg-yellow-500' : 'bg-red-500'
-                                    }`}
-                                    style={{ width: `${(score / 5) * 100}%` }}
+                                    className="bg-blue-600 h-3 rounded-full transition-all duration-500" 
+                                    style={{ width: `${item.evaluationScore}%` }}
                                   ></div>
                                 </div>
                               </div>
-                              );
-                            })}
-                          </div>
-                        </div>
+                              
+                              <h4 className="font-medium text-gray-900 mb-3">Componentes de Evaluación</h4>
+                              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {Object.entries(item.evaluationComponents).map(([component, score]) => {
+                                  const componentLabels: Record<string, string> = {
+                                    digitalizacion: '4.1 Digitalización',
+                                    simplificacion: '4.2 Simplificación',
+                                    interoperabilidad: '4.3 Interoperabilidad',
+                                    trazabilidad: '4.4 Trazabilidad',
+                                    accesibilidad: '4.5 Accesibilidad',
+                                    satisfaccionUsuario: '4.6 Satisfacción del Usuario'
+                                  };
+                                  
+                                  return (
+                                    <div key={component} className="bg-gray-50 p-3 rounded-lg">
+                                      <div className="flex justify-between items-center mb-2">
+                                        <span className="text-sm font-medium text-gray-700 capitalize">
+                                          {componentLabels[component]}
+                                        </span>
+                                        <span className="text-sm font-bold text-gray-900">{score}/5</span>
+                                      </div>
+                                      <div className="w-full bg-gray-200 rounded-full h-2">
+                                        <div 
+                                          className={`h-2 rounded-full ${
+                                            score >= 4.5 ? 'bg-green-500' :
+                                            score >= 3.5 ? 'bg-blue-500' :
+                                            score >= 2.5 ? 'bg-yellow-500' : 'bg-red-500'
+                                          }`}
+                                          style={{ width: `${(score / 5) * 100}%` }}
+                                        ></div>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
 
-                        {/* Issues and Recommendations */}
-                        {item.issues.length > 0 && (
-                          <div>
-                            <h4 className="font-medium text-gray-900 mb-3 flex items-center space-x-2">
-                              <AlertTriangle className="h-4 w-4 text-yellow-500" />
-                              <span>Áreas de Mejora</span>
-                            </h4>
-                            <ul className="space-y-2">
-                              {item.issues.map((issue, index) => (
-                                <li key={index} className="flex items-start space-x-2 text-sm text-gray-700">
-                                  <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0"></div>
-                                  <span>{issue}</span>
-                                </li>
-                              ))}
-                            </ul>
+                            {/* Issues and Recommendations */}
+                            {item.issues.length > 0 && (
+                              <div>
+                                <h4 className="font-medium text-gray-900 mb-3 flex items-center space-x-2">
+                                  <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                                  <span>Áreas de Mejora</span>
+                                </h4>
+                                <ul className="space-y-2">
+                                  {item.issues.map((issue, index) => (
+                                    <li key={index} className="flex items-start space-x-2 text-sm text-gray-700">
+                                      <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0"></div>
+                                      <span>{issue}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            <div>
+                              <h4 className="font-medium text-gray-900 mb-3 flex items-center space-x-2">
+                                <CheckCircle className="h-4 w-4 text-green-500" />
+                                <span>Recomendaciones</span>
+                              </h4>
+                              <ul className="space-y-2">
+                                {item.recommendations.map((recommendation, index) => (
+                                  <li key={index} className="flex items-start space-x-2 text-sm text-gray-700">
+                                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                                    <span>{recommendation}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
                           </div>
                         )}
-
-                        <div>
-                          <h4 className="font-medium text-gray-900 mb-3 flex items-center space-x-2">
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span>Recomendaciones</span>
-                          </h4>
-                          <ul className="space-y-2">
-                            {item.recommendations.map((recommendation, index) => (
-                              <li key={index} className="flex items-start space-x-2 text-sm text-gray-700">
-                                <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                                <span>{recommendation}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
                       </div>
-                    )}
+                    </div>
+                  </div>
+
+                  {/* Progress Bar */}
+                  <div className="px-6 pb-4">
+                    <div className="flex justify-between text-xs text-gray-500 mb-1">
+                      <span>Nivel de Madurez</span>
+                      <span>{item.maturityLevel.toFixed(1)}/5.0</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div 
+                        className={`h-2 rounded-full ${
+                          item.maturityLevel >= 4.5 ? 'bg-green-500' :
+                          item.maturityLevel >= 3.5 ? 'bg-blue-500' :
+                          item.maturityLevel >= 2.5 ? 'bg-yellow-500' : 'bg-red-500'
+                        }`}
+                        style={{ width: `${(item.maturityLevel / 5) * 100}%` }}
+                      ></div>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Progress Bar */}
-              <div className="px-6 pb-4">
-                <div className="flex justify-between text-xs text-gray-500 mb-1">
-                  <span>Nivel de Madurez</span>
-                  <span>{item.maturityLevel.toFixed(1)}/5.0</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
-                    className={`h-2 rounded-full ${
-                      item.maturityLevel >= 4.5 ? 'bg-green-500' :
-                      item.maturityLevel >= 3.5 ? 'bg-blue-500' :
-                      item.maturityLevel >= 2.5 ? 'bg-yellow-500' : 'bg-red-500'
-                    }`}
-                    style={{ width: `${(item.maturityLevel / 5) * 100}%` }}
-                  ></div>
-                </div>
-              </div>
-            </div>
-          ))}
+              ))}
             </div>
 
             {filteredData.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-gray-400 mb-4">
-              <BarChart3 className="h-16 w-16 mx-auto" />
-            </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              No se encontraron trámites
-            </h3>
-            <p className="text-gray-600">
-              Ajusta los filtros para ver más resultados
-            </p>
-          </div>
+              <div className="text-center py-12">
+                <div className="text-gray-400 mb-4">
+                  <BarChart3 className="h-16 w-16 mx-auto" />
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  No se encontraron trámites
+                </h3>
+                <p className="text-gray-600">
+                  Ajusta los filtros para ver más resultados
+                </p>
+              </div>
             )}
           </>
         )}

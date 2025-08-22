@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Shield, X, Cookie, Eye, Settings } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-interface GDPRBottomBarProps {
-  onSectionChange: (section: string) => void;
-}
-
-export default function GDPRBottomBar({ onSectionChange }: GDPRBottomBarProps) {
+export default function GDPRBottomBar() {
   const [isVisible, setIsVisible] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [preferences, setPreferences] = useState({
@@ -94,19 +91,19 @@ export default function GDPRBottomBar({ onSectionChange }: GDPRBottomBarProps) {
                     cumplimos con el RGPD y las leyes guatemaltecas de protección de datos.
                   </p>
                   <div className="flex flex-wrap gap-2 mt-2">
-                    <button
-                      onClick={() => onSectionChange('privacidad')}
+                    <Link
+                      to="/privacidad"
                       className="text-xs text-blue-600 hover:text-blue-700 underline"
                     >
                       Política de Privacidad
-                    </button>
+                    </Link>
                     <span className="text-xs text-gray-400">•</span>
-                    <button
-                      onClick={() => onSectionChange('terminos')}
+                    <Link
+                      to="/terminos"
                       className="text-xs text-blue-600 hover:text-blue-700 underline"
                     >
                       Términos y Condiciones
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>

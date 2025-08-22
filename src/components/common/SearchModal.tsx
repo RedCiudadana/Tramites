@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Search, X, ArrowRight } from 'lucide-react';
-import { procedures } from '../data/procedures';
-import { Procedure } from '../types';
+import { useNavigate } from 'react-router-dom';
+import { procedures } from '../../data/procedures';
+import { Procedure } from '../../types';
 
 interface SearchModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onProcedureSelect: (procedure: Procedure) => void;
-  onSectionChange: (section: string) => void;
 }
 
-export default function SearchModal({ isOpen, onClose, onProcedureSelect, onSectionChange }: SearchModalProps) {
+export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Procedure[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (query.trim() === '') {
@@ -30,8 +30,7 @@ export default function SearchModal({ isOpen, onClose, onProcedureSelect, onSect
   }, [query]);
 
   const handleProcedureClick = (procedure: Procedure) => {
-    onProcedureSelect(procedure);
-    onSectionChange('tramite-detalle');
+    navigate(`/tramite/${procedure.id}`);
     onClose();
     setQuery('');
   };

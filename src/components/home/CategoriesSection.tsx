@@ -1,16 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as Icons from 'lucide-react';
-import { categories } from '../data/procedures';
+import { categories } from '../../data/procedures';
 
-interface CategoriesSectionProps {
-  onCategorySelect: (categoryId: string) => void;
-  onSectionChange: (section: string) => void;
-}
+export default function CategoriesSection() {
+  const navigate = useNavigate();
 
-export default function CategoriesSection({ onCategorySelect, onSectionChange }: CategoriesSectionProps) {
   const handleCategoryClick = (categoryId: string) => {
-    onCategorySelect(categoryId);
-    onSectionChange('catalogo');
+    navigate(`/catalogo/${categoryId}`);
   };
 
   return (
@@ -47,7 +44,7 @@ export default function CategoriesSection({ onCategorySelect, onSectionChange }:
 
         <div className="text-center mt-12">
           <button
-            onClick={() => onSectionChange('catalogo')}
+            onClick={() => navigate('/catalogo')}
             className="bg-blue-800 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-900 transition-colors inline-flex items-center space-x-2"
           >
             <span>Ver todos los trámites</span>
