@@ -845,24 +845,6 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
             </div>
 
             {/* Additional Information */}
-            <div className="mt-6 bg-blue-50 rounded-lg p-6">
-              <div className="flex items-start space-x-3">
-                <AlertCircle className="h-6 w-6 text-blue-800 mt-0.5" />
-                <div>
-                  <h3 className="font-semibold text-blue-900 mb-2">Información importante</h3>
-                  <ul className="text-blue-800 space-y-1 text-sm">
-                    <li>• Todos los documentos deben estar vigentes y en buen estado</li>
-                    <li>• Los tiempos estimados pueden variar según la demanda</li>
-                    <li>• Verifica los horarios de atención antes de tu visita</li>
-                    {procedure.isDigital && (
-                      <li>• Este trámite se puede completar completamente en línea</li>
-                    )}
-                    <li>• Para realizar el trámite, debes dirigirte al sitio web oficial de la institución</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
