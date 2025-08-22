@@ -1,5 +1,6 @@
 import React from 'react';
 import { Facebook, Twitter, Instagram, Youtube, Mail, Phone } from 'lucide-react';
+import logo from '../assets/logoredblanco.png';
 
 export default function TopBar() {
   return (
@@ -9,18 +10,15 @@ export default function TopBar() {
           {/* Contact Info */}
           <div className="flex items-center space-x-4 mb-2 sm:mb-0">
             <div className="flex items-center space-x-1">
-              <Phone className="h-3 w-3" />
-              <span>+502 2440-0000</span>
+              <img width={'25px'} src={logo}/>
             </div>
             <div className="flex items-center space-x-1">
-              <Mail className="h-3 w-3" />
-              <span>info@redciudadana.org.gt</span>
+              <span>Sitio oficial de la Asociación Civil Red Ciudadana</span>
             </div>
           </div>
 
           {/* Social Media Links */}
           <div className="flex items-center space-x-1">
-            <span className="text-gray-300 mr-2">Síguenos:</span>
             <a
               href="https://facebook.com/redciudadanagt"
               target="_blank"

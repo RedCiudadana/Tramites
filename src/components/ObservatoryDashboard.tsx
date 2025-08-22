@@ -336,7 +336,7 @@ export default function ObservatoryDashboard() {
             >
               Análisis Detallado
             </button>
-            <button
+            {/* <button
               onClick={() => setActiveTab('chatbot')}
               className={`px-6 py-4 font-medium text-sm transition-colors ${
                 activeTab === 'chatbot'
@@ -345,7 +345,7 @@ export default function ObservatoryDashboard() {
               }`}
             >
               Asistente de Trámites
-            </button>
+            </button> */}
           </div>
         </div>
 

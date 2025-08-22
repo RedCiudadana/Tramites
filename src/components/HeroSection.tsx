@@ -18,7 +18,7 @@ export default function HeroSection({ onSearch, onSectionChange }: HeroSectionPr
   };
 
   const popularSearches = [
-    'Renovar DPI',
+    'Renovación de DPI',
     'Inscribir empresa',
     'Antecedentes penales',
     'Certificado de salud'
@@ -36,25 +36,25 @@ export default function HeroSection({ onSearch, onSectionChange }: HeroSectionPr
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative">
         <div className="text-center">
           {/* Badge */}
-          <div className="inline-flex items-center space-x-2 bg-blue-800/50 backdrop-blur-sm px-4 py-2 rounded-full mb-6 border border-blue-600/30">
+          {/* <div className="inline-flex items-center space-x-2 bg-blue-800/50 backdrop-blur-sm px-4 py-2 rounded-full mb-6 border border-blue-600/30">
             <Sparkles className="h-4 w-4 text-blue-200" />
             <span className="text-sm font-medium text-blue-100">
               Iniciativa Ciudadana #1 en Información de Trámites
             </span>
             <TrendingUp className="h-4 w-4 text-green-400" />
-          </div>
+          </div> */}
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-            Información clara
+            Observatorio de Trámites
             <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-white">
-              para todos los ciudadanos
+              de Guatemala
             </span>
           </h1>
           
           <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-4xl mx-auto leading-relaxed">
             Red Ciudadana recopila y organiza información sobre trámites gubernamentales para que tengas todo lo necesario antes de ir a las oficinas oficiales.
-            <br className="hidden md:block" />
+            <br/><br/>
             <span className="font-semibold text-white">Información verificada y actualizada por la sociedad civil.</span>
           </p>
 

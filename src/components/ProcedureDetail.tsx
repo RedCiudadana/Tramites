@@ -691,7 +691,7 @@ export default function ProcedureDetail({ procedure, onBack, onStartProcedure, o
               <FileText className="h-5 w-5 text-white" />
             </div>
             <div className="flex-1">
-              <h3 className="font-semibold text-blue-900 mb-2">Información verificada por Red Ciudadana</h3>
+              <h3 className="font-semibold text-blue-900 mb-2">Información recolectada por Red Ciudadana</h3>
               <p className="text-blue-800 text-sm mb-3">
                 Esta información ha sido recopilada y verificada por nuestro equipo de investigación ciudadana. 
                 Si encuentras algún error o cambio en el proceso, ayúdanos a mantener la información actualizada.

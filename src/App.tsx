@@ -120,10 +120,9 @@ function App() {
               onCategorySelect={handleCategorySelect}
               onSectionChange={handleSectionChange}
             />
-            <section className="py-16 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white">
+            {/* <section className="py-16 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center">
-                  {/* Benefits */}
                   <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
                     <div className="flex flex-col items-center text-center group">
                       <div className="bg-gradient-to-br from-blue-600 to-blue-500 p-6 rounded-2xl mb-4 group-hover:scale-110 transition-transform shadow-xl">
@@ -158,7 +157,7 @@ function App() {
                 </div>
               </div>
             </section>
-            <InnovationSection />
+            <InnovationSection /> */}
           </>
         );
     }
