@@ -358,189 +358,189 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
             </div>
           </div>
 
-          {/* Main Content */}
-          <div className="flex-1 max-w-4xl">
-            {/* Breadcrumbs */}
-            <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-6">
-              <Link to="/" className="hover:text-blue-800 transition-colors">
-                Inicio
-              </Link>
-              <ChevronRight className="h-4 w-4" />
-              <Link to="/catalogo" className="hover:text-blue-800 transition-colors">
-                Catálogo de Trámites
-              </Link>
-              <ChevronRight className="h-4 w-4" />
-              <span className="text-gray-900 font-medium">{procedure.name}</span>
-            </nav>
-
-            {/* Header */}
-            <div id="overview" className="mb-8">
-              <div className="bg-white rounded-lg shadow-sm p-8">
-                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-3 mb-4">
-                      <h1 className="text-3xl font-bold text-gray-900">{procedure.name}</h1>
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(procedure.type)}`}>
-                        {getTypeIcon(procedure.type)} {procedure.type}
+          {/* Comments Section - Moved to the end */}
+          <div id="comments" className="mt-8">
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-2">
+                  <MessageSquare className="h-6 w-6 text-blue-600" />
+                  <h2 className="text-xl font-semibold text-gray-900">Experiencias de Ciudadanos</h2>
+                </div>
+                <div className="text-right">
+                  <span className="text-sm text-gray-500">{allComments.length} comentarios</span>
+                  {allComments.length > 0 && (
+                    <div className="flex items-center space-x-1 mt-1">
+                      <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                      <span className="text-sm font-medium text-gray-700">
+                        {calculateAverageRating()} promedio
                       </span>
                     </div>
-                    
-                    <div className="flex flex-wrap items-center gap-6 text-gray-600 mb-4">
-                      <div className="flex items-center space-x-2">
-                        <Building2 className="h-5 w-5" />
-                        <span>{procedure.institution}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Clock className="h-5 w-5" />
-                        <span>{procedure.duration}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        {procedure.userType === 'persona' ? (
-                          <User className="h-5 w-5" />
-                        ) : procedure.userType === 'empresa' ? (
-                          <Building2 className="h-5 w-5" />
-                        ) : (
-                          <Users className="h-5 w-5" />
-                        )}
-                        <span className="capitalize">{procedure.userType}</span>
-                      </div>
-                    </div>
-                    
-                    <p className="text-lg text-gray-700">{procedure.fullDescription}</p>
-                    
-                    <div className="space-y-3 mt-4">
-                      <button
-                        onClick={() => window.open('https://mingob.gob.gt', '_blank')}
-                        className="w-full lg:w-auto bg-blue-800 text-white px-8 py-3 rounded-lg hover:bg-blue-900 transition-colors font-medium text-lg"
-                      >
-                        Ir al Portal Oficial
-                      </button>
-                      <p className="text-sm text-gray-600 text-center lg:text-left">
-                        Esta información te ayuda a prepararte. El trámite se realiza en el portal oficial.
-                      </p>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
-            </div>
 
-            {/* Steps */}
-            <div id="steps" className="mt-8">
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <div className="flex items-center space-x-2 mb-4">
-                  <AlertCircle className="h-6 w-6 text-blue-800" />
-                  <h2 className="text-xl font-semibold text-gray-900">Pasos a seguir</h2>
-                </div>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <ol className="space-y-4">
-                    {procedure.steps.slice(0, Math.ceil(procedure.steps.length / 2)).map((step, index) => (
-                      <li key={index} className="flex items-start space-x-3">
-                        <div className="flex-shrink-0 w-8 h-8 bg-blue-800 text-white rounded-full flex items-center justify-center text-sm font-medium">
-                          {index + 1}
-                        </div>
-                        <span className="text-gray-700 pt-1">{step}</span>
-                      </li>
-                    ))}
-                  </ol>
-                  <ol className="space-y-4">
-                    {procedure.steps.slice(Math.ceil(procedure.steps.length / 2)).map((step, index) => (
-                      <li key={index + Math.ceil(procedure.steps.length / 2)} className="flex items-start space-x-3">
-                        <div className="flex-shrink-0 w-8 h-8 bg-blue-800 text-white rounded-full flex items-center justify-center text-sm font-medium">
-                          {index + Math.ceil(procedure.steps.length / 2) + 1}
-                        </div>
-                        <span className="text-gray-700 pt-1">{step}</span>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              </div>
-            </div>
-
-            {/* Requirements */}
-            <div id="requirements" className="mt-8">
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <div className="flex items-center space-x-2 mb-4">
-                  <FileText className="h-6 w-6 text-blue-800" />
-                  <h2 className="text-xl font-semibold text-gray-900">Requisitos</h2>
-                </div>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <ul className="space-y-3">
-                    {procedure.requirements.slice(0, Math.ceil(procedure.requirements.length / 2)).map((requirement, index) => (
-                      <li key={index} className="flex items-start space-x-3">
-                        <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-700">{requirement}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <ul className="space-y-3">
-                    {procedure.requirements.slice(Math.ceil(procedure.requirements.length / 2)).map((requirement, index) => (
-                      <li key={index + Math.ceil(procedure.requirements.length / 2)} className="flex items-start space-x-3">
-                        <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-700">{requirement}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            {/* Official Portal Button */}
-            <div id="portal" className="mt-8">
-              <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-8 text-center border border-blue-200">
-                <div className="mb-4">
-                  <div className="bg-blue-600 text-white p-4 rounded-full w-16 h-16 mx-auto flex items-center justify-center mb-4">
-                    <Globe className="h-8 w-8" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">¿Listo para realizar tu trámite?</h3>
-                  <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-                    Ahora que tienes toda la información necesaria, puedes proceder al portal oficial 
-                    de {procedure.institution} para completar tu trámite de manera segura.
-                  </p>
-                </div>
-                <button
-                  onClick={() => window.open('https://mingob.gob.gt', '_blank')}
-                  className="bg-blue-800 text-white px-12 py-4 rounded-xl hover:bg-blue-900 transition-colors font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105"
-                >
-                  Ir al Portal Oficial de {procedure.institution}
-                </button>
-                <p className="text-sm text-gray-500 mt-4">
-                  Este enlace te llevará al sitio web oficial donde podrás realizar tu trámite de forma segura
-                </p>
-              </div>
-            </div>
-
-            {/* Institutional Information */}
-            <div id="institution" className="mt-8">
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <div className="flex items-center space-x-2 mb-4">
-                  <Building2 className="h-6 w-6 text-blue-800" />
-                  <h2 className="text-xl font-semibold text-gray-900">Información Institucional</h2>
-                </div>
+              {/* Add Comment Form */}
+              <form onSubmit={handleCommentSubmit} className="mb-8 p-4 bg-gray-50 rounded-lg">
+                <h3 className="font-medium text-gray-900 mb-3">Comparte tu experiencia</h3>
                 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-2">{institution.fullName || procedure.institution}</h3>
-                      <p className="text-gray-600 text-sm mb-3">{institution.description}</p>
-                    </div>
-                    
-                    {institution.address && (
-                      <div className="flex items-start space-x-3">
-                        <MapPin className="h-4 w-4 text-gray-500 mt-0.5 flex-shrink-0" />
+                {/* Author Information */}
+                <div className="grid md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Tu nombre *
+                    </label>
+                    <input
+                      type="text"
+                      value={authorName}
+                      onChange={(e) => setAuthorName(e.target.value)}
+                      placeholder="Nombre completo"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Email (opcional)
+                    </label>
+                    <input
+                      type="email"
+                      value={authorEmail}
+                      onChange={(e) => setAuthorEmail(e.target.value)}
+                      placeholder="tu@email.com"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                  </div>
+                </div>
+
+                {/* Rating */}
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Califica este trámite *
+                  </label>
+                  <div className="flex space-x-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => setRating(star)}
+                        className={`p-1 ${
+                          star <= rating ? 'text-yellow-400' : 'text-gray-300'
+                        } hover:text-yellow-400 transition-colors`}
+                      >
+                        <Star className="h-6 w-6 fill-current" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Comment Text */}
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Tu experiencia *
+                  </label>
+                  <textarea
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    rows={4}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Comparte consejos, tiempos reales, dificultades encontradas, o cualquier información útil para otros ciudadanos..."
+                    required
+                  />
+                </div>
+
+                {/* Error Display */}
+                {commentsError && (
+                  <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                    <p className="text-sm text-red-600">{commentsError}</p>
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={!newComment.trim() || rating === 0 || !authorName.trim() || isSubmitting}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
+                >
+                  <Send className="h-4 w-4" />
+                  <span>{isSubmitting ? 'Publicando...' : 'Publicar comentario'}</span>
+                </button>
+                
+                <p className="text-xs text-gray-500 mt-2">
+                  * Campos requeridos. Tu comentario será visible públicamente para ayudar a otros ciudadanos.
+                </p>
+              </form>
+
+              {/* Loading State */}
+              {commentsLoading && (
+                <div className="text-center py-4">
+                  <p className="text-gray-500">Cargando comentarios...</p>
+                </div>
+              )}
+
+              {/* Comments List */}
+              <div className="space-y-6">
+                {allComments.map((comment) => (
+                  <div key={comment.id} className="border-b border-gray-100 pb-6 last:border-b-0">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center space-x-3">
+                        <div className="bg-blue-100 text-blue-800 rounded-full w-10 h-10 flex items-center justify-center font-medium text-sm">
+                          {getInitials(comment.author_name)}
+                        </div>
                         <div>
-                          <p className="text-sm font-medium text-gray-900">Dirección</p>
-                          <p className="text-sm text-gray-600">{institution.address}</p>
+                          <div className="flex items-center space-x-2">
+                            <h4 className="font-medium text-gray-900">{comment.author_name}</h4>
+                            {comment.isLegacy && (
+                              <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs">
+                                Comentario anterior
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="flex">
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <Star
+                                  key={star}
+                                  className={`h-4 w-4 ${
+                                    star <= comment.rating
+                                      ? 'text-yellow-400 fill-current'
+                                      : 'text-gray-300'
+                                  }`}
+                                />
+                              ))}
+                            </div>
+                            <span className="text-sm text-gray-500">
+                              {formatDate(comment.created_at)}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    )}
+                    </div>
                     
-                    {institution.phone && (
-                      <div className="flex items-center space-x-3">
-                        <Phone className="h-4 w-4 text-gray-500 flex-shrink-0" />
-                        <div>
-                          <p className="text-sm font-medium text-gray-900">Teléfono</p>
-                          <p className="text-sm text-gray-600">{institution.phone}</p>
-                        </div>
+                    <p className="text-gray-700 mb-3 ml-13">{comment.comment}</p>
+                    
+                    <div className="flex items-center space-x-4 ml-13">
+                      <button
+                        onClick={() => handleHelpfulClick(comment.id, comment.isLegacy)}
+                        className="flex items-center space-x-1 text-sm text-gray-500 hover:text-blue-600 transition-colors"
+                      >
+                        <ThumbsUp className="h-4 w-4" />
+                        <span>Útil ({comment.helpful_count})</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Load More Comments */}
+              {allComments.length === 0 && !commentsLoading && (
+                <div className="text-center py-8">
+                  <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+                  <p className="text-gray-600 mb-2">Aún no hay comentarios para este trámite</p>
+                  <p className="text-sm text-gray-500">¡Sé el primero en compartir tu experiencia!</p>
+                </div>
+              )}
+            </div>
+          </div>
+
                       </div>
                     )}
                     
