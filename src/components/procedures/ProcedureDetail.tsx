@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowLeft, Clock, Building2, User, CheckCircle, AlertCircle, FileText, Users, ChevronRight, MapPin, Phone, Globe, Mail, Lightbulb, MessageSquare, ThumbsUp, Star, Send, List, PlayCircle, ClipboardList, ExternalLink, Info, Lightbulb as LightbulbIcon, MessageCircleIcon } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Procedure } from '../../types';
+import { useComments } from '../../hooks/useComments';
 
 interface ProcedureDetailProps {
   procedure: Procedure;
@@ -73,35 +74,14 @@ const institutionInfo: Record<string, any> = {
 export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
   const [newComment, setNewComment] = React.useState('');
   const [rating, setRating] = React.useState(0);
+  const [authorName, setAuthorName] = React.useState('');
+  const [authorEmail, setAuthorEmail] = React.useState('');
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [activeSection, setActiveSection] = React.useState('overview');
   const navigate = useNavigate();
   
-  const [comments, setComments] = React.useState([
-    {
-      id: '1',
-      author: 'María González',
-      rating: 5,
-      date: '2024-01-15',
-      comment: 'Excelente información. Llegué preparada con todos los documentos y el proceso fue muy rápido. Recomiendo ir temprano para evitar filas.',
-      helpful: 12
-    },
-    {
-      id: '2',
-      author: 'Carlos Mendoza',
-      rating: 4,
-      date: '2024-01-10',
-      comment: 'La información está completa, pero me hubiera gustado saber que necesitaba hacer cita previa. Tuve que regresar otro día.',
-      helpful: 8
-    },
-    {
-      id: '3',
-      author: 'Ana Rodríguez',
-      rating: 5,
-      date: '2024-01-08',
-      comment: 'Perfecto! Seguí todos los pasos y no tuve ningún problema. El personal fue muy amable y el proceso tomó exactamente el tiempo estimado.',
-      helpful: 15
-    }
-  ]);
+  // Usar el hook de comentarios con Supabase
+  const { comments, loading: commentsLoading, error: commentsError, addComment, markHelpful } = useComments(procedure.id);
 
   const institution = institutionInfo[procedure.institution] || {};
   
@@ -125,6 +105,120 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
 
   const handleCommentSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (newComment.trim() && rating > 0 && authorName.trim()) {
+      setIsSubmitting(true);
+      
+      const result = await addComment({
+        author_name: authorName.trim(),
+        author_email: authorEmail.trim() || undefined,
+        rating,
+        comment: newComment.trim()
+      });
+
+      if (result.success) {
+        // Limpiar formulario
+        setNewComment('');
+        setRating(0);
+        setAuthorName('');
+        setAuthorEmail('');
+        
+        // Mostrar mensaje de éxito
+        alert('¡Gracias por compartir tu experiencia! Tu comentario ha sido publicado.');
+      } else {
+        alert('Error al publicar el comentario: ' + result.error);
+      }
+      
+      setIsSubmitting(false);
+    } else {
+      alert('Por favor completa todos los campos requeridos (nombre, calificación y comentario).');
+    }
+  };
+
+  const handleHelpful = async (commentId: string) => {
+    const result = await markHelpful(commentId);
+    if (!result.success) {
+      alert(result.error || 'Error al marcar como útil');
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('es-GT', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  const getInitials = (name: string) => {
+    return name.split(' ').map(n => n.charAt(0)).join('').substring(0, 2).toUpperCase();
+  };
+
+  const calculateAverageRating = () => {
+    if (comments.length === 0) return 0;
+    const sum = comments.reduce((acc, comment) => acc + comment.rating, 0);
+    return (sum / comments.length).toFixed(1);
+  };
+
+  // Función auxiliar para manejar comentarios legacy (mantener compatibilidad)
+  const handleLegacyHelpful = (commentId: string) => {
+    // Esta función mantiene la funcionalidad para comentarios que no están en Supabase
+    console.log('Legacy helpful click for comment:', commentId);
+  };
+
+  // Combinar comentarios de Supabase con comentarios legacy si existen
+  const legacyComments = [
+    {
+      id: 'legacy-1',
+      author_name: 'María González',
+      rating: 5,
+      created_at: '2024-01-15T00:00:00Z',
+      comment: 'Excelente información. Llegué preparada con todos los documentos y el proceso fue muy rápido. Recomiendo ir temprano para evitar filas.',
+      helpful_count: 12,
+      isLegacy: true
+    },
+    {
+      id: 'legacy-2',
+      author_name: 'Carlos Mendoza',
+      rating: 4,
+      created_at: '2024-01-10T00:00:00Z',
+      comment: 'La información está completa, pero me hubiera gustado saber que necesitaba hacer cita previa. Tuve que regresar otro día.',
+      helpful_count: 8,
+      isLegacy: true
+    },
+    {
+      id: 'legacy-3',
+      author_name: 'Ana Rodríguez',
+      rating: 5,
+      created_at: '2024-01-08T00:00:00Z',
+      comment: 'Perfecto! Seguí todos los pasos y no tuve ningún problema. El personal fue muy amable y el proceso tomó exactamente el tiempo estimado.',
+      helpful_count: 15,
+      isLegacy: true
+    }
+  ];
+
+  // Combinar comentarios reales con legacy para mostrar
+  const allComments = [...comments, ...legacyComments].sort((a, b) => 
+    new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+
+  const handleHelpfulClick = (commentId: string, isLegacy?: boolean) => {
+    if (isLegacy) {
+      handleLegacyHelpful(commentId);
+    } else {
+      handleHelpful(commentId);
+    }
+  };
+
+  // Función para limpiar el formulario
+  const resetForm = () => {
+    setNewComment('');
+    setRating(0);
+    setAuthorName('');
+    setAuthorEmail('');
+  };
+
+  const handleCommentSubmitOld = (e: React.FormEvent) => {
+    e.preventDefault();
     if (newComment.trim() && rating > 0) {
       const comment = {
         id: Date.now().toString(),
@@ -134,18 +228,9 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
         comment: newComment,
         helpful: 0
       };
-      setComments([comment, ...comments]);
       setNewComment('');
       setRating(0);
     }
-  };
-
-  const handleHelpful = (commentId: string) => {
-    setComments(comments.map(comment => 
-      comment.id === commentId 
-        ? { ...comment, helpful: comment.helpful + 1 }
-        : comment
-    ));
   };
 
   const procedureTips = {
@@ -549,17 +634,56 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                     <MessageSquare className="h-6 w-6 text-blue-600" />
                     <h2 className="text-xl font-semibold text-gray-900">Experiencias de Ciudadanos</h2>
                   </div>
-                  <span className="text-sm text-gray-500">{comments.length} comentarios</span>
+                  <div className="text-right">
+                    <span className="text-sm text-gray-500">{allComments.length} comentarios</span>
+                    {allComments.length > 0 && (
+                      <div className="flex items-center space-x-1 mt-1">
+                        <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                        <span className="text-sm font-medium text-gray-700">
+                          {calculateAverageRating()} promedio
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Add Comment Form */}
                 <form onSubmit={handleCommentSubmit} className="mb-8 p-4 bg-gray-50 rounded-lg">
                   <h3 className="font-medium text-gray-900 mb-3">Comparte tu experiencia</h3>
                   
+                  {/* Author Information */}
+                  <div className="grid md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Tu nombre *
+                      </label>
+                      <input
+                        type="text"
+                        value={authorName}
+                        onChange={(e) => setAuthorName(e.target.value)}
+                        placeholder="Nombre completo"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Email (opcional)
+                      </label>
+                      <input
+                        type="email"
+                        value={authorEmail}
+                        onChange={(e) => setAuthorEmail(e.target.value)}
+                        placeholder="tu@email.com"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    </div>
+                  </div>
+
                   {/* Rating */}
                   <div className="mb-4">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Califica este trámite
+                      Califica este trámite *
                     </label>
                     <div className="flex space-x-1">
                       {[1, 2, 3, 4, 5].map((star) => (
@@ -580,7 +704,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                   {/* Comment Text */}
                   <div className="mb-4">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tu experiencia
+                      Tu experiencia *
                     </label>
                     <textarea
                       value={newComment}
@@ -588,30 +712,56 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                       rows={4}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Comparte consejos, tiempos reales, dificultades encontradas, o cualquier información útil para otros ciudadanos..."
+                      required
                     />
                   </div>
 
+                  {/* Error Display */}
+                  {commentsError && (
+                    <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                      <p className="text-sm text-red-600">{commentsError}</p>
+                    </div>
+                  )}
+
                   <button
                     type="submit"
-                    disabled={!newComment.trim() || rating === 0}
+                    disabled={!newComment.trim() || rating === 0 || !authorName.trim() || isSubmitting}
                     className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
                   >
                     <Send className="h-4 w-4" />
-                    <span>Publicar comentario</span>
+                    <span>{isSubmitting ? 'Publicando...' : 'Publicar comentario'}</span>
                   </button>
+                  
+                  <p className="text-xs text-gray-500 mt-2">
+                    * Campos requeridos. Tu comentario será visible públicamente para ayudar a otros ciudadanos.
+                  </p>
                 </form>
+
+                {/* Loading State */}
+                {commentsLoading && (
+                  <div className="text-center py-4">
+                    <p className="text-gray-500">Cargando comentarios...</p>
+                  </div>
+                )}
 
                 {/* Comments List */}
                 <div className="space-y-6">
-                  {comments.map((comment) => (
+                  {allComments.map((comment) => (
                     <div key={comment.id} className="border-b border-gray-100 pb-6 last:border-b-0">
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex items-center space-x-3">
                           <div className="bg-blue-100 text-blue-800 rounded-full w-10 h-10 flex items-center justify-center font-medium text-sm">
-                            {comment.author.charAt(0)}
+                            {getInitials(comment.author_name)}
                           </div>
                           <div>
-                            <h4 className="font-medium text-gray-900">{comment.author}</h4>
+                            <div className="flex items-center space-x-2">
+                              <h4 className="font-medium text-gray-900">{comment.author_name}</h4>
+                              {comment.isLegacy && (
+                                <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs">
+                                  Comentario anterior
+                                </span>
+                              )}
+                            </div>
                             <div className="flex items-center space-x-2">
                               <div className="flex">
                                 {[1, 2, 3, 4, 5].map((star) => (
@@ -626,11 +776,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                                 ))}
                               </div>
                               <span className="text-sm text-gray-500">
-                                {new Date(comment.date).toLocaleDateString('es-GT', {
-                                  year: 'numeric',
-                                  month: 'long',
-                                  day: 'numeric'
-                                })}
+                                {formatDate(comment.created_at)}
                               </span>
                             </div>
                           </div>
@@ -641,11 +787,11 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                       
                       <div className="flex items-center space-x-4 ml-13">
                         <button
-                          onClick={() => handleHelpful(comment.id)}
+                          onClick={() => handleHelpfulClick(comment.id, comment.isLegacy)}
                           className="flex items-center space-x-1 text-sm text-gray-500 hover:text-blue-600 transition-colors"
                         >
                           <ThumbsUp className="h-4 w-4" />
-                          <span>Útil ({comment.helpful})</span>
+                          <span>Útil ({comment.helpful_count})</span>
                         </button>
                       </div>
                     </div>
@@ -653,11 +799,13 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                 </div>
 
                 {/* Load More Comments */}
-                <div className="text-center mt-6">
-                  <button className="text-blue-600 hover:text-blue-700 font-medium text-sm">
-                    Ver más comentarios
-                  </button>
-                </div>
+                {allComments.length === 0 && !commentsLoading && (
+                  <div className="text-center py-8">
+                    <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+                    <p className="text-gray-600 mb-2">Aún no hay comentarios para este trámite</p>
+                    <p className="text-sm text-gray-500">¡Sé el primero en compartir tu experiencia!</p>
+                  </div>
+                )}
               </div>
             </div>
 
