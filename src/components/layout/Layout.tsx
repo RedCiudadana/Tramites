@@ -7,6 +7,7 @@ import GDPRBottomBar from '../common/GDPRBottomBar';
 import ScrollToTop from '../common/ScrollToTop';
 import ScrollTopButton from '../common/ScrollTopButton';
 import SearchModal from '../common/SearchModal';
+import ReportProblemsButton from '../common/ReportProblemsButton';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -28,6 +29,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
       <Footer />
       <Chatbot />
+      <ReportProblemsButton />
       
       <SearchModal
         isOpen={isSearchModalOpen}
