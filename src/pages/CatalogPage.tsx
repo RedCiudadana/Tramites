@@ -22,13 +22,7 @@ const CatalogPage: React.FC = () => {
       buttonAction: () => {
         const element = document.getElementById('catalog-content');
         element?.scrollIntoView({ behavior: 'smooth' });
-      },
-      stats: [
-        { label: 'Trámites Disponibles', value: procedures.length.toString() },
-        { label: 'Instituciones', value: '15+' },
-        { label: 'Categorías', value: '6' },
-        { label: 'Actualizaciones', value: 'Diarias' }
-      ]
+      }
     },
     {
       id: '2',
@@ -40,12 +34,7 @@ const CatalogPage: React.FC = () => {
       textColor: 'text-white',
       buttonText: 'Conocer Más',
       buttonAction: () => window.scrollTo({ top: 0, behavior: 'smooth' }),
-      stats: [
-        { label: 'Años de Experiencia', value: '10+' },
-        { label: 'Ciudadanos Ayudados', value: '50K+' },
-        { label: 'Verificaciones', value: 'Mensuales' },
-        { label: 'Transparencia', value: '100%' }
-      ]
+      buttonAction: () => window.scrollTo({ top: 0, behavior: 'smooth' })
     },
     {
       id: '3',
@@ -59,13 +48,7 @@ const CatalogPage: React.FC = () => {
       buttonAction: () => {
         // Filtrar por trámites digitales
         window.location.href = '/catalogo?digital=true';
-      },
-      stats: [
-        { label: 'Trámites Digitales', value: procedures.filter(p => p.isDigital).length.toString() },
-        { label: 'Ahorro de Tiempo', value: '70%' },
-        { label: 'Disponibilidad', value: '24/7' },
-        { label: 'Satisfacción', value: '95%' }
-      ]
+      }
     }
   ];
 
