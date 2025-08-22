@@ -103,7 +103,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
     }
   };
 
-  const handleCommentSubmit = (e: React.FormEvent) => {
+  const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newComment.trim() && rating > 0 && authorName.trim()) {
       setIsSubmitting(true);
