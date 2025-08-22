@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AlertTriangle, X, Send, FileText, Clock, Building2, User } from 'lucide-react';
+import { Flag, X, Send, FileText, Clock, Building2, User } from 'lucide-react';
 
 export default function ReportProblemsButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,13 +53,13 @@ export default function ReportProblemsButton() {
   return (
     <>
       {/* Floating Button */}
-      <div className="fixed right-6 bottom-32 z-40">
+      <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-40">
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-orange-600 hover:bg-orange-700 text-white p-4 rounded-full shadow-xl transition-all hover:scale-110 transform group"
+          className="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-xl transition-all hover:scale-110 transform group"
           title="Reportar Problemas"
         >
-          <AlertTriangle className="h-6 w-6" />
+          <Flag className="h-6 w-6" />
           <div className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
             Reportar Problemas
             <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-4 border-transparent border-l-gray-900"></div>
@@ -76,7 +76,7 @@ export default function ReportProblemsButton() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <div className="bg-white/20 p-2 rounded-full">
-                    <AlertTriangle className="h-6 w-6" />
+                    <Flag className="h-6 w-6" />
                   </div>
                   <div>
                     <h2 className="text-xl font-semibold">Reportar Problemas</h2>
@@ -226,7 +226,7 @@ export default function ReportProblemsButton() {
             {/* Footer */}
             <div className="bg-gray-50 px-6 py-4 rounded-b-2xl border-t border-gray-200">
               <div className="flex items-start space-x-3">
-                <AlertTriangle className="h-5 w-5 text-orange-600 mt-0.5 flex-shrink-0" />
+                <Flag className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="text-sm font-medium text-gray-900 mb-1">
                     ¿Por qué es importante reportar problemas?
