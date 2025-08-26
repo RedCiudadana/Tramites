@@ -1,7 +1,50 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as Icons from 'lucide-react';
+import { 
+  ArrowRight,
+  User,
+  Building2,
+  GraduationCap,
+  Heart,
+  Scale,
+  MapPin,
+  FileText,
+  Certificate,
+  Phone,
+  Building,
+  FileCheck,
+  BookOpen,
+  Award,
+  FileHeart,
+  Shield,
+  Gavel,
+  Home,
+  Receipt,
+  Search
+} from 'lucide-react';
 import { categories } from '../../data/procedures';
+
+// Create icon map for dynamic access
+const iconMap = {
+  User,
+  Building2,
+  GraduationCap,
+  Heart,
+  Scale,
+  MapPin,
+  FileText,
+  Certificate,
+  Phone,
+  Building,
+  FileCheck,
+  BookOpen,
+  Award,
+  FileHeart,
+  Shield,
+  Gavel,
+  Home,
+  Receipt
+};
 
 export default function CategoriesSection() {
   const navigate = useNavigate();
@@ -25,7 +68,7 @@ export default function CategoriesSection() {
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {categories.map((category) => {
-            const IconComponent = Icons[category.icon as keyof typeof Icons] as React.ComponentType<any>;
+            const IconComponent = iconMap[category.icon as keyof typeof iconMap] as React.ComponentType<any>;
             
             return (
               <button
@@ -49,7 +92,7 @@ export default function CategoriesSection() {
             className="bg-blue-800 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-900 transition-colors inline-flex items-center space-x-2"
           >
             <span>Ver todos los trámites</span>
-            <Icons.ArrowRight className="h-5 w-5" />
+            <ArrowRight className="h-5 w-5" />
           </button>
         </div>
       </div>
@@ -72,7 +115,7 @@ export default function CategoriesSection() {
           <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200 hover:shadow-lg transition-all">
             <div className="flex items-center space-x-3 mb-4">
               <div className="bg-blue-600 p-3 rounded-xl">
-                <Icons.User className="h-8 w-8 text-white" />
+                <User className="h-8 w-8 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-blue-900">RENAP</h3>
@@ -84,15 +127,15 @@ export default function CategoriesSection() {
             </p>
             <div className="space-y-2 mb-4">
               <div className="flex items-center space-x-2 text-sm text-blue-700">
-                <Icons.FileText className="h-4 w-4" />
+                <FileText className="h-4 w-4" />
                 <span>DPI y renovaciones</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-blue-700">
-                <Icons.Certificate className="h-4 w-4" />
+                <Certificate className="h-4 w-4" />
                 <span>Certificaciones de nacimiento</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-blue-700">
-                <Icons.Phone className="h-4 w-4" />
+                <Phone className="h-4 w-4" />
                 <span>1551</span>
               </div>
             </div>
@@ -108,7 +151,7 @@ export default function CategoriesSection() {
           <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border border-green-200 hover:shadow-lg transition-all">
             <div className="flex items-center space-x-3 mb-4">
               <div className="bg-green-600 p-3 rounded-xl">
-                <Icons.Building2 className="h-8 w-8 text-white" />
+                <Building2 className="h-8 w-8 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-green-900">Registro Mercantil</h3>
@@ -120,15 +163,15 @@ export default function CategoriesSection() {
             </p>
             <div className="space-y-2 mb-4">
               <div className="flex items-center space-x-2 text-sm text-green-700">
-                <Icons.Building className="h-4 w-4" />
+                <Building className="h-4 w-4" />
                 <span>Inscripción de empresas</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-green-700">
-                <Icons.FileCheck className="h-4 w-4" />
+                <FileCheck className="h-4 w-4" />
                 <span>Patentes de comercio</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-green-700">
-                <Icons.Phone className="h-4 w-4" />
+                <Phone className="h-4 w-4" />
                 <span>2412-0000</span>
               </div>
             </div>
@@ -144,7 +187,7 @@ export default function CategoriesSection() {
           <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border border-purple-200 hover:shadow-lg transition-all">
             <div className="flex items-center space-x-3 mb-4">
               <div className="bg-purple-600 p-3 rounded-xl">
-                <Icons.GraduationCap className="h-8 w-8 text-white" />
+               <GraduationCap className="h-8 w-8 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-purple-900">USAC</h3>
@@ -156,15 +199,15 @@ export default function CategoriesSection() {
             </p>
             <div className="space-y-2 mb-4">
               <div className="flex items-center space-x-2 text-sm text-purple-700">
-                <Icons.BookOpen className="h-4 w-4" />
+               <BookOpen className="h-4 w-4" />
                 <span>Inscripciones universitarias</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-purple-700">
-                <Icons.Award className="h-4 w-4" />
+               <Award className="h-4 w-4" />
                 <span>Certificaciones académicas</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-purple-700">
-                <Icons.Phone className="h-4 w-4" />
+               <Phone className="h-4 w-4" />
                 <span>2418-8000</span>
               </div>
             </div>
@@ -180,7 +223,7 @@ export default function CategoriesSection() {
           <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-6 border border-red-200 hover:shadow-lg transition-all">
             <div className="flex items-center space-x-3 mb-4">
               <div className="bg-red-600 p-3 rounded-xl">
-                <Icons.Heart className="h-8 w-8 text-white" />
+               <Heart className="h-8 w-8 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-red-900">MSPAS</h3>
@@ -192,15 +235,15 @@ export default function CategoriesSection() {
             </p>
             <div className="space-y-2 mb-4">
               <div className="flex items-center space-x-2 text-sm text-red-700">
-                <Icons.FileHeart className="h-4 w-4" />
+               <FileHeart className="h-4 w-4" />
                 <span>Certificados de salud</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-red-700">
-                <Icons.Shield className="h-4 w-4" />
+               <Shield className="h-4 w-4" />
                 <span>Licencias sanitarias</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-red-700">
-                <Icons.Phone className="h-4 w-4" />
+               <Phone className="h-4 w-4" />
                 <span>2440-4747</span>
               </div>
             </div>
@@ -216,7 +259,7 @@ export default function CategoriesSection() {
           <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-6 border border-yellow-200 hover:shadow-lg transition-all">
             <div className="flex items-center space-x-3 mb-4">
               <div className="bg-yellow-600 p-3 rounded-xl">
-                <Icons.Scale className="h-8 w-8 text-white" />
+               <Scale className="h-8 w-8 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-yellow-900">Organismo Judicial</h3>
@@ -228,15 +271,15 @@ export default function CategoriesSection() {
             </p>
             <div className="space-y-2 mb-4">
               <div className="flex items-center space-x-2 text-sm text-yellow-700">
-                <Icons.FileCheck className="h-4 w-4" />
+               <FileCheck className="h-4 w-4" />
                 <span>Antecedentes penales</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-yellow-700">
-                <Icons.Gavel className="h-4 w-4" />
+               <Gavel className="h-4 w-4" />
                 <span>Certificaciones judiciales</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-yellow-700">
-                <Icons.Phone className="h-4 w-4" />
+               <Phone className="h-4 w-4" />
                 <span>1572</span>
               </div>
             </div>
@@ -252,7 +295,7 @@ export default function CategoriesSection() {
           <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-6 border border-indigo-200 hover:shadow-lg transition-all">
             <div className="flex items-center space-x-3 mb-4">
               <div className="bg-indigo-600 p-3 rounded-xl">
-                <Icons.MapPin className="h-8 w-8 text-white" />
+               <MapPin className="h-8 w-8 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-indigo-900">Municipalidades</h3>
@@ -264,15 +307,15 @@ export default function CategoriesSection() {
             </p>
             <div className="space-y-2 mb-4">
               <div className="flex items-center space-x-2 text-sm text-indigo-700">
-                <Icons.Home className="h-4 w-4" />
+               <Home className="h-4 w-4" />
                 <span>Licencias de construcción</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-indigo-700">
-                <Icons.Receipt className="h-4 w-4" />
+               <Receipt className="h-4 w-4" />
                 <span>Boleto de ornato</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-indigo-700">
-                <Icons.Phone className="h-4 w-4" />
+               <Phone className="h-4 w-4" />
                 <span>Varía por municipio</span>
               </div>
             </div>
@@ -293,7 +336,7 @@ export default function CategoriesSection() {
             onClick={() => navigate('/catalogo')}
             className="bg-gray-800 text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-900 transition-colors inline-flex items-center space-x-2"
           >
-            <Icons.Search className="h-5 w-5" />
+           <Search className="h-5 w-5" />
             <span>Explorar todas las instituciones</span>
           </button>
         </div>
