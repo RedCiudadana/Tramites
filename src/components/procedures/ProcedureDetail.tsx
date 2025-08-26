@@ -358,171 +358,189 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
             </div>
           </div>
 
-          {/* Main Content */}
-          <div className="flex-1">
-            {/* Header */}
-            <div className="mb-8">
-              <button
-                onClick={() => navigate('/catalogo')}
-                className="flex items-center space-x-2 text-blue-800 hover:text-blue-900 mb-4 transition-colors"
-              >
-                <ArrowLeft className="h-5 w-5" />
-                <span>Volver al catálogo</span>
-              </button>
-              
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex-1">
-                    <h1 className="text-2xl font-bold text-gray-900 mb-2">{procedure.title}</h1>
-                    <p className="text-gray-600 mb-4">{procedure.description}</p>
-                    
-                    <div className="flex flex-wrap gap-3">
-                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(procedure.type)}`}>
-                        <span className="mr-1">{getTypeIcon(procedure.type)}</span>
-                        {procedure.type.charAt(0).toUpperCase() + procedure.type.slice(1)}
-                      </span>
-                      
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                        <Building2 className="h-4 w-4 mr-1" />
-                        {procedure.institution}
-                      </span>
-                      
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
-                        <Clock className="h-4 w-4 mr-1" />
-                        {procedure.estimatedTime}
-                      </span>
-                      
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                        <span className="mr-1">💰</span>
-                        {procedure.cost}
+          {/* Comments Section - Moved to the end */}
+          <div id="comments" className="mt-8">
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-2">
+                  <MessageSquare className="h-6 w-6 text-blue-600" />
+                  <h2 className="text-xl font-semibold text-gray-900">Experiencias de Ciudadanos</h2>
+                </div>
+                <div className="text-right">
+                  <span className="text-sm text-gray-500">{allComments.length} comentarios</span>
+                  {allComments.length > 0 && (
+                    <div className="flex items-center space-x-1 mt-1">
+                      <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                      <span className="text-sm font-medium text-gray-700">
+                        {calculateAverageRating()} promedio
                       </span>
                     </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Add Comment Form */}
+              <form onSubmit={handleCommentSubmit} className="mb-8 p-4 bg-gray-50 rounded-lg">
+                <h3 className="font-medium text-gray-900 mb-3">Comparte tu experiencia</h3>
+                
+                {/* Author Information */}
+                <div className="grid md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Tu nombre *
+                    </label>
+                    <input
+                      type="text"
+                      value={authorName}
+                      onChange={(e) => setAuthorName(e.target.value)}
+                      placeholder="Nombre completo"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Email (opcional)
+                    </label>
+                    <input
+                      type="email"
+                      value={authorEmail}
+                      onChange={(e) => setAuthorEmail(e.target.value)}
+                      placeholder="tu@email.com"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
                   </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Overview Section */}
-            <div id="overview" className="mb-8">
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <div className="flex items-center space-x-2 mb-4">
-                  <Info className="h-6 w-6 text-blue-600" />
-                  <h2 className="text-xl font-semibold text-gray-900">Información General</h2>
-                </div>
-                <div className="prose max-w-none">
-                  <p className="text-gray-700 leading-relaxed">
-                    {procedure.description}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Steps Section */}
-            <div id="steps" className="mb-8">
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <div className="flex items-center space-x-2 mb-4">
-                  <PlayCircle className="h-6 w-6 text-blue-600" />
-                  <h2 className="text-xl font-semibold text-gray-900">Pasos a Seguir</h2>
-                </div>
-                <div className="space-y-4">
-                  {procedure.steps.map((step, index) => (
-                    <div key={index} className="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg">
-                      <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-semibold text-sm flex-shrink-0">
-                        {index + 1}
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-gray-800 font-medium">{step}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Requirements Section */}
-            <div id="requirements" className="mb-8">
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <div className="flex items-center space-x-2 mb-4">
-                  <ClipboardList className="h-6 w-6 text-blue-600" />
-                  <h2 className="text-xl font-semibold text-gray-900">Requisitos</h2>
-                </div>
-                <div className="space-y-3">
-                  {procedure.requirements.map((requirement, index) => (
-                    <div key={index} className="flex items-start space-x-3">
-                      <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-700">{requirement}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Portal Section */}
-            <div id="portal" className="mb-8">
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <div className="flex items-center space-x-2 mb-4">
-                  <ExternalLink className="h-6 w-6 text-blue-600" />
-                  <h2 className="text-xl font-semibold text-gray-900">Portal Oficial</h2>
-                </div>
-                {procedure.officialLink ? (
-                  <div className="bg-blue-50 rounded-lg p-4">
-                    <p className="text-blue-800 mb-3">
-                      Puedes realizar este trámite en línea a través del portal oficial:
-                    </p>
-                    <a
-                      href={procedure.officialLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                      <span>Ir al portal oficial</span>
-                    </a>
+                {/* Rating */}
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Califica este trámite *
+                  </label>
+                  <div className="flex space-x-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => setRating(star)}
+                        className={`p-1 ${
+                          star <= rating ? 'text-yellow-400' : 'text-gray-300'
+                        } hover:text-yellow-400 transition-colors`}
+                      >
+                        <Star className="h-6 w-6 fill-current" />
+                      </button>
+                    ))}
                   </div>
-                ) : (
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <p className="text-gray-600">
-                      Este trámite debe realizarse de forma presencial en las oficinas de {procedure.institution}.
-                    </p>
+                </div>
+
+                {/* Comment Text */}
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Tu experiencia *
+                  </label>
+                  <textarea
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    rows={4}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Comparte consejos, tiempos reales, dificultades encontradas, o cualquier información útil para otros ciudadanos..."
+                    required
+                  />
+                </div>
+
+                {/* Error Display */}
+                {commentsError && (
+                  <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                    <p className="text-sm text-red-600">{commentsError}</p>
                   </div>
                 )}
-              </div>
-            </div>
 
-            {/* Institution Section */}
-            <div id="institution" className="mb-8">
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <div className="flex items-center space-x-2 mb-4">
-                  <Building2 className="h-6 w-6 text-blue-600" />
-                  <h2 className="text-xl font-semibold text-gray-900">Información Institucional</h2>
+                <button
+                  type="submit"
+                  disabled={!newComment.trim() || rating === 0 || !authorName.trim() || isSubmitting}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
+                >
+                  <Send className="h-4 w-4" />
+                  <span>{isSubmitting ? 'Publicando...' : 'Publicar comentario'}</span>
+                </button>
+                
+                <p className="text-xs text-gray-500 mt-2">
+                  * Campos requeridos. Tu comentario será visible públicamente para ayudar a otros ciudadanos.
+                </p>
+              </form>
+
+              {/* Loading State */}
+              {commentsLoading && (
+                <div className="text-center py-4">
+                  <p className="text-gray-500">Cargando comentarios...</p>
                 </div>
-                
-                {institution.fullName && (
-                  <div className="mb-6">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">{institution.fullName}</h3>
-                    <p className="text-gray-600">{institution.description}</p>
-                  </div>
-                )}
-                
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    {institution.address && (
-                      <div className="flex items-start space-x-3">
-                        <MapPin className="h-4 w-4 text-gray-500 mt-0.5 flex-shrink-0" />
-                        <div>
-                          <p className="text-sm font-medium text-gray-900">Dirección</p>
-                          <p className="text-sm text-gray-600">{institution.address}</p>
-                        </div>
-                      </div>
-                    )}
-                    
-                    {institution.phone && (
+              )}
+
+              {/* Comments List */}
+              <div className="space-y-6">
+                {allComments.map((comment) => (
+                  <div key={comment.id} className="border-b border-gray-100 pb-6 last:border-b-0">
+                    <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center space-x-3">
-                        <Phone className="h-4 w-4 text-gray-500 flex-shrink-0" />
-                        <div>
-                          <p className="text-sm font-medium text-gray-900">Teléfono</p>
-                          <p className="text-sm text-gray-600">{institution.phone}</p>
+                        <div className="bg-blue-100 text-blue-800 rounded-full w-10 h-10 flex items-center justify-center font-medium text-sm">
+                          {getInitials(comment.author_name)}
                         </div>
+                        <div>
+                          <div className="flex items-center space-x-2">
+                            <h4 className="font-medium text-gray-900">{comment.author_name}</h4>
+                            {comment.isLegacy && (
+                              <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs">
+                                Comentario anterior
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="flex">
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <Star
+                                  key={star}
+                                  className={`h-4 w-4 ${
+                                    star <= comment.rating
+                                      ? 'text-yellow-400 fill-current'
+                                      : 'text-gray-300'
+                                  }`}
+                                />
+                              ))}
+                            </div>
+                            <span className="text-sm text-gray-500">
+                              {formatDate(comment.created_at)}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <p className="text-gray-700 mb-3 ml-13">{comment.comment}</p>
+                    
+                    <div className="flex items-center space-x-4 ml-13">
+                      <button
+                        onClick={() => handleHelpfulClick(comment.id, comment.isLegacy)}
+                        className="flex items-center space-x-1 text-sm text-gray-500 hover:text-blue-600 transition-colors"
+                      >
+                        <ThumbsUp className="h-4 w-4" />
+                        <span>Útil ({comment.helpful_count})</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Load More Comments */}
+              {allComments.length === 0 && !commentsLoading && (
+                <div className="text-center py-8">
+                  <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+                  <p className="text-gray-600 mb-2">Aún no hay comentarios para este trámite</p>
+                  <p className="text-sm text-gray-500">¡Sé el primero en compartir tu experiencia!</p>
+                </div>
+              )}
+            </div>
+          </div>
+
                       </div>
                     )}
                     
@@ -586,7 +604,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
             </div>
 
             {/* Tips and Advice Section */}
-            <div id="tips" className="mb-8">
+            <div id="tips" className="mt-8">
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex items-center space-x-2 mb-4">
                   <Lightbulb className="h-6 w-6 text-yellow-600" />
@@ -608,43 +626,8 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
               </div>
             </div>
 
-            {/* Back Button */}
-            <div className="mb-8">
-              <button
-                onClick={() => navigate('/catalogo')}
-                className="flex items-center space-x-2 text-blue-800 hover:text-blue-900 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-200 hover:bg-blue-50 transition-colors"
-              >
-                <ArrowLeft className="h-5 w-5" />
-                <span>Volver al catálogo</span>
-              </button>
-            </div>
-
-            {/* Red Ciudadana Info */}
-            <div className="mb-8 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200">
-              <div className="flex items-start space-x-3">
-                <div className="bg-blue-600 p-2 rounded-lg">
-                  <FileText className="h-5 w-5 text-white" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-blue-900 mb-2">Información recolectada por Red Ciudadana</h3>
-                  <p className="text-blue-800 text-sm mb-3">
-                    Esta información ha sido recopilada y verificada por nuestro equipo de investigación ciudadana. 
-                    Si encuentras algún error o cambio en el proceso, ayúdanos a mantener la información actualizada.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm">
-                      Reportar cambio
-                    </button>
-                    <button className="border border-blue-600 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition-colors font-medium text-sm">
-                      Compartir experiencia
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Comments Section - Moved to the end */}
-            <div id="comments" className="mb-8">
+            {/* Comments Section */}
+            <div id="comments" className="mt-8">
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center space-x-2">
@@ -825,7 +808,43 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                 )}
               </div>
             </div>
-          </div>
+
+            {/* Back Button */}
+            <div className="mt-8">
+              <button
+                onClick={() => navigate('/catalogo')}
+                className="flex items-center space-x-2 text-blue-800 hover:text-blue-900 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-200 hover:bg-blue-50 transition-colors"
+              >
+                <ArrowLeft className="h-5 w-5" />
+                <span>Volver al catálogo</span>
+              </button>
+            </div>
+
+            {/* Red Ciudadana Info */}
+            <div className="mt-8 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200">
+              <div className="flex items-start space-x-3">
+                <div className="bg-blue-600 p-2 rounded-lg">
+                  <FileText className="h-5 w-5 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-blue-900 mb-2">Información recolectada por Red Ciudadana</h3>
+                  <p className="text-blue-800 text-sm mb-3">
+                    Esta información ha sido recopilada y verificada por nuestro equipo de investigación ciudadana. 
+                    Si encuentras algún error o cambio en el proceso, ayúdanos a mantener la información actualizada.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm">
+                      Reportar cambio
+                    </button>
+                    <button className="border border-blue-600 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition-colors font-medium text-sm">
+                      Compartir experiencia
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Additional Information */}
         </div>
       </div>
     </div>
