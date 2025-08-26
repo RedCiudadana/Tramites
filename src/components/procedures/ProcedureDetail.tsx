@@ -11,63 +11,369 @@ interface ProcedureDetailProps {
 const institutionInfo: Record<string, any> = {
   'RENAP': {
     fullName: 'Registro Nacional de las Personas',
-    description: 'Institución encargada de la identificación y registro civil de los guatemaltecos',
-    address: '6a Avenida 4-64, Zona 4, Ciudad de Guatemala',
+    description: 'Institución autónoma encargada de la identificación y registro civil de los guatemaltecos. Administra el sistema de identificación nacional y mantiene los registros de nacimientos, defunciones, matrimonios y otros actos civiles.',
+    address: 'Edificio Central: 6a Avenida 4-64, Zona 4, Ciudad de Guatemala',
     phone: '1551',
+    alternativePhones: ['2413-8888', '2413-8889'],
     website: 'https://www.renap.gob.gt',
     email: 'info@renap.gob.gt',
-    hours: 'Lunes a Viernes: 8:00 AM - 4:00 PM',
-    services: ['Emisión de DPI', 'Certificaciones de nacimiento', 'Certificaciones de defunción', 'Cambio de nombre']
+    hours: 'Lunes a Viernes: 8:00 AM - 4:00 PM (Oficina Central), Sábados: 8:00 AM - 12:00 PM (Algunas sedes)',
+    emergencyHours: 'Servicio de emergencia 24/7 para defunciones',
+    locations: [
+      'Sede Central - Zona 4',
+      'Agencia Zona 1 - Centro Histórico',
+      'Agencia Zona 10 - Oakland Mall',
+      'Agencia Zona 11 - Majadas',
+      'Agencia Villa Nueva',
+      'Agencia Mixco'
+    ],
+    services: [
+      'Emisión y renovación de DPI',
+      'Certificaciones de nacimiento',
+      'Certificaciones de defunción',
+      'Certificaciones de matrimonio',
+      'Cambio de nombre',
+      'Corrección de datos',
+      'Apostilla de documentos',
+      'Consulta de estado civil'
+    ],
+    requirements: {
+      general: 'DPI vigente para todos los trámites',
+      payment: 'Efectivo, tarjeta de débito/crédito, transferencia bancaria'
+    },
+    tips: [
+      'Llega temprano para evitar filas',
+      'Verifica que tus documentos estén en buen estado',
+      'Puedes hacer cita previa en línea',
+      'Los sábados solo atienden algunas sedes'
+    ]
   },
   'Registro Mercantil': {
     fullName: 'Registro Mercantil General de la República',
-    description: 'Institución responsable del registro de empresas y comerciantes en Guatemala',
-    address: '7a Avenida 7-61, Zona 4, Ciudad de Guatemala',
+    description: 'Institución del Ministerio de Economía encargada del registro de empresas, comerciantes individuales y sociedades mercantiles. Lleva el control de la actividad comercial formal del país y otorga personalidad jurídica a las empresas.',
+    address: 'Edificio Principal: 7a Avenida 7-61, Zona 4, Ciudad de Guatemala',
     phone: '2412-0000',
+    alternativePhones: ['2412-0001', '1551 (Call Center)'],
     website: 'https://www.registromercantil.gob.gt',
     email: 'info@registromercantil.gob.gt',
-    hours: 'Lunes a Viernes: 8:00 AM - 4:30 PM',
-    services: ['Inscripción de empresas', 'Modificaciones societarias', 'Patentes de comercio', 'Certificaciones mercantiles']
+    alternativeEmails: ['consultas@registromercantil.gob.gt', 'tramites@registromercantil.gob.gt'],
+    hours: 'Lunes a Viernes: 8:00 AM - 4:30 PM (Atención al público hasta 4:00 PM)',
+    locations: [
+      'Sede Central - Zona 4',
+      'Agencia Quetzaltenango',
+      'Agencia Escuintla',
+      'Ventanilla Ágil - Centro Cívico'
+    ],
+    services: [
+      'Inscripción de sociedades mercantiles',
+      'Inscripción de comerciantes individuales',
+      'Modificaciones societarias',
+      'Patentes de comercio',
+      'Certificaciones mercantiles',
+      'Disolución y liquidación',
+      'Inscripción de auxiliares de comercio',
+      'Registro de marcas y patentes',
+      'Consultas en línea'
+    ],
+    requirements: {
+      general: 'Escritura pública para sociedades, DPI para comerciantes individuales',
+      payment: 'Efectivo, cheque certificado, transferencia bancaria'
+    },
+    costs: {
+      'Inscripción SA': 'Q.2,000 - Q.5,000 (según capital)',
+      'Comerciante Individual': 'Q.200',
+      'Certificaciones': 'Q.25 - Q.50'
+    },
+    tips: [
+      'Consulta disponibilidad de nombres antes de la escritura',
+      'Lleva 3 opciones de nombre para tu empresa',
+      'El proceso puede tardar más en diciembre-enero',
+      'Considera usar un abogado especializado'
+    ]
   },
   'Municipalidad': {
     fullName: 'Municipalidades de Guatemala',
-    description: 'Gobiernos locales encargados de servicios municipales y licencias locales',
+    description: 'Gobiernos locales autónomos encargados de la administración municipal, servicios públicos locales, ordenamiento territorial y desarrollo urbano. Cada municipio tiene competencias específicas según su jurisdicción territorial.',
     address: 'Varía según municipio',
     phone: 'Varía según municipio',
+    commonPhones: {
+      'Guatemala': '2285-8000',
+      'Mixco': '2434-5000',
+      'Villa Nueva': '6634-5000',
+      'San Miguel Petapa': '6640-5000'
+    },
     website: 'https://www.infom.gob.gt',
+    alternativeWebsites: {
+      'Guatemala': 'https://www.muniguate.gob.gt',
+      'Mixco': 'https://www.munimixco.gob.gt',
+      'Villa Nueva': 'https://www.munivillanueva.gob.gt'
+    },
     email: 'Varía según municipio',
-    hours: 'Lunes a Viernes: 8:00 AM - 4:00 PM',
-    services: ['Licencias de construcción', 'Boleto de ornato', 'Permisos comerciales', 'Servicios públicos']
+    hours: 'Lunes a Viernes: 8:00 AM - 4:00 PM (Horarios pueden variar por municipio)',
+    services: [
+      'Licencias de construcción',
+      'Boleto de ornato',
+      'Permisos de funcionamiento comercial',
+      'Licencias sanitarias',
+      'Permisos de eventos',
+      'Servicios de agua y drenajes',
+      'Recolección de basura',
+      'Alumbrado público',
+      'Cementerios municipales',
+      'Mercados municipales',
+      'Catastro municipal',
+      'IUSI (Impuesto Único Sobre Inmuebles)'
+    ],
+    requirements: {
+      general: 'DPI vigente, comprobante de residencia en el municipio',
+      construction: 'Planos arquitectónicos, planos estructurales, escritura del terreno'
+    },
+    tips: [
+      'Cada municipio tiene sus propios requisitos',
+      'Verifica las ordenanzas municipales específicas',
+      'Algunos trámites requieren inspección previa',
+      'Los costos varían según el municipio'
+    ]
   },
   'USAC': {
     fullName: 'Universidad de San Carlos de Guatemala',
-    description: 'Universidad pública autónoma de Guatemala',
+    description: 'Universidad pública, autónoma y laica de Guatemala. Es la universidad más antigua de América Central (fundada en 1676) y la única universidad estatal del país. Ofrece educación superior gratuita y de calidad.',
     address: 'Ciudad Universitaria, Zona 12, Ciudad de Guatemala',
     phone: '2418-8000',
+    alternativePhones: ['2418-8080 (Información)', '2418-8888 (Registro y Estadística)'],
     website: 'https://www.usac.edu.gt',
+    alternativeWebsites: {
+      'Registro': 'https://registro.usac.edu.gt',
+      'Admisiones': 'https://admisiones.usac.edu.gt'
+    },
     email: 'webmaster@usac.edu.gt',
-    hours: 'Lunes a Viernes: 7:00 AM - 6:00 PM',
-    services: ['Inscripciones', 'Certificaciones académicas', 'Títulos universitarios', 'Equivalencias']
+    alternativeEmails: ['registro@usac.edu.gt', 'admisiones@usac.edu.gt'],
+    hours: 'Lunes a Viernes: 7:00 AM - 6:00 PM, Sábados: 8:00 AM - 12:00 PM (algunos servicios)',
+    locations: [
+      'Ciudad Universitaria - Zona 12',
+      'Centro Universitario Metropolitano - CUM',
+      'Centros Regionales en todo el país',
+      'Escuelas de Vacaciones'
+    ],
+    services: [
+      'Inscripciones de nuevo ingreso',
+      'Reinscripciones',
+      'Certificaciones académicas',
+      'Títulos universitarios',
+      'Equivalencias y traslados',
+      'Exámenes de admisión',
+      'Cursos básicos',
+      'Postgrados y maestrías',
+      'Extensión universitaria',
+      'Investigación científica'
+    ],
+    faculties: [
+      'Arquitectura',
+      'Ciencias Económicas',
+      'Ciencias Jurídicas y Sociales',
+      'Ciencias Médicas',
+      'Ingeniería',
+      'Humanidades',
+      'Odontología',
+      'Ciencias Químicas y Farmacia',
+      'Medicina Veterinaria y Zootecnia',
+      'Agronomía'
+    ],
+    requirements: {
+      admission: 'Título de diversificado, certificado de notas, partida de nacimiento, DPI',
+      payment: 'Gratuito (solo se pagan materiales y laboratorios)'
+    },
+    tips: [
+      'Las inscripciones abren en fechas específicas',
+      'Prepárate bien para el examen de admisión',
+      'Mantén copias digitales de todos tus documentos',
+      'Consulta los prerrequisitos de tu carrera'
+    ]
   },
   'MSPAS': {
     fullName: 'Ministerio de Salud Pública y Asistencia Social',
-    description: 'Ministerio encargado de la salud pública en Guatemala',
-    address: '6a Avenida 3-45, Zona 11, Ciudad de Guatemala',
+    description: 'Ministerio del Gobierno de Guatemala encargado de formular políticas, planes y programas en materia de salud pública. Administra la red de servicios de salud pública y regula el sector salud del país.',
+    address: 'Edificio Central: 6a Avenida 3-45, Zona 11, Ciudad de Guatemala',
     phone: '2440-4747',
+    alternativePhones: ['1517 (Línea de emergencia)', '2440-4748 (Información)'],
     website: 'https://www.mspas.gob.gt',
+    alternativeWebsites: {
+      'Certificados': 'https://certificados.mspas.gob.gt',
+      'Citas': 'https://citas.mspas.gob.gt'
+    },
     email: 'info@mspas.gob.gt',
-    hours: 'Lunes a Viernes: 8:00 AM - 4:30 PM',
-    services: ['Certificados de salud', 'Licencias sanitarias', 'Vacunación', 'Programas de salud']
+    alternativeEmails: ['certificados@mspas.gob.gt', 'licencias@mspas.gob.gt'],
+    hours: 'Lunes a Viernes: 8:00 AM - 4:30 PM (Centros de salud: 7:00 AM - 4:00 PM)',
+    emergencyHours: 'Servicios de emergencia 24/7 en hospitales nacionales',
+    locations: [
+      'Ministerio Central - Zona 11',
+      'Centros de Salud en todos los municipios',
+      'Hospitales Nacionales',
+      'Puestos de Salud rurales'
+    ],
+    services: [
+      'Certificados de salud',
+      'Licencias sanitarias',
+      'Vacunación nacional',
+      'Programas de salud materno-infantil',
+      'Control de enfermedades',
+      'Vigilancia epidemiológica',
+      'Regulación de medicamentos',
+      'Inspección sanitaria',
+      'Educación en salud',
+      'Emergencias sanitarias'
+    ],
+    healthPrograms: [
+      'Vacunación infantil',
+      'Control prenatal',
+      'Planificación familiar',
+      'Prevención de VIH/SIDA',
+      'Control de tuberculosis',
+      'Salud mental',
+      'Nutrición'
+    ],
+    requirements: {
+      certificates: 'DPI vigente, exámenes médicos según el tipo de certificado',
+      payment: 'Efectivo, algunos servicios son gratuitos'
+    },
+    tips: [
+      'Ve en ayunas para exámenes de laboratorio',
+      'Lleva tu carnet de vacunación',
+      'Algunos certificados requieren cita previa',
+      'Los servicios básicos de salud son gratuitos'
+    ]
   },
   'Organismo Judicial': {
     fullName: 'Organismo Judicial de Guatemala',
-    description: 'Poder judicial encargado de la administración de justicia',
-    address: '21 Calle 7-70, Zona 1, Ciudad de Guatemala',
+    description: 'Uno de los tres poderes del Estado guatemalteco, encargado de la administración de justicia. Garantiza el cumplimiento de las leyes y la protección de los derechos constitucionales de los ciudadanos.',
+    address: 'Torre de Tribunales: 21 Calle 7-70, Zona 1, Ciudad de Guatemala',
     phone: '2248-5555',
+    alternativePhones: ['2248-5556 (Información)', '1572 (Antecedentes penales)'],
     website: 'https://www.oj.gob.gt',
+    alternativeWebsites: {
+      'Antecedentes': 'https://antecedentes.oj.gob.gt',
+      'Consultas': 'https://consultas.oj.gob.gt'
+    },
     email: 'webmaster@oj.gob.gt',
+    alternativeEmails: ['antecedentes@oj.gob.gt', 'info@oj.gob.gt'],
+    hours: 'Lunes a Viernes: 8:00 AM - 4:30 PM (Antecedentes penales: servicio en línea 24/7)',
+    locations: [
+      'Torre de Tribunales - Zona 1',
+      'Tribunales departamentales',
+      'Juzgados municipales',
+      'Centros de mediación'
+    ],
+    services: [
+      'Antecedentes penales (en línea)',
+      'Certificaciones judiciales',
+      'Procesos civiles',
+      'Procesos penales',
+      'Procesos laborales',
+      'Procesos de familia',
+      'Mediación y conciliación',
+      'Ejecución de sentencias',
+      'Registro de abogados',
+      'Consulta de expedientes'
+    ],
+    courts: [
+      'Corte Suprema de Justicia',
+      'Corte de Apelaciones',
+      'Tribunales de Primera Instancia',
+      'Juzgados de Paz',
+      'Tribunales especializados'
+    ],
+    requirements: {
+      'antecedentes': 'DPI vigente, pago en línea con tarjeta',
+      'general': 'Documentos de identidad, poder notarial si es representación'
+    },
+    costs: {
+      'Antecedentes penales': 'Q.25',
+      'Certificaciones': 'Q.10 - Q.50',
+      'Copias certificadas': 'Q.2 por hoja'
+    },
+    tips: [
+      'Los antecedentes penales se obtienen completamente en línea',
+      'Descarga inmediatamente tu certificado',
+      'Verifica que tus datos estén correctos',
+      'El documento tiene validez de 6 meses'
+    ]
+  },
+  'SAT': {
+    fullName: 'Superintendencia de Administración Tributaria',
+    description: 'Institución encargada de la administración tributaria en Guatemala. Recauda impuestos, controla el cumplimiento de obligaciones fiscales y combate la evasión y defraudación tributaria.',
+    address: 'Edificio Central: 7a Avenida 3-33, Zona 9, Ciudad de Guatemala',
+    phone: '1544',
+    alternativePhones: ['2421-2555', '2421-2500'],
+    website: 'https://portal.sat.gob.gt',
+    alternativeWebsites: {
+      'Agencia Virtual': 'https://agenciasvirtuales.sat.gob.gt',
+      'Factura Electrónica': 'https://fel.sat.gob.gt'
+    },
+    email: 'info@sat.gob.gt',
+    hours: 'Lunes a Viernes: 8:00 AM - 5:00 PM, Agencia Virtual: 24/7',
+    locations: [
+      'Intendencia Central - Zona 9',
+      'Agencias tributarias departamentales',
+      'Agencias virtuales',
+      'Centros de servicios'
+    ],
+    services: [
+      'Inscripción de contribuyentes (RTU)',
+      'Facturación electrónica',
+      'Declaraciones de impuestos',
+      'Certificaciones tributarias',
+      'Consultas tributarias',
+      'Devoluciones de impuestos',
+      'Régimen de pequeño contribuyente',
+      'Exenciones y beneficios fiscales'
+    ],
+    requirements: {
+      'RTU': 'DPI, formulario de inscripción, comprobante de dirección',
+      'payment': 'Efectivo, tarjeta, transferencia bancaria'
+    },
+    tips: [
+      'Usa la Agencia Virtual para trámites en línea',
+      'Mantén actualizados tus datos',
+      'Cumple con tus obligaciones fiscales a tiempo',
+      'Solicita ayuda en el call center 1544'
+    ]
+  },
+  'IGSS': {
+    fullName: 'Instituto Guatemalteco de Seguridad Social',
+    description: 'Institución autónoma encargada de aplicar un régimen nacional, unitario y obligatorio de seguridad social. Proporciona protección social a los trabajadores y sus familias.',
+    address: 'Edificio Central: 7a Avenida 22-72, Zona 1, Ciudad de Guatemala',
+    phone: '2412-1224',
+    alternativePhones: ['1801 (Call Center)', '2412-1200'],
+    website: 'https://www.igssgt.org',
+    email: 'info@igssgt.org',
     hours: 'Lunes a Viernes: 8:00 AM - 4:30 PM',
-    services: ['Antecedentes penales', 'Certificaciones judiciales', 'Procesos judiciales', 'Mediación']
+    locations: [
+      'Edificio Central - Zona 1',
+      'Hospitales del IGSS',
+      'Clínicas periféricas',
+      'Oficinas departamentales'
+    ],
+    services: [
+      'Afiliación de trabajadores',
+      'Servicios médicos',
+      'Prestaciones económicas',
+      'Pensiones y jubilaciones',
+      'Subsidios por enfermedad',
+      'Maternidad',
+      'Accidentes de trabajo',
+      'Invalidez y sobrevivencia'
+    ],
+    requirements: {
+      'afiliacion': 'Contrato de trabajo, DPI, formularios del empleador',
+      'servicios': 'Carnet del IGSS vigente'
+    },
+    tips: [
+      'Mantén tu carnet del IGSS actualizado',
+      'Reporta cambios de empleo inmediatamente',
+      'Usa los servicios médicos preventivos',
+      'Conoce tus derechos y prestaciones'
+    ]
+  }
   }
 };
 
