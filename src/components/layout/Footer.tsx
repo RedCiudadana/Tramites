@@ -36,6 +36,7 @@ export default function Footer() {
             <ul className="space-y-2 text-gray-400">
               <li><Link to="/catalogo" className="hover:text-white transition-colors">Catálogo de Información</Link></li>
               <li><Link to="/observatorio" className="hover:text-white transition-colors">Observatorio</Link></li>
+              <li><Link to="/base-datos" className="hover:text-white transition-colors">Base de Datos</Link></li>
               <li><a href="#" className="hover:text-white transition-colors">Sobre Red Ciudadana</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Preguntas Frecuentes</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Cómo Contribuir</a></li>
