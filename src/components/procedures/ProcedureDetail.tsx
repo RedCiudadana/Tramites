@@ -374,7 +374,6 @@ const institutionInfo: Record<string, any> = {
       'Conoce tus derechos y prestaciones'
     ]
   }
-  }
 };
 
 export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
