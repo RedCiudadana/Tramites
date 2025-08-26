@@ -358,29 +358,8 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
             </div>
           </div>
 
-          {/* Comments Section - Moved to the end */}
-          <div id="comments" className="mt-8">
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center space-x-2">
-                  <MessageSquare className="h-6 w-6 text-blue-600" />
-                  <h2 className="text-xl font-semibold text-gray-900">Experiencias de Ciudadanos</h2>
-                </div>
-                <div className="text-right">
-                  <span className="text-sm text-gray-500">{allComments.length} comentarios</span>
-                  {allComments.length > 0 && (
-                    <div className="flex items-center space-x-1 mt-1">
-                      <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                      <span className="text-sm font-medium text-gray-700">
-                        {calculateAverageRating()} promedio
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Add Comment Form */}
-              <form onSubmit={handleCommentSubmit} className="mb-8 p-4 bg-gray-50 rounded-lg">
+          {/* Main Content */}
+          <div className="flex-1">
                 <h3 className="font-medium text-gray-900 mb-3">Comparte tu experiencia</h3>
                 
                 {/* Author Information */}
@@ -845,8 +824,9 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
             </div>
 
             {/* Additional Information */}
-        </div>
-      </div>
-    </div>
-  );
-}
+           </div>
+         </div>
+       </div>
+     </div>
+   );
+ }
