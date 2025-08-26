@@ -1,6 +1,5 @@
 import React from 'react';
 import { ArrowLeft, Clock, Building2, User, CheckCircle, AlertCircle, FileText, Users, ChevronRight, MapPin, Phone, Globe, Mail, Lightbulb, MessageSquare, ThumbsUp, Star, Send, List, PlayCircle, ClipboardList, ExternalLink, Info, Lightbulb as LightbulbIcon, MessageCircleIcon } from 'lucide-react';
-  Calendar,
   ChevronRight,
   Home
 import { Link } from 'react-router-dom';
