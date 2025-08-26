@@ -409,6 +409,14 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-blue-900 mb-4">Información Importante</h3>
                   
+                  {/* Full Description */}
+                  <div className="bg-white rounded-lg p-4 mb-4 border border-blue-200">
+                    <h4 className="font-medium text-blue-900 mb-2">Descripción del Trámite</h4>
+                    <p className="text-blue-800 text-sm leading-relaxed">
+                      {procedure.fullDescription}
+                    </p>
+                  </div>
+                  
                   <div className="space-y-3 mb-4">
                     <div className="flex items-start space-x-2">
                       <CheckCircle className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
