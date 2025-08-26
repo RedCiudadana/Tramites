@@ -370,7 +370,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                       {procedure.type.charAt(0).toUpperCase() + procedure.type.slice(1)}
                     </span>
                   </div>
-                  <h1 className="text-3xl font-bold text-gray-900 mb-2">{procedure.title}</h1>
+                  <h1 className="text-3xl font-bold text-gray-900 mb-2">{procedure.name}</h1>
                   <p className="text-gray-600 mb-4">{procedure.description}</p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -378,7 +378,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                       <Clock className="h-5 w-5 text-gray-500" />
                       <div>
                         <p className="text-sm font-medium text-gray-900">Tiempo estimado</p>
-                        <p className="text-sm text-gray-600">{procedure.estimatedTime}</p>
+                        <p className="text-sm text-gray-600">{procedure.duration}</p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -391,8 +391,8 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                     <div className="flex items-center space-x-2">
                       <User className="h-5 w-5 text-gray-500" />
                       <div>
-                        <p className="text-sm font-medium text-gray-900">Costo</p>
-                        <p className="text-sm text-gray-600">{procedure.cost}</p>
+                        <p className="text-sm font-medium text-gray-900">Tipo de usuario</p>
+                        <p className="text-sm text-gray-600 capitalize">{procedure.userType}</p>
                       </div>
                     </div>
                   </div>
@@ -442,13 +442,13 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                 <ExternalLink className="h-6 w-6 text-blue-600" />
                 <h2 className="text-xl font-semibold text-gray-900">Portal Oficial</h2>
               </div>
-              {procedure.officialLink ? (
+              {procedure.isDigital ? (
                 <div className="bg-blue-50 rounded-lg p-4">
                   <p className="text-blue-800 mb-3">
                     Puedes realizar este trámite o obtener más información en el portal oficial:
                   </p>
                   <a
-                    href={procedure.officialLink}
+                    href={institution.website || '#'}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
