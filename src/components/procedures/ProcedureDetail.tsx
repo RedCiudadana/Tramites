@@ -1,7 +1,5 @@
 import React from 'react';
-import { ArrowLeft, Clock, Building2, User, CheckCircle, AlertCircle, FileText, Users, ChevronRight, MapPin, Phone, Globe, Mail, Lightbulb, MessageSquare, ThumbsUp, Star, Send, List, PlayCircle, ClipboardList, ExternalLink, Info, Lightbulb as LightbulbIcon, MessageCircleIcon } from 'lucide-react';
-  ChevronRight,
-  Home
+import { ArrowLeft, Clock, Building2, User, CheckCircle, AlertCircle, FileText, Users, ChevronRight, MapPin, Phone, Globe, Mail, Lightbulb, MessageSquare, ThumbsUp, Star, Send, List, PlayCircle, ClipboardList, ExternalLink, Info, Lightbulb as LightbulbIcon, MessageCircleIcon, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Procedure } from '../../types';
 import { useComments } from '../../hooks/useComments';
