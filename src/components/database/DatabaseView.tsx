@@ -1,8 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { 
   Database, 
-  Search, 
-  Filter, 
+  Code, 
+  Server, 
   Download, 
   Eye, 
   Building2, 
@@ -13,125 +13,674 @@ import {
   Globe,
   ChevronDown,
   ChevronUp,
-  ExternalLink
+  ExternalLink,
+  GitBranch,
+  Settings,
+  Zap,
+  Shield,
+  Link as LinkIcon,
+  Copy,
+  CheckCircle
 } from 'lucide-react';
 import { procedures, categories } from '../../data/procedures';
-import { Procedure, Category } from '../../types';
 
 export default function DatabaseView() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedType, setSelectedType] = useState('');
-  const [selectedUserType, setSelectedUserType] = useState('');
-  const [sortField, setSortField] = useState<keyof Procedure>('name');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  const [showFilters, setShowFilters] = useState(false);
-  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+  const [activeTab, setActiveTab] = useState<'schema' | 'variables' | 'api' | 'examples'>('schema');
+  const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
-  // Filtrar y ordenar datos
-  const filteredAndSortedProcedures = useMemo(() => {
-    let filtered = procedures.filter(procedure => {
-      const matchesSearch = searchQuery === '' || 
-        procedure.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        procedure.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        procedure.institution.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      const matchesCategory = selectedCategory === '' || procedure.category === selectedCategory;
-      const matchesType = selectedType === '' || procedure.type === selectedType;
-      const matchesUserType = selectedUserType === '' || 
-        procedure.userType === selectedUserType || 
-        procedure.userType === 'ambos';
-      
-      return matchesSearch && matchesCategory && matchesType && matchesUserType;
-    });
+  const copyToClipboard = (text: string, id: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedCode(id);
+    setTimeout(() => setCopiedCode(null), 2000);
+  };
 
-    // Ordenar
-    filtered.sort((a, b) => {
-      let aValue = a[sortField];
-      let bValue = b[sortField];
-      
-      if (typeof aValue === 'string') {
-        aValue = aValue.toLowerCase();
-        bValue = (bValue as string).toLowerCase();
-      }
-      
-      if (sortDirection === 'asc') {
-        return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
-      } else {
-        return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
-      }
-    });
+  // Estructura de datos principal
+  const procedureSchema = {
+    id: "string (único)",
+    name: "string (nombre del trámite)",
+    description: "string (descripción corta)",
+    fullDescription: "string (descripción completa)",
+    institution: "string (institución responsable)",
+    category: "string (categoría del trámite)",
+    duration: "string (tiempo estimado)",
+    type: "'digital' | 'presencial' | 'mixto'",
+    userType: "'persona' | 'empresa' | 'ambos'",
+    requirements: "string[] (lista de requisitos)",
+    steps: "string[] (pasos del proceso)",
+    isDigital: "boolean (si es completamente digital)"
+  };
 
-    return filtered;
-  }, [searchQuery, selectedCategory, selectedType, selectedUserType, sortField, sortDirection]);
+  const categorySchema = {
+    id: "string (identificador único)",
+    name: "string (nombre de la categoría)",
+    icon: "string (nombre del ícono Lucide)",
+    count: "number (cantidad de trámites)"
+  };
 
-  const handleSort = (field: keyof Procedure) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortField(field);
-      setSortDirection('asc');
+  const commentSchema = {
+    id: "string (UUID)",
+    procedure_id: "string (ID del trámite)",
+    author_name: "string (nombre del autor)",
+    author_email: "string | null (email opcional)",
+    rating: "number (1-5)",
+    comment: "string (texto del comentario)",
+    helpful_count: "number (votos útiles)",
+    is_verified: "boolean (comentario verificado)",
+    created_at: "timestamp",
+    updated_at: "timestamp"
+  };
+
+  const observatorySchema = {
+    id: "string",
+    name: "string (nombre del trámite)",
+    category: "string (categoría)",
+    maturityLevel: "number (0-5)",
+    evaluationScore: "number (0-100)",
+    evaluationComponents: {
+      digitalizacion: "number (0-5)",
+      simplificacion: "number (0-5)",
+      interoperabilidad: "number (0-5)",
+      trazabilidad: "number (0-5)",
+      accesibilidad: "number (0-5)",
+      satisfaccionUsuario: "number (0-5)"
+    },
+    averageTime: "string",
+    monthlyUsers: "number",
+    satisfactionRate: "number (0-100)",
+    isDigital: "boolean",
+    issues: "string[]",
+    recommendations: "string[]",
+    lastUpdated: "string (ISO date)"
+  };
+
+  const apiEndpoints = [
+    {
+      method: "GET",
+      endpoint: "/api/procedures",
+      description: "Obtener todos los trámites",
+      params: "?category=string&type=string&search=string",
+      response: "Procedure[]"
+    },
+    {
+      method: "GET",
+      endpoint: "/api/procedures/:id",
+      description: "Obtener un trámite específico",
+      params: "id: string",
+      response: "Procedure"
+    },
+    {
+      method: "GET",
+      endpoint: "/api/categories",
+      description: "Obtener todas las categorías",
+      params: "ninguno",
+      response: "Category[]"
+    },
+    {
+      method: "POST",
+      endpoint: "/api/comments",
+      description: "Crear nuevo comentario",
+      params: "ProcedureComment (sin id, timestamps)",
+      response: "ProcedureComment"
+    },
+    {
+      method: "GET",
+      endpoint: "/api/comments/:procedureId",
+      description: "Obtener comentarios de un trámite",
+      params: "procedureId: string",
+      response: "ProcedureComment[]"
+    },
+    {
+      method: "GET",
+      endpoint: "/api/observatory",
+      description: "Obtener datos del observatorio",
+      params: "?category=string",
+      response: "ObservatoryData[]"
+    }
+  ];
+
+  const codeExamples = {
+    typescript: `// Tipos TypeScript para la aplicación
+export interface Procedure {
+  id: string;
+  name: string;
+  description: string;
+  fullDescription: string;
+  institution: string;
+  category: string;
+  duration: string;
+  type: 'digital' | 'presencial' | 'mixto';
+  userType: 'persona' | 'empresa' | 'ambos';
+  requirements: string[];
+  steps: string[];
+  isDigital: boolean;
+}
+
+export interface ProcedureComment {
+  id: string;
+  procedure_id: string;
+  author_name: string;
+  author_email?: string;
+  rating: number;
+  comment: string;
+  helpful_count: number;
+  is_verified: boolean;
+  created_at: string;
+  updated_at: string;
+}`,
+    
+    supabase: `-- Estructura de tablas en Supabase
+CREATE TABLE procedure_comments (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  procedure_id text NOT NULL,
+  author_name text NOT NULL,
+  author_email text,
+  rating integer NOT NULL CHECK (rating >= 1 AND rating <= 5),
+  comment text NOT NULL,
+  helpful_count integer DEFAULT 0,
+  is_verified boolean DEFAULT false,
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
+);
+
+-- Habilitar RLS
+ALTER TABLE procedure_comments ENABLE ROW LEVEL SECURITY;
+
+-- Políticas de seguridad
+CREATE POLICY "Los comentarios son públicos para lectura"
+  ON procedure_comments FOR SELECT
+  TO public USING (true);
+
+CREATE POLICY "Cualquiera puede crear comentarios"
+  ON procedure_comments FOR INSERT
+  TO public WITH CHECK (true);`,
+
+    react: `// Hook para consumir datos de trámites
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
+
+export function useProcedures(filters?: {
+  category?: string;
+  type?: string;
+  search?: string;
+}) {
+  const [procedures, setProcedures] = useState<Procedure[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchProcedures();
+  }, [filters]);
+
+  const fetchProcedures = async () => {
+    try {
+      setLoading(true);
+      // Aquí conectarías con tu API o base de datos
+      const data = await fetch('/api/procedures?' + new URLSearchParams(filters));
+      const procedures = await data.json();
+      setProcedures(procedures);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const toggleRowExpansion = (procedureId: string) => {
-    const newExpanded = new Set(expandedRows);
-    if (newExpanded.has(procedureId)) {
-      newExpanded.delete(procedureId);
-    } else {
-      newExpanded.add(procedureId);
+  return { procedures, loading, error, refetch: fetchProcedures };
+}`,
+
+    api: `// Ejemplo de API endpoint en Node.js/Express
+app.get('/api/procedures', async (req, res) => {
+  try {
+    const { category, type, search } = req.query;
+    
+    let query = supabase
+      .from('procedures')
+      .select('*');
+    
+    if (category) {
+      query = query.eq('category', category);
     }
-    setExpandedRows(newExpanded);
-  };
-
-  const exportToCSV = () => {
-    const headers = ['ID', 'Nombre', 'Descripción', 'Institución', 'Categoría', 'Duración', 'Tipo', 'Usuario', 'Digital'];
-    const csvData = filteredAndSortedProcedures.map(procedure => [
-      procedure.id,
-      `"${procedure.name}"`,
-      `"${procedure.description}"`,
-      procedure.institution,
-      procedure.category,
-      procedure.duration,
-      procedure.type,
-      procedure.userType,
-      procedure.isDigital ? 'Sí' : 'No'
-    ]);
-
-    const csvContent = [headers, ...csvData].map(row => row.join(',')).join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'tramites_database.csv');
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case 'digital': return '💻';
-      case 'presencial': return '🏢';
-      case 'mixto': return '🔄';
-      default: return '📄';
+    
+    if (type) {
+      query = query.eq('type', type);
     }
-  };
-
-  const getStatusColor = (type: string) => {
-    switch (type) {
-      case 'digital': return 'bg-green-100 text-green-800';
-      case 'presencial': return 'bg-blue-100 text-blue-800';
-      case 'mixto': return 'bg-yellow-100 text-yellow-800';
-      default: return 'bg-gray-100 text-gray-800';
+    
+    if (search) {
+      query = query.or(\`name.ilike.%\${search}%,description.ilike.%\${search}%\`);
     }
+    
+    const { data, error } = await query;
+    
+    if (error) throw error;
+    
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});`
   };
 
-  const getCategoryName = (categoryId: string) => {
-    const category = categories.find(cat => cat.id === categoryId);
-    return category ? category.name : categoryId;
-  };
+  const renderSchema = () => (
+    <div className="space-y-8">
+      {/* Procedure Schema */}
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div className="flex items-center space-x-3 mb-4">
+          <div className="bg-blue-100 p-2 rounded-lg">
+            <FileText className="h-5 w-5 text-blue-600" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900">Esquema: Procedure</h3>
+        </div>
+        <div className="bg-gray-50 rounded-lg p-4 font-mono text-sm">
+          <pre className="text-gray-800">
+{JSON.stringify(procedureSchema, null, 2)}
+          </pre>
+        </div>
+        <div className="mt-4 text-sm text-gray-600">
+          <p><strong>Descripción:</strong> Estructura principal que contiene toda la información de un trámite gubernamental.</p>
+          <p><strong>Fuente de datos:</strong> Archivo estático <code>src/data/procedures.ts</code> (migrar a base de datos)</p>
+        </div>
+      </div>
+
+      {/* Category Schema */}
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div className="flex items-center space-x-3 mb-4">
+          <div className="bg-green-100 p-2 rounded-lg">
+            <Database className="h-5 w-5 text-green-600" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900">Esquema: Category</h3>
+        </div>
+        <div className="bg-gray-50 rounded-lg p-4 font-mono text-sm">
+          <pre className="text-gray-800">
+{JSON.stringify(categorySchema, null, 2)}
+          </pre>
+        </div>
+        <div className="mt-4 text-sm text-gray-600">
+          <p><strong>Descripción:</strong> Categorías para organizar los trámites (identidad, negocios, vivienda, etc.)</p>
+          <p><strong>Fuente de datos:</strong> Archivo estático <code>src/data/procedures.ts</code></p>
+        </div>
+      </div>
+
+      {/* Comments Schema */}
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div className="flex items-center space-x-3 mb-4">
+          <div className="bg-purple-100 p-2 rounded-lg">
+            <Users className="h-5 w-5 text-purple-600" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900">Esquema: ProcedureComment (Supabase)</h3>
+        </div>
+        <div className="bg-gray-50 rounded-lg p-4 font-mono text-sm">
+          <pre className="text-gray-800">
+{JSON.stringify(commentSchema, null, 2)}
+          </pre>
+        </div>
+        <div className="mt-4 text-sm text-gray-600">
+          <p><strong>Descripción:</strong> Comentarios y experiencias de usuarios sobre trámites específicos.</p>
+          <p><strong>Fuente de datos:</strong> Tabla <code>procedure_comments</code> en Supabase</p>
+          <p><strong>Estado:</strong> ✅ Implementado y funcional</p>
+        </div>
+      </div>
+
+      {/* Observatory Schema */}
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div className="flex items-center space-x-3 mb-4">
+          <div className="bg-orange-100 p-2 rounded-lg">
+            <Zap className="h-5 w-5 text-orange-600" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900">Esquema: ObservatoryData</h3>
+        </div>
+        <div className="bg-gray-50 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+          <pre className="text-gray-800">
+{JSON.stringify(observatorySchema, null, 2)}
+          </pre>
+        </div>
+        <div className="mt-4 text-sm text-gray-600">
+          <p><strong>Descripción:</strong> Datos de análisis y evaluación de eficiencia de trámites.</p>
+          <p><strong>Fuente de datos:</strong> Archivo estático <code>src/data/observatory.ts</code> (migrar a base de datos)</p>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderVariables = () => (
+    <div className="space-y-8">
+      {/* Variables to Collect */}
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="bg-red-100 p-2 rounded-lg">
+            <Server className="h-5 w-5 text-red-600" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900">Variables a Recolectar (Input)</h3>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-6">
+          <div>
+            <h4 className="font-semibold text-gray-900 mb-3">📋 Información Básica del Trámite</h4>
+            <ul className="space-y-2 text-sm">
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                <code className="bg-gray-100 px-2 py-1 rounded">name</code>
+                <span className="text-gray-600">- Nombre oficial del trámite</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                <code className="bg-gray-100 px-2 py-1 rounded">description</code>
+                <span className="text-gray-600">- Descripción corta</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                <code className="bg-gray-100 px-2 py-1 rounded">institution</code>
+                <span className="text-gray-600">- Institución responsable</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                <code className="bg-gray-100 px-2 py-1 rounded">duration</code>
+                <span className="text-gray-600">- Tiempo estimado</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="font-semibold text-gray-900 mb-3">🔧 Configuración del Trámite</h4>
+            <ul className="space-y-2 text-sm">
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                <code className="bg-gray-100 px-2 py-1 rounded">type</code>
+                <span className="text-gray-600">- digital/presencial/mixto</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                <code className="bg-gray-100 px-2 py-1 rounded">userType</code>
+                <span className="text-gray-600">- persona/empresa/ambos</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                <code className="bg-gray-100 px-2 py-1 rounded">category</code>
+                <span className="text-gray-600">- Categoría del trámite</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                <code className="bg-gray-100 px-2 py-1 rounded">isDigital</code>
+                <span className="text-gray-600">- Boolean si es 100% digital</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <h4 className="font-semibold text-gray-900 mb-3">📝 Arrays de Información Detallada</h4>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="bg-red-50 p-4 rounded-lg">
+              <code className="font-semibold text-red-800">requirements: string[]</code>
+              <p className="text-sm text-red-700 mt-1">Lista de documentos y requisitos necesarios</p>
+            </div>
+            <div className="bg-red-50 p-4 rounded-lg">
+              <code className="font-semibold text-red-800">steps: string[]</code>
+              <p className="text-sm text-red-700 mt-1">Pasos ordenados del proceso</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Variables to Consume */}
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="bg-green-100 p-2 rounded-lg">
+            <Eye className="h-5 w-5 text-green-600" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900">Variables a Consumir (Output)</h3>
+        </div>
+        
+        <div className="grid md:grid-cols-2 gap-6">
+          <div>
+            <h4 className="font-semibold text-gray-900 mb-3">📊 Datos de Análisis</h4>
+            <ul className="space-y-2 text-sm">
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <code className="bg-gray-100 px-2 py-1 rounded">maturityLevel</code>
+                <span className="text-gray-600">- Nivel de madurez (0-5)</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <code className="bg-gray-100 px-2 py-1 rounded">evaluationScore</code>
+                <span className="text-gray-600">- Puntaje de evaluación (0-100)</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <code className="bg-gray-100 px-2 py-1 rounded">satisfactionRate</code>
+                <span className="text-gray-600">- Tasa de satisfacción (%)</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <code className="bg-gray-100 px-2 py-1 rounded">monthlyUsers</code>
+                <span className="text-gray-600">- Usuarios mensuales</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="font-semibold text-gray-900 mb-3">💬 Datos de Usuarios</h4>
+            <ul className="space-y-2 text-sm">
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <code className="bg-gray-100 px-2 py-1 rounded">comments</code>
+                <span className="text-gray-600">- Comentarios de usuarios</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <code className="bg-gray-100 px-2 py-1 rounded">ratings</code>
+                <span className="text-gray-600">- Calificaciones (1-5)</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <code className="bg-gray-100 px-2 py-1 rounded">helpful_count</code>
+                <span className="text-gray-600">- Votos de utilidad</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <code className="bg-gray-100 px-2 py-1 rounded">averageRating</code>
+                <span className="text-gray-600">- Calificación promedio</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <h4 className="font-semibold text-gray-900 mb-3">🔍 Componentes de Evaluación</h4>
+          <div className="grid md:grid-cols-3 gap-4">
+            <div className="bg-green-50 p-3 rounded-lg">
+              <code className="text-sm font-semibold text-green-800">digitalizacion</code>
+              <p className="text-xs text-green-700 mt-1">Nivel de automatización</p>
+            </div>
+            <div className="bg-green-50 p-3 rounded-lg">
+              <code className="text-sm font-semibold text-green-800">simplificacion</code>
+              <p className="text-xs text-green-700 mt-1">Facilidad de uso</p>
+            </div>
+            <div className="bg-green-50 p-3 rounded-lg">
+              <code className="text-sm font-semibold text-green-800">interoperabilidad</code>
+              <p className="text-xs text-green-700 mt-1">Integración entre sistemas</p>
+            </div>
+            <div className="bg-green-50 p-3 rounded-lg">
+              <code className="text-sm font-semibold text-green-800">trazabilidad</code>
+              <p className="text-xs text-green-700 mt-1">Seguimiento del proceso</p>
+            </div>
+            <div className="bg-green-50 p-3 rounded-lg">
+              <code className="text-sm font-semibold text-green-800">accesibilidad</code>
+              <p className="text-xs text-green-700 mt-1">Acceso para todos los usuarios</p>
+            </div>
+            <div className="bg-green-50 p-3 rounded-lg">
+              <code className="text-sm font-semibold text-green-800">satisfaccionUsuario</code>
+              <p className="text-xs text-green-700 mt-1">Experiencia del usuario</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Data Flow */}
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="bg-blue-100 p-2 rounded-lg">
+            <GitBranch className="h-5 w-5 text-blue-600" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900">Flujo de Datos</h3>
+        </div>
+        
+        <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 md:space-x-4">
+          <div className="bg-red-50 p-4 rounded-lg text-center flex-1">
+            <Server className="h-8 w-8 text-red-600 mx-auto mb-2" />
+            <h4 className="font-semibold text-red-800">Input</h4>
+            <p className="text-sm text-red-700">Datos recolectados de instituciones</p>
+          </div>
+          
+          <div className="text-gray-400">
+            <ChevronDown className="h-6 w-6 md:hidden" />
+            <ExternalLink className="h-6 w-6 hidden md:block" />
+          </div>
+          
+          <div className="bg-blue-50 p-4 rounded-lg text-center flex-1">
+            <Database className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+            <h4 className="font-semibold text-blue-800">Processing</h4>
+            <p className="text-sm text-blue-700">Análisis y evaluación</p>
+          </div>
+          
+          <div className="text-gray-400">
+            <ChevronDown className="h-6 w-6 md:hidden" />
+            <ExternalLink className="h-6 w-6 hidden md:block" />
+          </div>
+          
+          <div className="bg-green-50 p-4 rounded-lg text-center flex-1">
+            <Eye className="h-8 w-8 text-green-600 mx-auto mb-2" />
+            <h4 className="font-semibold text-green-800">Output</h4>
+            <p className="text-sm text-green-700">Datos para consumo público</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderAPI = () => (
+    <div className="space-y-8">
+      {/* API Endpoints */}
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div className="flex items-center space-x-3 mb-6">
+          <div className="bg-purple-100 p-2 rounded-lg">
+            <LinkIcon className="h-5 w-5 text-purple-600" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900">Endpoints de API Recomendados</h3>
+        </div>
+        
+        <div className="space-y-4">
+          {apiEndpoints.map((endpoint, index) => (
+            <div key={index} className="border border-gray-200 rounded-lg p-4">
+              <div className="flex items-center space-x-3 mb-2">
+                <span className={`px-2 py-1 rounded text-xs font-medium ${
+                  endpoint.method === 'GET' ? 'bg-green-100 text-green-800' :
+                  endpoint.method === 'POST' ? 'bg-blue-100 text-blue-800' :
+                  'bg-yellow-100 text-yellow-800'
+                }`}>
+                  {endpoint.method}
+                </span>
+                <code className="font-mono text-sm bg-gray-100 px-2 py-1 rounded">
+                  {endpoint.endpoint}
+                </code>
+              </div>
+              <p className="text-gray-700 text-sm mb-2">{endpoint.description}</p>
+              <div className="grid md:grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span className="font-medium text-gray-900">Parámetros:</span>
+                  <code className="ml-2 bg-gray-100 px-2 py-1 rounded text-xs">
+                    {endpoint.params}
+                  </code>
+                </div>
+                <div>
+                  <span className="font-medium text-gray-900">Respuesta:</span>
+                  <code className="ml-2 bg-gray-100 px-2 py-1 rounded text-xs">
+                    {endpoint.response}
+                  </code>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Authentication */}
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div className="flex items-center space-x-3 mb-4">
+          <div className="bg-orange-100 p-2 rounded-lg">
+            <Shield className="h-5 w-5 text-orange-600" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900">Autenticación y Seguridad</h3>
+        </div>
+        
+        <div className="space-y-4">
+          <div className="bg-orange-50 p-4 rounded-lg">
+            <h4 className="font-semibold text-orange-800 mb-2">Supabase RLS (Row Level Security)</h4>
+            <p className="text-sm text-orange-700 mb-3">
+              Los comentarios están protegidos con políticas de seguridad a nivel de fila.
+            </p>
+            <div className="bg-white p-3 rounded border">
+              <code className="text-xs text-gray-800">
+                -- Política para lectura pública<br/>
+                CREATE POLICY "Los comentarios son públicos para lectura"<br/>
+                ON procedure_comments FOR SELECT TO public USING (true);
+              </code>
+            </div>
+          </div>
+          
+          <div className="bg-blue-50 p-4 rounded-lg">
+            <h4 className="font-semibold text-blue-800 mb-2">API Keys</h4>
+            <p className="text-sm text-blue-700">
+              Usar <code>VITE_SUPABASE_ANON_KEY</code> para operaciones públicas de lectura.
+              Usar <code>SUPABASE_SERVICE_ROLE_KEY</code> solo en el backend para operaciones administrativas.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderExamples = () => (
+    <div className="space-y-8">
+      {Object.entries(codeExamples).map(([language, code]) => (
+        <div key={language} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-3">
+              <div className="bg-gray-100 p-2 rounded-lg">
+                <Code className="h-5 w-5 text-gray-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 capitalize">
+                {language === 'typescript' ? 'TypeScript Types' :
+                 language === 'supabase' ? 'Supabase Schema' :
+                 language === 'react' ? 'React Hook' : 'API Endpoint'}
+              </h3>
+            </div>
+            <button
+              onClick={() => copyToClipboard(code, language)}
+              className="flex items-center space-x-2 px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm"
+            >
+              {copiedCode === language ? (
+                <>
+                  <CheckCircle className="h-4 w-4 text-green-600" />
+                  <span className="text-green-600">Copiado</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="h-4 w-4 text-gray-600" />
+                  <span className="text-gray-600">Copiar</span>
+                </>
+              )}
+            </button>
+          </div>
+          
+          <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+            <pre className="text-green-400 text-sm">
+              <code>{code}</code>
+            </pre>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <div className="bg-gray-50">
@@ -144,10 +693,10 @@ export default function DatabaseView() {
             </div>
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
-                Base de Datos de Trámites
+                Documentación Técnica - Base de Datos
               </h1>
               <p className="text-gray-600">
-                Vista completa de todos los trámites, categorías e instituciones
+                Guía para desarrolladores: esquemas, variables y APIs del sistema de trámites
               </p>
             </div>
           </div>
@@ -158,8 +707,9 @@ export default function DatabaseView() {
           <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Total Trámites</p>
-                <p className="text-3xl font-bold text-gray-900">{procedures.length}</p>
+                <p className="text-sm text-gray-600">Esquemas Definidos</p>
+                <p className="text-3xl font-bold text-gray-900">4</p>
+                <p className="text-xs text-gray-500">Procedure, Category, Comment, Observatory</p>
               </div>
               <div className="bg-blue-100 p-3 rounded-xl">
                 <FileText className="h-8 w-8 text-blue-600" />
@@ -170,11 +720,25 @@ export default function DatabaseView() {
           <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Categorías</p>
-                <p className="text-3xl font-bold text-gray-900">{categories.length}</p>
+                <p className="text-sm text-gray-600">Variables Input</p>
+                <p className="text-3xl font-bold text-gray-900">12</p>
+                <p className="text-xs text-gray-500">Variables a recolectar</p>
+              </div>
+              <div className="bg-red-100 p-3 rounded-xl">
+                <Server className="h-8 w-8 text-red-600" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Variables Output</p>
+                <p className="text-3xl font-bold text-gray-900">15</p>
+                <p className="text-xs text-gray-500">Variables a consumir</p>
               </div>
               <div className="bg-green-100 p-3 rounded-xl">
-                <Database className="h-8 w-8 text-green-600" />
+                <Eye className="h-8 w-8 text-green-600" />
               </div>
             </div>
           </div>
@@ -182,418 +746,75 @@ export default function DatabaseView() {
           <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Instituciones</p>
-                <p className="text-3xl font-bold text-gray-900">
-                  {[...new Set(procedures.map(p => p.institution))].length}
-                </p>
+                <p className="text-sm text-gray-600">API Endpoints</p>
+                <p className="text-3xl font-bold text-gray-900">6</p>
+                <p className="text-xs text-gray-500">Endpoints recomendados</p>
               </div>
               <div className="bg-purple-100 p-3 rounded-xl">
-                <Building2 className="h-8 w-8 text-purple-600" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">Trámites Digitales</p>
-                <p className="text-3xl font-bold text-gray-900">
-                  {procedures.filter(p => p.isDigital).length}
-                </p>
-              </div>
-              <div className="bg-orange-100 p-3 rounded-xl">
-                <Globe className="h-8 w-8 text-orange-600" />
+                <LinkIcon className="h-8 w-8 text-purple-600" />
               </div>
             </div>
           </div>
         </div>
 
-        {/* Search and Filters */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-8 border border-gray-100">
-          <div className="flex flex-col lg:flex-row gap-4 mb-4">
-            {/* Search Bar */}
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar por nombre, descripción o institución..."
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-              />
-            </div>
-
-            {/* Actions */}
-            <div className="flex gap-3">
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center space-x-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                <Filter className="h-5 w-5" />
-                <span>Filtros</span>
-                {showFilters ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-              </button>
-
-              <button
-                onClick={exportToCSV}
-                className="flex items-center space-x-2 bg-purple-600 text-white px-4 py-3 rounded-lg hover:bg-purple-700 transition-colors"
-              >
-                <Download className="h-5 w-5" />
-                <span>Exportar CSV</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Filters */}
-          {showFilters && (
-            <div className="border-t border-gray-200 pt-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Categoría
-                  </label>
-                  <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                  >
-                    <option value="">Todas las categorías</option>
-                    {categories.map(category => (
-                      <option key={category.id} value={category.id}>
-                        {category.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Tipo de Trámite
-                  </label>
-                  <select
-                    value={selectedType}
-                    onChange={(e) => setSelectedType(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                  >
-                    <option value="">Todos los tipos</option>
-                    <option value="digital">Digital</option>
-                    <option value="presencial">Presencial</option>
-                    <option value="mixto">Mixto</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Tipo de Usuario
-                  </label>
-                  <select
-                    value={selectedUserType}
-                    onChange={(e) => setSelectedUserType(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                  >
-                    <option value="">Todos los usuarios</option>
-                    <option value="persona">Persona</option>
-                    <option value="empresa">Empresa</option>
-                    <option value="ambos">Ambos</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="mt-4 flex justify-end">
+        {/* Tab Navigation */}
+        <div className="bg-white rounded-xl shadow-sm mb-8 border border-gray-100">
+          <div className="flex border-b border-gray-200 overflow-x-auto">
+            {[
+              { id: 'schema', label: 'Esquemas de Datos', icon: Database },
+              { id: 'variables', label: 'Variables I/O', icon: GitBranch },
+              { id: 'api', label: 'APIs y Endpoints', icon: LinkIcon },
+              { id: 'examples', label: 'Ejemplos de Código', icon: Code }
+            ].map((tab) => {
+              const IconComponent = tab.icon;
+              return (
                 <button
-                  onClick={() => {
-                    setSelectedCategory('');
-                    setSelectedType('');
-                    setSelectedUserType('');
-                    setSearchQuery('');
-                  }}
-                  className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`flex items-center space-x-2 px-6 py-4 font-medium text-sm transition-colors whitespace-nowrap ${
+                    activeTab === tab.id
+                      ? 'text-purple-800 border-b-2 border-purple-800 bg-purple-50'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
                 >
-                  Limpiar filtros
+                  <IconComponent className="h-4 w-4" />
+                  <span>{tab.label}</span>
                 </button>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Results Summary */}
-        <div className="mb-6">
-          <p className="text-gray-600">
-            Mostrando {filteredAndSortedProcedures.length} de {procedures.length} trámites
-          </p>
-        </div>
-
-        {/* Data Table */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
-                <tr>
-                  <th className="px-6 py-4 text-left">
-                    <button
-                      onClick={() => handleSort('name')}
-                      className="flex items-center space-x-1 font-medium text-gray-900 hover:text-purple-600"
-                    >
-                      <span>Nombre</span>
-                      {sortField === 'name' && (
-                        sortDirection === 'asc' ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />
-                      )}
-                    </button>
-                  </th>
-                  <th className="px-6 py-4 text-left">
-                    <button
-                      onClick={() => handleSort('institution')}
-                      className="flex items-center space-x-1 font-medium text-gray-900 hover:text-purple-600"
-                    >
-                      <span>Institución</span>
-                      {sortField === 'institution' && (
-                        sortDirection === 'asc' ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />
-                      )}
-                    </button>
-                  </th>
-                  <th className="px-6 py-4 text-left">
-                    <button
-                      onClick={() => handleSort('category')}
-                      className="flex items-center space-x-1 font-medium text-gray-900 hover:text-purple-600"
-                    >
-                      <span>Categoría</span>
-                      {sortField === 'category' && (
-                        sortDirection === 'asc' ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />
-                      )}
-                    </button>
-                  </th>
-                  <th className="px-6 py-4 text-left">
-                    <button
-                      onClick={() => handleSort('duration')}
-                      className="flex items-center space-x-1 font-medium text-gray-900 hover:text-purple-600"
-                    >
-                      <span>Duración</span>
-                      {sortField === 'duration' && (
-                        sortDirection === 'asc' ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />
-                      )}
-                    </button>
-                  </th>
-                  <th className="px-6 py-4 text-left">
-                    <button
-                      onClick={() => handleSort('type')}
-                      className="flex items-center space-x-1 font-medium text-gray-900 hover:text-purple-600"
-                    >
-                      <span>Tipo</span>
-                      {sortField === 'type' && (
-                        sortDirection === 'asc' ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />
-                      )}
-                    </button>
-                  </th>
-                  <th className="px-6 py-4 text-left">
-                    <button
-                      onClick={() => handleSort('userType')}
-                      className="flex items-center space-x-1 font-medium text-gray-900 hover:text-purple-600"
-                    >
-                      <span>Usuario</span>
-                      {sortField === 'userType' && (
-                        sortDirection === 'asc' ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />
-                      )}
-                    </button>
-                  </th>
-                  <th className="px-6 py-4 text-center">Acciones</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {filteredAndSortedProcedures.map((procedure) => (
-                  <React.Fragment key={procedure.id}>
-                    <tr className="hover:bg-gray-50 transition-colors">
-                      <td className="px-6 py-4">
-                        <div>
-                          <div className="font-medium text-gray-900">{procedure.name}</div>
-                          <div className="text-sm text-gray-500 truncate max-w-xs">
-                            {procedure.description}
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center space-x-2">
-                          <Building2 className="h-4 w-4 text-gray-400" />
-                          <span className="text-gray-900">{procedure.institution}</span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="text-gray-900 capitalize">
-                          {getCategoryName(procedure.category)}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center space-x-2">
-                          <Clock className="h-4 w-4 text-gray-400" />
-                          <span className="text-gray-900">{procedure.duration}</span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(procedure.type)}`}>
-                          <span className="mr-1">{getTypeIcon(procedure.type)}</span>
-                          {procedure.type}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center space-x-2">
-                          {procedure.userType === 'persona' ? (
-                            <User className="h-4 w-4 text-gray-400" />
-                          ) : procedure.userType === 'empresa' ? (
-                            <Building2 className="h-4 w-4 text-gray-400" />
-                          ) : (
-                            <Users className="h-4 w-4 text-gray-400" />
-                          )}
-                          <span className="text-gray-900 capitalize">{procedure.userType}</span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-center">
-                        <div className="flex items-center justify-center space-x-2">
-                          <button
-                            onClick={() => toggleRowExpansion(procedure.id)}
-                            className="text-purple-600 hover:text-purple-700 transition-colors"
-                            title="Ver detalles"
-                          >
-                            <Eye className="h-4 w-4" />
-                          </button>
-                          <a
-                            href={`/tramite/${procedure.id}`}
-                            className="text-blue-600 hover:text-blue-700 transition-colors"
-                            title="Ver página completa"
-                          >
-                            <ExternalLink className="h-4 w-4" />
-                          </a>
-                        </div>
-                      </td>
-                    </tr>
-                    
-                    {/* Expanded Row Details */}
-                    {expandedRows.has(procedure.id) && (
-                      <tr className="bg-gray-50">
-                        <td colSpan={7} className="px-6 py-4">
-                          <div className="space-y-4">
-                            <div>
-                              <h4 className="font-medium text-gray-900 mb-2">Descripción Completa</h4>
-                              <p className="text-gray-700 text-sm">{procedure.fullDescription}</p>
-                            </div>
-                            
-                            <div className="grid md:grid-cols-2 gap-6">
-                              <div>
-                                <h4 className="font-medium text-gray-900 mb-2">Requisitos</h4>
-                                <ul className="text-sm text-gray-700 space-y-1">
-                                  {procedure.requirements.map((req, index) => (
-                                    <li key={index} className="flex items-start space-x-2">
-                                      <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
-                                      <span>{req}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                              
-                              <div>
-                                <h4 className="font-medium text-gray-900 mb-2">Pasos del Proceso</h4>
-                                <ol className="text-sm text-gray-700 space-y-1">
-                                  {procedure.steps.map((step, index) => (
-                                    <li key={index} className="flex items-start space-x-2">
-                                      <span className="bg-purple-100 text-purple-800 rounded-full w-5 h-5 flex items-center justify-center text-xs font-medium flex-shrink-0 mt-0.5">
-                                        {index + 1}
-                                      </span>
-                                      <span>{step}</span>
-                                    </li>
-                                  ))}
-                                </ol>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    )}
-                  </React.Fragment>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {filteredAndSortedProcedures.length === 0 && (
-            <div className="text-center py-12">
-              <div className="text-gray-400 mb-4">
-                <Database className="h-16 w-16 mx-auto" />
-              </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                No se encontraron trámites
-              </h3>
-              <p className="text-gray-600">
-                Ajusta los filtros o términos de búsqueda para ver más resultados
-              </p>
-            </div>
-          )}
-        </div>
-
-        {/* Categories Summary */}
-        <div className="mt-12 bg-white rounded-xl shadow-sm p-8 border border-gray-100">
-          <h3 className="text-xl font-bold text-gray-900 mb-6">Resumen por Categorías</h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {categories.map(category => {
-              const categoryProcedures = procedures.filter(p => p.category === category.id);
-              const digitalCount = categoryProcedures.filter(p => p.isDigital).length;
-              
-              return (
-                <div key={category.id} className="bg-gray-50 rounded-lg p-4">
-                  <div className="flex items-center space-x-3 mb-3">
-                    <div className="bg-purple-100 p-2 rounded-lg">
-                      <Database className="h-5 w-5 text-purple-600" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-900">{category.name}</h4>
-                      <p className="text-sm text-gray-600">{categoryProcedures.length} trámites</p>
-                    </div>
-                  </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Digitales:</span>
-                      <span className="font-medium text-green-600">{digitalCount}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Presenciales:</span>
-                      <span className="font-medium text-blue-600">{categoryProcedures.length - digitalCount}</span>
-                    </div>
-                  </div>
-                </div>
               );
             })}
           </div>
         </div>
 
-        {/* Institutions Summary */}
-        <div className="mt-8 bg-white rounded-xl shadow-sm p-8 border border-gray-100">
-          <h3 className="text-xl font-bold text-gray-900 mb-6">Resumen por Instituciones</h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...new Set(procedures.map(p => p.institution))].map(institution => {
-              const institutionProcedures = procedures.filter(p => p.institution === institution);
-              const digitalCount = institutionProcedures.filter(p => p.isDigital).length;
-              
-              return (
-                <div key={institution} className="bg-gray-50 rounded-lg p-4">
-                  <div className="flex items-center space-x-3 mb-3">
-                    <div className="bg-blue-100 p-2 rounded-lg">
-                      <Building2 className="h-5 w-5 text-blue-600" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-900">{institution}</h4>
-                      <p className="text-sm text-gray-600">{institutionProcedures.length} trámites</p>
-                    </div>
-                  </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Digitales:</span>
-                      <span className="font-medium text-green-600">{digitalCount}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Presenciales:</span>
-                      <span className="font-medium text-blue-600">{institutionProcedures.length - digitalCount}</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+        {/* Content based on active tab */}
+        {activeTab === 'schema' && renderSchema()}
+        {activeTab === 'variables' && renderVariables()}
+        {activeTab === 'api' && renderAPI()}
+        {activeTab === 'examples' && renderExamples()}
+
+        {/* Implementation Status */}
+        <div className="mt-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-8 border border-blue-100">
+          <h3 className="text-xl font-bold text-blue-900 mb-6">Estado de Implementación</h3>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div>
+              <h4 className="font-semibold text-green-800 mb-3">✅ Implementado</h4>
+              <ul className="space-y-2 text-sm text-green-700">
+                <li>• Sistema de comentarios con Supabase</li>
+                <li>• Esquemas TypeScript completos</li>
+                <li>• Hooks React para consumo de datos</li>
+                <li>• RLS y políticas de seguridad</li>
+                <li>• Interfaz de usuario completa</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-orange-800 mb-3">🔄 Pendiente</h4>
+              <ul className="space-y-2 text-sm text-orange-700">
+                <li>• Migrar datos de procedures a base de datos</li>
+                <li>• Implementar API REST completa</li>
+                <li>• Sistema de análisis del observatorio</li>
+                <li>• Recolección automática de datos</li>
+                <li>• Dashboard administrativo</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
