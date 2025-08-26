@@ -730,6 +730,53 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                       </div>
                     </div>
                   </div>
+                  
+                  {/* Additional Information Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6 pt-6 border-t border-gray-200">
+                    <div className="flex items-center space-x-2">
+                      <FileText className="h-4 w-4 text-gray-500" />
+                      <div>
+                        <p className="text-xs font-medium text-gray-900">Categoría</p>
+                        <p className="text-xs text-gray-600 capitalize">{procedure.category}</p>
+                      </div>
+                    </div>
+                    
+                    {procedure.subcategory && (
+                      <div className="flex items-center space-x-2">
+                        <FileText className="h-4 w-4 text-gray-500" />
+                        <div>
+                          <p className="text-xs font-medium text-gray-900">Subcategoría</p>
+                          <p className="text-xs text-gray-600">{procedure.subcategory}</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {procedure.respaldo_legal && (
+                      <div className="flex items-start space-x-2">
+                        <Scale className="h-4 w-4 text-gray-500 mt-0.5" />
+                        <div>
+                          <p className="text-xs font-medium text-gray-900">Respaldo Legal</p>
+                          <p className="text-xs text-gray-600 leading-tight">{procedure.respaldo_legal}</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {procedure.fecha_actualizado && (
+                      <div className="flex items-center space-x-2">
+                        <Clock className="h-4 w-4 text-gray-500" />
+                        <div>
+                          <p className="text-xs font-medium text-gray-900">Última Actualización</p>
+                          <p className="text-xs text-gray-600">
+                            {new Date(procedure.fecha_actualizado).toLocaleDateString('es-GT', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric'
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

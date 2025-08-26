@@ -34,7 +34,10 @@ export const procedures: Procedure[] = [
       'Esperar tiempo de procesamiento',
       'Recoger documento en oficina asignada'
     ],
-    isDigital: true
+    isDigital: true,
+    subcategory: 'Documentos de identidad',
+    respaldo_legal: 'Decreto 90-2005 - Ley del Registro Nacional de las Personas',
+    fecha_actualizado: '2024-12-15'
   },
   {
     id: '2',
@@ -61,7 +64,10 @@ export const procedures: Procedure[] = [
       'Inscripción definitiva',
       'Entrega de patente de comercio'
     ],
-    isDigital: false
+    isDigital: false,
+    subcategory: 'Registro empresarial',
+    respaldo_legal: 'Código de Comercio - Decreto 2-70',
+    fecha_actualizado: '2024-11-20'
   },
   {
     id: '3',
@@ -89,7 +95,10 @@ export const procedures: Procedure[] = [
       'Pago de licencia',
       'Entrega de licencia aprobada'
     ],
-    isDigital: false
+    isDigital: false,
+    subcategory: 'Permisos municipales',
+    respaldo_legal: 'Código Municipal - Decreto 12-2002',
+    fecha_actualizado: '2024-10-30'
   },
   {
     id: '4',
@@ -117,7 +126,10 @@ export const procedures: Procedure[] = [
       'Inscripción definitiva',
       'Asignación de cursos'
     ],
-    isDigital: true
+    isDigital: true,
+    subcategory: 'Educación superior',
+    respaldo_legal: 'Ley Orgánica de la Universidad de San Carlos - Decreto 325',
+    fecha_actualizado: '2024-12-01'
   },
   {
     id: '5',
@@ -143,7 +155,10 @@ export const procedures: Procedure[] = [
       'Emisión de certificado',
       'Entrega de documento'
     ],
-    isDigital: false
+    isDigital: false,
+    subcategory: 'Certificaciones médicas',
+    respaldo_legal: 'Código de Salud - Decreto 90-97',
+    fecha_actualizado: '2024-11-15'
   },
   {
     id: '6',
@@ -169,7 +184,10 @@ export const procedures: Procedure[] = [
       'Generación de certificado',
       'Descarga del documento'
     ],
-    isDigital: true
+    isDigital: true,
+    subcategory: 'Certificaciones judiciales',
+    respaldo_legal: 'Ley del Organismo Judicial - Decreto 2-89',
+    fecha_actualizado: '2024-12-10'
   }
 ];
 

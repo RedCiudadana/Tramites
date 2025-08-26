@@ -5,12 +5,15 @@ export interface Procedure {
   fullDescription: string;
   institution: string;
   category: string;
+  subcategory?: string;
   duration: string;
   type: 'digital' | 'presencial' | 'mixto';
   userType: 'persona' | 'empresa' | 'ambos';
   requirements: string[];
   steps: string[];
   isDigital: boolean;
+  respaldo_legal?: string;
+  fecha_actualizado?: string;
 }
 
 export interface UserProcedure {
