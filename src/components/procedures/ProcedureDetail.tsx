@@ -1,6 +1,9 @@
 import React from 'react';
 import { ArrowLeft, Clock, Building2, User, CheckCircle, AlertCircle, FileText, Users, ChevronRight, MapPin, Phone, Globe, Mail, Lightbulb, MessageSquare, ThumbsUp, Star, Send, List, PlayCircle, ClipboardList, ExternalLink, Info, Lightbulb as LightbulbIcon, MessageCircleIcon } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+  Calendar,
+  ChevronRight,
+  Home
+import { Link } from 'react-router-dom';
 import { Procedure } from '../../types';
 import { useComments } from '../../hooks/useComments';
 
@@ -631,6 +634,35 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Breadcrumb */}
+        <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-6">
+          <Link 
+            to="/" 
+            className="flex items-center space-x-1 hover:text-blue-800 transition-colors"
+          >
+            <Home className="h-4 w-4" />
+            <span>Inicio</span>
+          </Link>
+          <ChevronRight className="h-4 w-4" />
+          <Link 
+            to="/catalogo" 
+            className="hover:text-blue-800 transition-colors"
+          >
+            Catálogo de Trámites
+          </Link>
+          <ChevronRight className="h-4 w-4" />
+          <Link 
+            to={`/catalogo/${procedure.category}`}
+            className="hover:text-blue-800 transition-colors capitalize"
+          >
+            {procedure.category}
+          </Link>
+          <ChevronRight className="h-4 w-4" />
+          <span className="text-gray-900 font-medium">
+            {procedure.name}
+          </span>
+        </nav>
+
         <div className="flex gap-8">
           {/* Lateral Menu */}
           <div className="hidden lg:block w-64 flex-shrink-0">
