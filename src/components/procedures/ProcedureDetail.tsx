@@ -156,7 +156,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
         </div>
 
         {/* Additional Information */}
-        <div className="grid md:grid-cols-2 gap-8 mb-8">
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
           {/* Legal Framework */}
           {procedure.respaldo_legal && (
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
@@ -181,6 +181,25 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
               </div>
               <p className="text-gray-700">
                 {new Date(procedure.fecha_actualizado).toLocaleDateString('es-GT', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </p>
+            </div>
+          )}
+
+          {/* Review Date */}
+          {procedure.fecha_revision && (
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="bg-blue-100 p-2 rounded-lg">
+                  <CheckCircle className="h-5 w-5 text-blue-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900">Fecha de Revisión</h3>
+              </div>
+              <p className="text-gray-700">
+                {new Date(procedure.fecha_revision).toLocaleDateString('es-GT', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
@@ -247,7 +266,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
             <div>
               <h3 className="font-semibold text-yellow-800 mb-2">Aviso Importante</h3>
               <p className="text-yellow-700 text-sm leading-relaxed">
-                Esta información es recopilada y verificada por Red Ciudadana para facilitar el acceso ciudadano. 
+                Esta información es únicamente recopilada por Red Ciudadana para facilitar el acceso ciudadano. 
                 Siempre confirme los requisitos y procedimientos actuales en las fuentes oficiales de la institución 
                 antes de realizar su trámite. Los procesos pueden cambiar sin previo aviso.
               </p>

@@ -37,7 +37,8 @@ export const procedures: Procedure[] = [
     isDigital: true,
     subcategory: 'Documentos de identidad',
     respaldo_legal: 'Decreto 90-2005 - Ley del Registro Nacional de las Personas',
-    fecha_actualizado: '2024-12-15'
+    fecha_actualizado: '2024-12-15',
+    fecha_revision: '2024-12-20'
   },
   {
     id: '2',
@@ -67,7 +68,8 @@ export const procedures: Procedure[] = [
     isDigital: false,
     subcategory: 'Registro empresarial',
     respaldo_legal: 'Código de Comercio - Decreto 2-70',
-    fecha_actualizado: '2024-11-20'
+    fecha_actualizado: '2024-11-20',
+    fecha_revision: '2024-12-18'
   },
   {
     id: '3',
@@ -98,7 +100,8 @@ export const procedures: Procedure[] = [
     isDigital: false,
     subcategory: 'Permisos municipales',
     respaldo_legal: 'Código Municipal - Decreto 12-2002',
-    fecha_actualizado: '2024-10-30'
+    fecha_actualizado: '2024-10-30',
+    fecha_revision: '2024-12-15'
   },
   {
     id: '4',
@@ -129,7 +132,8 @@ export const procedures: Procedure[] = [
     isDigital: true,
     subcategory: 'Educación superior',
     respaldo_legal: 'Ley Orgánica de la Universidad de San Carlos - Decreto 325',
-    fecha_actualizado: '2024-12-01'
+    fecha_actualizado: '2024-12-01',
+    fecha_revision: '2024-12-22'
   },
   {
     id: '5',
@@ -158,7 +162,8 @@ export const procedures: Procedure[] = [
     isDigital: false,
     subcategory: 'Certificaciones médicas',
     respaldo_legal: 'Código de Salud - Decreto 90-97',
-    fecha_actualizado: '2024-11-15'
+    fecha_actualizado: '2024-11-15',
+    fecha_revision: '2024-12-19'
   },
   {
     id: '6',
@@ -187,7 +192,8 @@ export const procedures: Procedure[] = [
     isDigital: true,
     subcategory: 'Certificaciones judiciales',
     respaldo_legal: 'Ley del Organismo Judicial - Decreto 2-89',
-    fecha_actualizado: '2024-12-10'
+    fecha_actualizado: '2024-12-10',
+    fecha_revision: '2024-12-21'
   }
 ];
 

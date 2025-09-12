@@ -14,6 +14,7 @@ export interface Procedure {
   isDigital: boolean;
   respaldo_legal?: string;
   fecha_actualizado?: string;
+  fecha_revision?: string;
 }
 
 export interface UserProcedure {
