@@ -10,18 +10,21 @@ export function useComments(procedureId: string) {
   const fetchComments = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
+      await supabase
         .from('procedure_comments')
         .select('*')
         .eq('procedure_id', procedureId)
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setComments(data || []);
+        .order('created_at', { ascending: false })
+        .then(({ data, error }) => {
+          if (error) throw error;
+          setComments(data || []);
+          setLoading(false);
+        });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al cargar comentarios');
-    } finally {
       setLoading(false);
+    } finally {
+      // Loading is handled in the promise chain above
     }
   };
 
@@ -33,7 +36,8 @@ export function useComments(procedureId: string) {
     comment: string;
   }) => {
     try {
-      const { data, error } = await supabase
+      return new Promise((resolve) => {
+        supabase
         .from('procedure_comments')
         .insert([
           {
@@ -42,13 +46,14 @@ export function useComments(procedureId: string) {
           }
         ])
         .select()
-        .single();
-
-      if (error) throw error;
-
-      // Agregar el nuevo comentario al estado local
-      setComments(prev => [data, ...prev]);
-      return { success: true, data };
+        .single()
+        .then(({ data, error }) => {
+          if (error) throw error;
+          // Agregar el nuevo comentario al estado local
+          setComments(prev => [data, ...prev]);
+          resolve({ success: true, data });
+        });
+      });
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error al agregar comentario';
       setError(errorMessage);
@@ -63,55 +68,44 @@ export function useComments(procedureId: string) {
       const voterIp = await getClientIP();
 
       // Verificar si ya votó
-      const { data: existingVote } = await supabase
+      return new Promise((resolve) => {
+        supabase
         .from('comment_helpful_votes')
         .select('id')
         .eq('comment_id', commentId)
         .eq('voter_ip', voterIp)
-        .single();
-
-      if (existingVote) {
-        return { success: false, error: 'Ya has marcado este comentario como útil' };
-      }
-
-      // Agregar voto
-      const { error: voteError } = await supabase
-        .from('comment_helpful_votes')
-        .insert([
-          {
-            comment_id: commentId,
-            voter_ip: voterIp
+        .single()
+        .then(({ data: existingVote }) => {
+          if (existingVote) {
+            resolve({ success: false, error: 'Ya has marcado este comentario como útil' });
+            return;
           }
-        ]);
 
-      if (voteError) throw voteError;
-
-      // Actualizar contador en el comentario
-      const { error: updateError } = await supabase.rpc('increment_helpful_count', {
-        comment_id: commentId
+          // Agregar voto
+          supabase
+            .from('comment_helpful_votes')
+            .insert([
+              {
+                comment_id: commentId,
+                voter_ip: voterIp
+              }
+            ])
+            .then(() => {
+              // Actualizar contador en el comentario usando RPC
+              supabase.rpc('increment_helpful_count', {
+                comment_id: commentId
+              }).then(() => {
+                // Actualizar estado local
+                setComments(prev => prev.map(comment => 
+                  comment.id === commentId 
+                    ? { ...comment, helpful_count: comment.helpful_count + 1 }
+                    : comment
+                ));
+                resolve({ success: true });
+              });
+            });
+        });
       });
-
-      if (updateError) {
-        // Si no existe la función RPC, actualizar manualmente
-        const comment = comments.find(c => c.id === commentId);
-        if (comment) {
-          const { error } = await supabase
-            .from('procedure_comments')
-            .update({ helpful_count: comment.helpful_count + 1 })
-            .eq('id', commentId);
-
-          if (error) throw error;
-        }
-      }
-
-      // Actualizar estado local
-      setComments(prev => prev.map(comment => 
-        comment.id === commentId 
-          ? { ...comment, helpful_count: comment.helpful_count + 1 }
-          : comment
-      ));
-
-      return { success: true };
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error al marcar como útil';
       return { success: false, error: errorMessage };
