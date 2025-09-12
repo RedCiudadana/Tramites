@@ -21,16 +21,6 @@ export default function ProcedureCatalog({
   const [showFilters, setShowFilters] = useState(false);
   const navigate = useNavigate();
 
-  // Category images mapping
-  const categoryImages = {
-    identidad: 'https://images.pexels.com/photos/5668858/pexels-photo-5668858.jpeg?auto=compress&cs=tinysrgb&w=800',
-    negocios: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800',
-    vivienda: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=800',
-    educacion: 'https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg?auto=compress&cs=tinysrgb&w=800',
-    salud: 'https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=800',
-    justicia: 'https://images.pexels.com/photos/5668772/pexels-photo-5668772.jpeg?auto=compress&cs=tinysrgb&w=800'
-  };
-
   // Hero slider data
   const heroSlides = [
     {
@@ -248,88 +238,74 @@ export default function ProcedureCatalog({
           {filteredProcedures.map((procedure) => (
             <div
               key={procedure.id}
-              className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-100 overflow-hidden group"
+              className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-100 group"
               onClick={() => handleProcedureClick(procedure)}
             >
-              <div className="flex flex-col lg:flex-row">
-                {/* Category Image */}
-                <div className="lg:w-48 h-48 lg:h-auto relative overflow-hidden">
-                  <img
-                    src={categoryImages[procedure.category as keyof typeof categoryImages]}
-                    alt={`Categoría ${procedure.category}`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                  <div className="absolute bottom-3 left-3">
-                    <span className="bg-white/90 backdrop-blur-sm text-gray-900 px-2 py-1 rounded-full text-xs font-medium capitalize">
-                      {procedure.category}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="flex-1 p-6">
-                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between h-full">
-                    <div className="flex-1">
-                      <div className="mb-4">
-                        <div className="flex items-center space-x-3 mb-2">
-                          <h3 className="text-xl font-semibold text-gray-900 group-hover:text-blue-800 transition-colors">
-                            {procedure.name}
-                          </h3>
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(procedure.type)}`}>
-                            {getTypeIcon(procedure.type)} {procedure.type}
-                          </span>
-                        </div>
-
-                        {procedure.subcategory && (
-                          <p className="text-sm text-blue-600 font-medium mb-2">
-                            {procedure.subcategory}
-                          </p>
-                        )}
-
-                        <p className="text-gray-600 mb-4 line-clamp-2">
-                          {procedure.description}
-                        </p>
-
-                        <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
-                          <div className="flex items-center space-x-1">
-                            <Building2 className="h-4 w-4" />
-                            <span>{procedure.institution}</span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <Clock className="h-4 w-4" />
-                            <span>{procedure.duration}</span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            {procedure.userType === 'persona' ? (
-                              <User className="h-4 w-4" />
-                            ) : procedure.userType === 'empresa' ? (
-                              <Building2 className="h-4 w-4" />
-                            ) : (
-                              <Users className="h-4 w-4" />
-                            )}
-                            <span className="capitalize">{procedure.userType}</span>
-                          </div>
-                        </div>
+              <div className="p-6">
+                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between h-full">
+                  <div className="flex-1">
+                    <div className="mb-4">
+                      <div className="flex items-center space-x-3 mb-2">
+                        <h3 className="text-xl font-semibold text-gray-900 group-hover:text-blue-800 transition-colors">
+                          {procedure.name}
+                        </h3>
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(procedure.type)}`}>
+                          {getTypeIcon(procedure.type)} {procedure.type}
+                        </span>
+                        <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs font-medium capitalize">
+                          {procedure.category}
+                        </span>
                       </div>
 
-                      {/* Additional Info */}
-                      {procedure.fecha_actualizado && (
-                        <div className="text-xs text-gray-400 mt-2">
-                          Actualizado: {new Date(procedure.fecha_actualizado).toLocaleDateString('es-GT', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                          })}
-                        </div>
+                      {procedure.subcategory && (
+                        <p className="text-sm text-blue-600 font-medium mb-2">
+                          {procedure.subcategory}
+                        </p>
                       )}
+
+                      <p className="text-gray-600 mb-4 line-clamp-2">
+                        {procedure.description}
+                      </p>
+
+                      <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
+                        <div className="flex items-center space-x-1">
+                          <Building2 className="h-4 w-4" />
+                          <span>{procedure.institution}</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <Clock className="h-4 w-4" />
+                          <span>{procedure.duration}</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          {procedure.userType === 'persona' ? (
+                            <User className="h-4 w-4" />
+                          ) : procedure.userType === 'empresa' ? (
+                            <Building2 className="h-4 w-4" />
+                          ) : (
+                            <Users className="h-4 w-4" />
+                          )}
+                          <span className="capitalize">{procedure.userType}</span>
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="mt-4 lg:mt-0 lg:ml-6 flex items-end">
-                      <button className="w-full lg:w-auto bg-blue-800 text-white px-6 py-3 rounded-lg hover:bg-blue-900 transition-colors font-medium flex items-center space-x-2 group-hover:bg-blue-900">
-                        <span>Ver información</span>
-                        <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                      </button>
+                    {/* Additional Info */}
+                    {procedure.fecha_actualizado && (
+                      <div className="text-xs text-gray-400 mt-2">
+                        Actualizado: {new Date(procedure.fecha_actualizado).toLocaleDateString('es-GT', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="mt-4 lg:mt-0 lg:ml-6 flex items-end">
+                    <button className="w-full lg:w-auto bg-blue-800 text-white px-6 py-3 rounded-lg hover:bg-blue-900 transition-colors font-medium flex items-center space-x-2 group-hover:bg-blue-900">
+                      <span>Ver información</span>
+                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </button>
                     </div>
                   </div>
                 </div>
