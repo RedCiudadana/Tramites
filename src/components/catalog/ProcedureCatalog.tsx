@@ -306,7 +306,6 @@ export default function ProcedureCatalog({
                       <span>Ver información</span>
                       <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </button>
-                    </div>
                   </div>
                 </div>
               </div>
