@@ -16,6 +16,17 @@ export interface Procedure {
   fecha_actualizado?: string;
   fecha_revision?: string;
   institutionId?: string;
+  institutionData?: {
+    id: string;
+    name: string;
+    full_name: string;
+    phone?: string;
+    email?: string;
+    website?: string;
+    address?: string;
+    working_hours?: string;
+    services?: string[];
+  };
 }
 
 export interface UserProcedure {

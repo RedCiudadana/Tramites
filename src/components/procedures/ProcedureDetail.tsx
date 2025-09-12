@@ -18,14 +18,13 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Procedure } from '../../types';
-import { getInstitutionById } from '../../data/institutions';
 
 interface ProcedureDetailProps {
   procedure: Procedure;
 }
 
 export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
-  const institution = procedure.institutionId ? getInstitutionById(procedure.institutionId) : null;
+  const institution = procedure.institutionData;
 
   const getTypeIcon = (type: string) => {
     switch (type) {
@@ -241,10 +240,10 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                     <span>Consulta el directorio telefónico oficial</span>
                   </div>
                 )}
-                
+              {institution?.working_hours && (
                 {institution?.email ? (
                   <div className="flex items-center space-x-3 text-blue-700">
-                    <Mail className="h-4 w-4" />
+                  <span>{institution.working_hours}</span>
                     <span>{institution.email}</span>
                   </div>
                 ) : (
