@@ -240,10 +240,10 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                     <span>Consulta el directorio telefónico oficial</span>
                   </div>
                 )}
-              {institution?.working_hours && (
+                
                 {institution?.email ? (
                   <div className="flex items-center space-x-3 text-blue-700">
-                  <span>{institution.working_hours}</span>
+                    <Mail className="h-4 w-4" />
                     <span>{institution.email}</span>
                   </div>
                 ) : (
