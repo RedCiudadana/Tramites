@@ -1,8 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Filter, Building2, Clock, User, Users, ChevronRight } from 'lucide-react';
+import { Search, Filter, Building2, Clock, User, Users, ChevronRight, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { procedures } from '../../data/procedures';
 import { Procedure } from '../../types';
+import HeroSlider from '../common/HeroSlider';
 
 interface ProcedureCatalogProps {
   searchQuery?: string;
@@ -19,6 +20,76 @@ export default function ProcedureCatalog({
   const [modalityFilter, setModalityFilter] = useState<string>('');
   const [showFilters, setShowFilters] = useState(false);
   const navigate = useNavigate();
+
+  // Category images mapping
+  const categoryImages = {
+    identidad: 'https://images.pexels.com/photos/5668858/pexels-photo-5668858.jpeg?auto=compress&cs=tinysrgb&w=800',
+    negocios: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800',
+    vivienda: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=800',
+    educacion: 'https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg?auto=compress&cs=tinysrgb&w=800',
+    salud: 'https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=800',
+    justicia: 'https://images.pexels.com/photos/5668772/pexels-photo-5668772.jpeg?auto=compress&cs=tinysrgb&w=800'
+  };
+
+  // Hero slider data
+  const heroSlides = [
+    {
+      id: '1',
+      title: 'Catálogo Completo',
+      subtitle: 'de Trámites Gubernamentales',
+      description: 'Encuentra toda la información verificada sobre trámites en Guatemala. Más de 120 procesos organizados por categorías con requisitos, pasos y tiempos actualizados.',
+      backgroundImage: 'https://images.pexels.com/photos/5668858/pexels-photo-5668858.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      backgroundColor: '#1e40af',
+      textColor: 'text-white',
+      buttonText: 'Explorar Trámites',
+      buttonAction: () => {
+        document.getElementById('tramites-section')?.scrollIntoView({ behavior: 'smooth' });
+      },
+      stats: [
+        { label: 'Trámites', value: '120+' },
+        { label: 'Instituciones', value: '25+' },
+        { label: 'Categorías', value: '6' },
+        { label: 'Actualizaciones', value: 'Diarias' }
+      ]
+    },
+    {
+      id: '2',
+      title: 'Información Verificada',
+      subtitle: 'por Red Ciudadana',
+      description: 'Nuestro equipo de investigación ciudadana verifica constantemente la información con fuentes oficiales para garantizar datos precisos y actualizados.',
+      backgroundImage: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      backgroundColor: '#059669',
+      textColor: 'text-white',
+      buttonText: 'Conocer Metodología',
+      buttonAction: () => navigate('/ayuda'),
+      stats: [
+        { label: 'Verificaciones', value: 'Semanales' },
+        { label: 'Fuentes', value: 'Oficiales' },
+        { label: 'Precisión', value: '95%+' },
+        { label: 'Colaboradores', value: '50+' }
+      ]
+    },
+    {
+      id: '3',
+      title: 'Trámites Digitales',
+      subtitle: 'y Presenciales',
+      description: 'Identifica fácilmente qué trámites puedes hacer completamente en línea y cuáles requieren visitas presenciales. Ahorra tiempo y planifica mejor.',
+      backgroundImage: 'https://images.pexels.com/photos/5668772/pexels-photo-5668772.jpeg?auto=compress&cs=tinysrgb&w=1600',
+      backgroundColor: '#7c3aed',
+      textColor: 'text-white',
+      buttonText: 'Ver Trámites Digitales',
+      buttonAction: () => {
+        setModalityFilter('digital');
+        document.getElementById('tramites-section')?.scrollIntoView({ behavior: 'smooth' });
+      },
+      stats: [
+        { label: 'Digitales', value: '40%' },
+        { label: 'Mixtos', value: '35%' },
+        { label: 'Presenciales', value: '25%' },
+        { label: 'Crecimiento', value: '+15%' }
+      ]
+    }
+  ];
 
   const filteredProcedures = useMemo(() => {
     return procedures.filter(procedure => {
@@ -59,6 +130,14 @@ export default function ProcedureCatalog({
 
   return (
     <div className="bg-gray-50">
+      {/* Hero Slider */}
+      <HeroSlider 
+        slides={heroSlides}
+        autoPlay={true}
+        autoPlayInterval={6000}
+        height="h-[500px] md:h-[600px]"
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumbs */}
         <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-6">
@@ -165,31 +244,53 @@ export default function ProcedureCatalog({
         </div>
 
         {/* Results */}
-        <div className="grid gap-6">
+        <div id="tramites-section" className="grid gap-6">
           {filteredProcedures.map((procedure) => (
             <div
               key={procedure.id}
-              className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer border border-gray-100"
+              className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-100 overflow-hidden group"
               onClick={() => handleProcedureClick(procedure)}
             >
-              <div className="p-6">
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-start space-x-4">
-                      <div className="flex-1">
+              <div className="flex flex-col lg:flex-row">
+                {/* Category Image */}
+                <div className="lg:w-48 h-48 lg:h-auto relative overflow-hidden">
+                  <img
+                    src={categoryImages[procedure.category as keyof typeof categoryImages]}
+                    alt={`Categoría ${procedure.category}`}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                  <div className="absolute bottom-3 left-3">
+                    <span className="bg-white/90 backdrop-blur-sm text-gray-900 px-2 py-1 rounded-full text-xs font-medium capitalize">
+                      {procedure.category}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 p-6">
+                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between h-full">
+                    <div className="flex-1">
+                      <div className="mb-4">
                         <div className="flex items-center space-x-3 mb-2">
-                          <h3 className="text-xl font-semibold text-gray-900">
+                          <h3 className="text-xl font-semibold text-gray-900 group-hover:text-blue-800 transition-colors">
                             {procedure.name}
                           </h3>
                           <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(procedure.type)}`}>
                             {getTypeIcon(procedure.type)} {procedure.type}
                           </span>
                         </div>
-                        
-                        <p className="text-gray-600 mb-3">
+
+                        {procedure.subcategory && (
+                          <p className="text-sm text-blue-600 font-medium mb-2">
+                            {procedure.subcategory}
+                          </p>
+                        )}
+
+                        <p className="text-gray-600 mb-4 line-clamp-2">
                           {procedure.description}
                         </p>
-                        
+
                         <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
                           <div className="flex items-center space-x-1">
                             <Building2 className="h-4 w-4" />
@@ -211,13 +312,25 @@ export default function ProcedureCatalog({
                           </div>
                         </div>
                       </div>
+
+                      {/* Additional Info */}
+                      {procedure.fecha_actualizado && (
+                        <div className="text-xs text-gray-400 mt-2">
+                          Actualizado: {new Date(procedure.fecha_actualizado).toLocaleDateString('es-GT', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </div>
+                      )}
                     </div>
-                  </div>
-                  
-                  <div className="mt-4 lg:mt-0 lg:ml-6">
-                    <button className="w-full lg:w-auto bg-blue-800 text-white px-6 py-2 rounded-lg hover:bg-blue-900 transition-colors font-medium">
-                      Ver información
-                    </button>
+
+                    <div className="mt-4 lg:mt-0 lg:ml-6 flex items-end">
+                      <button className="w-full lg:w-auto bg-blue-800 text-white px-6 py-3 rounded-lg hover:bg-blue-900 transition-colors font-medium flex items-center space-x-2 group-hover:bg-blue-900">
+                        <span>Ver información</span>
+                        <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -227,7 +340,7 @@ export default function ProcedureCatalog({
 
         {filteredProcedures.length === 0 && (
           <div className="text-center py-12">
-            <div className="text-gray-400 mb-4">
+            <div className="text-gray-400 mb-6">
               <Search className="h-16 w-16 mx-auto" />
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">
@@ -236,6 +349,18 @@ export default function ProcedureCatalog({
             <p className="text-gray-600">
               Intenta ajustar los filtros o cambia los términos de búsqueda
             </p>
+            <div className="mt-6">
+              <button
+                onClick={() => {
+                  setLocalSearchQuery('');
+                  setUserTypeFilter('');
+                  setModalityFilter('');
+                }}
+                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              >
+                Limpiar filtros
+              </button>
+            </div>
           </div>
         )}
       </div>
