@@ -18,7 +18,7 @@ export interface Database {
           id: string;
           name: string;
           full_name: string;
-          description: string;
+          description: string | null;
           category: string;
           website: string | null;
           phone: string | null;
@@ -32,10 +32,10 @@ export interface Database {
           updated_at: string;
         };
         Insert: {
-          id: string;
+          id?: string;
           name: string;
           full_name: string;
-          description: string;
+          description?: string | null;
           category: string;
           website?: string | null;
           phone?: string | null;
@@ -52,7 +52,7 @@ export interface Database {
           id?: string;
           name?: string;
           full_name?: string;
-          description?: string;
+          description?: string | null;
           category?: string;
           website?: string | null;
           phone?: string | null;
@@ -88,7 +88,7 @@ export interface Database {
           updated_at: string;
         };
         Insert: {
-          id: string;
+          id?: string;
           name: string;
           description: string;
           full_description: string;
