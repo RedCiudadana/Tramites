@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { Search, Filter, Building2, Clock, User, Users, ChevronRight, ArrowRight } from 'lucide-react';
-import { procedures } from '../../data/procedures';
 import HeroSlider from '../common/HeroSlider';
 import { useProcedures } from '../../hooks/useProcedures';
 
