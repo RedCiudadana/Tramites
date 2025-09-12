@@ -37,6 +37,7 @@ export const procedures: Procedure[] = [
     isDigital: true,
     subcategory: 'Documentos de identidad',
     respaldo_legal: 'Decreto 90-2005 - Ley del Registro Nacional de las Personas',
+    institutionId: 'renap',
     fecha_actualizado: '2024-12-15',
     fecha_revision: '2024-12-20'
   },
@@ -68,6 +69,7 @@ export const procedures: Procedure[] = [
     isDigital: false,
     subcategory: 'Registro empresarial',
     respaldo_legal: 'Código de Comercio - Decreto 2-70',
+    institutionId: 'registro-mercantil',
     fecha_actualizado: '2024-11-20',
     fecha_revision: '2024-12-18'
   },
@@ -100,6 +102,7 @@ export const procedures: Procedure[] = [
     isDigital: false,
     subcategory: 'Permisos municipales',
     respaldo_legal: 'Código Municipal - Decreto 12-2002',
+    institutionId: 'municipalidad-guatemala',
     fecha_actualizado: '2024-10-30',
     fecha_revision: '2024-12-15'
   },
@@ -132,6 +135,7 @@ export const procedures: Procedure[] = [
     isDigital: true,
     subcategory: 'Educación superior',
     respaldo_legal: 'Ley Orgánica de la Universidad de San Carlos - Decreto 325',
+    institutionId: 'usac',
     fecha_actualizado: '2024-12-01',
     fecha_revision: '2024-12-22'
   },
@@ -162,6 +166,7 @@ export const procedures: Procedure[] = [
     isDigital: false,
     subcategory: 'Certificaciones médicas',
     respaldo_legal: 'Código de Salud - Decreto 90-97',
+    institutionId: 'mspas',
     fecha_actualizado: '2024-11-15',
     fecha_revision: '2024-12-19'
   },
@@ -192,6 +197,7 @@ export const procedures: Procedure[] = [
     isDigital: true,
     subcategory: 'Certificaciones judiciales',
     respaldo_legal: 'Ley del Organismo Judicial - Decreto 2-89',
+    institutionId: 'organismo-judicial',
     fecha_actualizado: '2024-12-10',
     fecha_revision: '2024-12-21'
   }

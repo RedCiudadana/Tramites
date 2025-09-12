@@ -15,6 +15,7 @@ export interface Procedure {
   respaldo_legal?: string;
   fecha_actualizado?: string;
   fecha_revision?: string;
+  institutionId?: string;
 }
 
 export interface UserProcedure {
@@ -31,6 +32,28 @@ export interface Category {
   name: string;
   icon: string;
   count: number;
+}
+
+export interface Institution {
+  id: string;
+  name: string;
+  fullName: string;
+  description: string;
+  category: string;
+  website?: string;
+  phone?: string;
+  email?: string;
+  address?: string;
+  workingHours?: string;
+  services: string[];
+  isDigitalEnabled: boolean;
+  logo?: string;
+  socialMedia?: {
+    facebook?: string;
+    twitter?: string;
+    instagram?: string;
+  };
+  lastUpdated: string;
 }
 
 export interface FormData {
