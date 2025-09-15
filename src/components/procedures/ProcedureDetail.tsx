@@ -14,7 +14,6 @@ import {
   Globe,
   Calendar,
   AlertCircle,
-  Info
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Procedure } from '../../types';

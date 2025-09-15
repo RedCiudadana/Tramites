@@ -1,12 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Search, Filter, Building2, Clock, User, Users, ChevronRight, ArrowRight } from 'lucide-react';
 import HeroSlider from '../common/HeroSlider';
 import { useProcedures } from '../../hooks/useProcedures';
+import { Search, Filter, Building2, Clock, User, Users, ChevronRight, ArrowRight } from 'lucide-react';
 
 interface ProcedureCatalogProps {
   searchQuery?: string;
   selectedCategory?: string;
+  Procedure?: any;
 }
 
 export default function ProcedureCatalog({ 
@@ -20,7 +21,6 @@ export default function ProcedureCatalog({
   const [showFilters, setShowFilters] = useState(false);
   const navigate = useNavigate();
 
-  // Fetch procedures from Supabase
   const { procedures, loading, error } = useProcedures({
     category: selectedCategory || undefined,
     type: modalityFilter || undefined,
