@@ -42,6 +42,9 @@ export default function ObservatoryDashboard() {
   const [viewMode, setViewMode] = useState<'overview' | 'detailed'>('overview');
   const [activeTab, setActiveTab] = useState<'dashboard' | 'analysis'>('dashboard');
 
+  // Check if we have data
+  const hasData = observatoryData.length > 0;
+
   const getMaturityColor = (level: number) => {
     if (level >= 4.5) return 'bg-green-500 text-white';
     if (level >= 3.5) return 'bg-blue-500 text-white';
@@ -69,7 +72,7 @@ export default function ObservatoryDashboard() {
   const overallStats = {
     totalProcedures: observatoryData.length,
     totalInstitutions: [...new Set(observatoryData.map(item => item.category))].length,
-    averageEvaluation: Math.round(observatoryData.reduce((sum, item) => sum + item.evaluationScore, 0) / observatoryData.length),
+    averageEvaluation: observatoryData.length > 0 ? Math.round(observatoryData.reduce((sum, item) => sum + item.evaluationScore, 0) / observatoryData.length) : 0,
     digitalProcedures: observatoryData.filter(item => item.isDigital).length,
     excellentProcedures: observatoryData.filter(item => item.maturityLevel >= 4.5).length,
     bestProcedures: observatoryData
@@ -113,8 +116,24 @@ export default function ObservatoryDashboard() {
 
   const renderDashboard = () => (
     <div className="space-y-8">
+      {!hasData && (
+        <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-8 text-center">
+          <div className="text-yellow-600 mb-4">
+            <BarChart3 className="h-16 w-16 mx-auto" />
+          </div>
+          <h3 className="text-xl font-semibold text-yellow-800 mb-2">
+            Observatorio en Desarrollo
+          </h3>
+          <p className="text-yellow-700 max-w-2xl mx-auto">
+            El Observatorio Ciudadano está siendo desarrollado para proporcionar análisis en tiempo real 
+            de la eficiencia de los trámites gubernamentales. Próximamente estará disponible con datos 
+            verificados y actualizados.
+          </p>
+        </div>
+      )}
+
       {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ${!hasData ? 'opacity-50' : ''}`}>
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
           <div className="flex items-center justify-between">
             <div>
@@ -166,7 +185,7 @@ export default function ObservatoryDashboard() {
       </div>
 
       {/* Charts Row 1 */}
-      <div className="grid lg:grid-cols-2 gap-8">
+      <div className={`grid lg:grid-cols-2 gap-8 ${!hasData ? 'opacity-50' : ''}`}>
         {/* Maturity Distribution */}
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Distribución por Nivel de Madurez</h3>
@@ -223,7 +242,7 @@ export default function ObservatoryDashboard() {
       </div>
 
       {/* Charts Row 2 */}
-      <div className="grid lg:grid-cols-2 gap-8">
+      <div className={`grid lg:grid-cols-2 gap-8 ${!hasData ? 'opacity-50' : ''}`}>
         {/* Category Performance */}
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Rendimiento por Categoría</h3>
@@ -256,38 +275,44 @@ export default function ObservatoryDashboard() {
       </div>
 
       {/* Best Procedures */}
-      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+      <div className={`bg-white rounded-xl p-6 shadow-sm border border-gray-100 ${!hasData ? 'opacity-50' : ''}`}>
         <div className="flex items-center space-x-3 mb-6">
           <Award className="h-6 w-6 text-yellow-600" />
           <h3 className="text-xl font-semibold text-gray-900">Mejores Trámites</h3>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {overallStats.bestProcedures.map((procedure, index) => (
-            <div key={procedure.id} className="bg-gradient-to-br from-green-50 to-blue-50 rounded-lg p-4 border border-green-100">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center space-x-2">
-                  <div className="bg-yellow-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">
-                    {index + 1}
+        {hasData ? (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {overallStats.bestProcedures.map((procedure, index) => (
+              <div key={procedure.id} className="bg-gradient-to-br from-green-50 to-blue-50 rounded-lg p-4 border border-green-100">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center space-x-2">
+                    <div className="bg-yellow-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">
+                      {index + 1}
+                    </div>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getMaturityColor(procedure.maturityLevel)}`}>
+                      {procedure.maturityLevel.toFixed(1)}
+                    </span>
                   </div>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getMaturityColor(procedure.maturityLevel)}`}>
-                    {procedure.maturityLevel.toFixed(1)}
-                  </span>
+                  {procedure.isDigital && (
+                    <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+                      Digital
+                    </span>
+                  )}
                 </div>
-                {procedure.isDigital && (
-                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
-                    Digital
-                  </span>
-                )}
+                <h4 className="font-semibold text-gray-900 mb-1">{procedure.name}</h4>
+                <div className="text-sm text-gray-600 space-y-1">
+                  <p>⏱️ {procedure.averageTime}</p>
+                  <p>👥 {procedure.monthlyUsers.toLocaleString()} usuarios/mes</p>
+                  <p>⭐ {procedure.satisfactionRate}% satisfacción</p>
+                </div>
               </div>
-              <h4 className="font-semibold text-gray-900 mb-1">{procedure.name}</h4>
-              <div className="text-sm text-gray-600 space-y-1">
-                <p>⏱️ {procedure.averageTime}</p>
-                <p>👥 {procedure.monthlyUsers.toLocaleString()} usuarios/mes</p>
-                <p>⭐ {procedure.satisfactionRate}% satisfacción</p>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8">
+            <p className="text-gray-500">Los mejores trámites se mostrarán aquí una vez que los datos estén disponibles.</p>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -341,8 +366,23 @@ export default function ObservatoryDashboard() {
         {/* Content based on active tab */}
         {activeTab === 'dashboard' ? renderDashboard() : (
           <>
+            {!hasData && (
+              <div className="bg-blue-50 border border-blue-200 rounded-xl p-8 text-center mb-8">
+                <div className="text-blue-600 mb-4">
+                  <BarChart3 className="h-12 w-12 mx-auto" />
+                </div>
+                <h3 className="text-lg font-semibold text-blue-800 mb-2">
+                  Análisis Detallado en Desarrollo
+                </h3>
+                <p className="text-blue-700">
+                  El análisis detallado de trámites estará disponible próximamente con datos reales 
+                  de eficiencia y satisfacción ciudadana.
+                </p>
+              </div>
+            )}
+
             {/* Filters and Controls */}
-            <div className="bg-white rounded-xl shadow-sm p-6 mb-8 border border-gray-100">
+            <div className={`bg-white rounded-xl shadow-sm p-6 mb-8 border border-gray-100 ${!hasData ? 'opacity-50' : ''}`}>
               <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
                 <div className="flex flex-col sm:flex-row gap-4 flex-1">
                   <div>
@@ -400,152 +440,166 @@ export default function ObservatoryDashboard() {
             </div>
 
             {/* Procedures Analysis */}
-            <div className="space-y-6">
-              {filteredData.map((item) => (
-                <div key={item.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                  <div className="p-6">
-                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-3 mb-4">
-                          <h3 className="text-xl font-semibold text-gray-900">{item.name}</h3>
-                          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getMaturityColor(item.maturityLevel)}`}>
-                            {item.maturityLevel.toFixed(1)} - {getMaturityLabel(item.maturityLevel)}
-                          </span>
-                          {item.isDigital && (
-                            <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
-                              Digital
+            {hasData ? (
+              <div className="space-y-6">
+                {filteredData.map((item) => (
+                  <div key={item.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div className="p-6">
+                      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-3 mb-4">
+                            <h3 className="text-xl font-semibold text-gray-900">{item.name}</h3>
+                            <span className={`px-3 py-1 rounded-full text-sm font-medium ${getMaturityColor(item.maturityLevel)}`}>
+                              {item.maturityLevel.toFixed(1)} - {getMaturityLabel(item.maturityLevel)}
                             </span>
-                          )}
-                        </div>
+                            {item.isDigital && (
+                              <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+                                Digital
+                              </span>
+                            )}
+                          </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                          <div className="flex items-center space-x-2 text-sm text-gray-600">
-                            <Clock className="h-4 w-4" />
-                            <span>Tiempo promedio: {item.averageTime}</span>
-                          </div>
-                          <div className="flex items-center space-x-2 text-sm text-gray-600">
-                            <Users className="h-4 w-4" />
-                            <span>Usuarios/mes: {item.monthlyUsers.toLocaleString()}</span>
-                          </div>
-                          <div className="flex items-center space-x-2 text-sm text-gray-600">
-                            <TrendingUp className="h-4 w-4" />
-                            <span>Satisfacción: {item.satisfactionRate}%</span>
-                          </div>
-                        </div>
-
-                        {viewMode === 'detailed' && (
-                          <div className="space-y-4">
-                            {/* Evaluation Score */}
-                            <div>
-                              <div className="bg-blue-50 rounded-lg p-4 mb-4">
-                                <div className="flex items-center justify-between mb-2">
-                                  <h4 className="font-semibold text-blue-900">Puntaje de Evaluación</h4>
-                                  <span className="text-2xl font-bold text-blue-800">{item.evaluationScore}%</span>
-                                </div>
-                                <div className="w-full bg-blue-200 rounded-full h-3">
-                                  <div 
-                                    className="bg-blue-600 h-3 rounded-full transition-all duration-500" 
-                                    style={{ width: `${item.evaluationScore}%` }}
-                                  ></div>
-                                </div>
-                              </div>
-                              
-                              <h4 className="font-medium text-gray-900 mb-3">Componentes de Evaluación</h4>
-                              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                {Object.entries(item.evaluationComponents).map(([component, score]) => {
-                                  const componentLabels: Record<string, string> = {
-                                    digitalizacion: '4.1 Digitalización',
-                                    simplificacion: '4.2 Simplificación',
-                                    interoperabilidad: '4.3 Interoperabilidad',
-                                    trazabilidad: '4.4 Trazabilidad',
-                                    accesibilidad: '4.5 Accesibilidad',
-                                    satisfaccionUsuario: '4.6 Satisfacción del Usuario'
-                                  };
-                                  
-                                  return (
-                                    <div key={component} className="bg-gray-50 p-3 rounded-lg">
-                                      <div className="flex justify-between items-center mb-2">
-                                        <span className="text-sm font-medium text-gray-700 capitalize">
-                                          {componentLabels[component]}
-                                        </span>
-                                        <span className="text-sm font-bold text-gray-900">{score}/5</span>
-                                      </div>
-                                      <div className="w-full bg-gray-200 rounded-full h-2">
-                                        <div 
-                                          className={`h-2 rounded-full ${
-                                            score >= 4.5 ? 'bg-green-500' :
-                                            score >= 3.5 ? 'bg-blue-500' :
-                                            score >= 2.5 ? 'bg-yellow-500' : 'bg-red-500'
-                                          }`}
-                                          style={{ width: `${(score / 5) * 100}%` }}
-                                        ></div>
-                                      </div>
-                                    </div>
-                                  );
-                                })}
-                              </div>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div className="flex items-center space-x-2 text-sm text-gray-600">
+                              <Clock className="h-4 w-4" />
+                              <span>Tiempo promedio: {item.averageTime}</span>
                             </div>
+                            <div className="flex items-center space-x-2 text-sm text-gray-600">
+                              <Users className="h-4 w-4" />
+                              <span>Usuarios/mes: {item.monthlyUsers.toLocaleString()}</span>
+                            </div>
+                            <div className="flex items-center space-x-2 text-sm text-gray-600">
+                              <TrendingUp className="h-4 w-4" />
+                              <span>Satisfacción: {item.satisfactionRate}%</span>
+                            </div>
+                          </div>
 
-                            {/* Issues and Recommendations */}
-                            {item.issues.length > 0 && (
+                          {viewMode === 'detailed' && (
+                            <div className="space-y-4">
+                              {/* Evaluation Score */}
+                              <div>
+                                <div className="bg-blue-50 rounded-lg p-4 mb-4">
+                                  <div className="flex items-center justify-between mb-2">
+                                    <h4 className="font-semibold text-blue-900">Puntaje de Evaluación</h4>
+                                    <span className="text-2xl font-bold text-blue-800">{item.evaluationScore}%</span>
+                                  </div>
+                                  <div className="w-full bg-blue-200 rounded-full h-3">
+                                    <div 
+                                      className="bg-blue-600 h-3 rounded-full transition-all duration-500" 
+                                      style={{ width: `${item.evaluationScore}%` }}
+                                    ></div>
+                                  </div>
+                                </div>
+                                
+                                <h4 className="font-medium text-gray-900 mb-3">Componentes de Evaluación</h4>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                  {Object.entries(item.evaluationComponents).map(([component, score]) => {
+                                    const componentLabels: Record<string, string> = {
+                                      digitalizacion: '4.1 Digitalización',
+                                      simplificacion: '4.2 Simplificación',
+                                      interoperabilidad: '4.3 Interoperabilidad',
+                                      trazabilidad: '4.4 Trazabilidad',
+                                      accesibilidad: '4.5 Accesibilidad',
+                                      satisfaccionUsuario: '4.6 Satisfacción del Usuario'
+                                    };
+                                    
+                                    return (
+                                      <div key={component} className="bg-gray-50 p-3 rounded-lg">
+                                        <div className="flex justify-between items-center mb-2">
+                                          <span className="text-sm font-medium text-gray-700 capitalize">
+                                            {componentLabels[component]}
+                                          </span>
+                                          <span className="text-sm font-bold text-gray-900">{score}/5</span>
+                                        </div>
+                                        <div className="w-full bg-gray-200 rounded-full h-2">
+                                          <div 
+                                            className={`h-2 rounded-full ${
+                                              score >= 4.5 ? 'bg-green-500' :
+                                              score >= 3.5 ? 'bg-blue-500' :
+                                              score >= 2.5 ? 'bg-yellow-500' : 'bg-red-500'
+                                            }`}
+                                            style={{ width: `${(score / 5) * 100}%` }}
+                                          ></div>
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+
+                              {/* Issues and Recommendations */}
+                              {item.issues.length > 0 && (
+                                <div>
+                                  <h4 className="font-medium text-gray-900 mb-3 flex items-center space-x-2">
+                                    <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                                    <span>Áreas de Mejora</span>
+                                  </h4>
+                                  <ul className="space-y-2">
+                                    {item.issues.map((issue, index) => (
+                                      <li key={index} className="flex items-start space-x-2 text-sm text-gray-700">
+                                        <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0"></div>
+                                        <span>{issue}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+
                               <div>
                                 <h4 className="font-medium text-gray-900 mb-3 flex items-center space-x-2">
-                                  <AlertTriangle className="h-4 w-4 text-yellow-500" />
-                                  <span>Áreas de Mejora</span>
+                                  <CheckCircle className="h-4 w-4 text-green-500" />
+                                  <span>Recomendaciones</span>
                                 </h4>
                                 <ul className="space-y-2">
-                                  {item.issues.map((issue, index) => (
+                                  {item.recommendations.map((recommendation, index) => (
                                     <li key={index} className="flex items-start space-x-2 text-sm text-gray-700">
-                                      <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2 flex-shrink-0"></div>
-                                      <span>{issue}</span>
+                                      <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                                      <span>{recommendation}</span>
                                     </li>
                                   ))}
                                 </ul>
                               </div>
-                            )}
-
-                            <div>
-                              <h4 className="font-medium text-gray-900 mb-3 flex items-center space-x-2">
-                                <CheckCircle className="h-4 w-4 text-green-500" />
-                                <span>Recomendaciones</span>
-                              </h4>
-                              <ul className="space-y-2">
-                                {item.recommendations.map((recommendation, index) => (
-                                  <li key={index} className="flex items-start space-x-2 text-sm text-gray-700">
-                                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                                    <span>{recommendation}</span>
-                                  </li>
-                                ))}
-                              </ul>
                             </div>
-                          </div>
-                        )}
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Progress Bar */}
+                      <div className="px-6 pb-4">
+                        <div className="flex justify-between text-xs text-gray-500 mb-1">
+                          <span>Nivel de Madurez</span>
+                          <span>{item.maturityLevel.toFixed(1)}/5.0</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div 
+                            className={`h-2 rounded-full ${
+                              item.maturityLevel >= 4.5 ? 'bg-green-500' :
+                              item.maturityLevel >= 3.5 ? 'bg-blue-500' :
+                              item.maturityLevel >= 2.5 ? 'bg-yellow-500' : 'bg-red-500'
+                            }`}
+                            style={{ width: `${(item.maturityLevel / 5) * 100}%` }}
+                          ></div>
+                        </div>
                       </div>
                     </div>
                   </div>
-
-                  {/* Progress Bar */}
-                  <div className="px-6 pb-4">
-                    <div className="flex justify-between text-xs text-gray-500 mb-1">
-                      <span>Nivel de Madurez</span>
-                      <span>{item.maturityLevel.toFixed(1)}/5.0</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div 
-                        className={`h-2 rounded-full ${
-                          item.maturityLevel >= 4.5 ? 'bg-green-500' :
-                          item.maturityLevel >= 3.5 ? 'bg-blue-500' :
-                          item.maturityLevel >= 2.5 ? 'bg-yellow-500' : 'bg-red-500'
-                        }`}
-                        style={{ width: `${(item.maturityLevel / 5) * 100}%` }}
-                      ></div>
-                    </div>
-                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <div className="text-gray-400 mb-4">
+                  <BarChart3 className="h-16 w-16 mx-auto" />
                 </div>
-              ))}
-            </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  Datos del Observatorio no Disponibles
+                </h3>
+                <p className="text-gray-600">
+                  Los datos de análisis detallado estarán disponibles próximamente
+                </p>
+              </div>
+            )}
 
-            {filteredData.length === 0 && (
+            {hasData && filteredData.length === 0 && (
               <div className="text-center py-12">
                 <div className="text-gray-400 mb-4">
                   <BarChart3 className="h-16 w-16 mx-auto" />
