@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, User, Building2, GraduationCap, Heart, Scale, MapPin, FileText, AlignCenterVertical as Certificate, Phone, Building, FileCheck, BookOpen, Award, FileHeart, Shield, Gavel, Home, Receipt, Search } from 'lucide-react';
+import { ArrowRight, User, Building2, GraduationCap, Heart, Scale, MapPin, FileText, AlignCenterVertical as Certificate, Phone, Building, FileCheck, BookOpen, Award, FileHeart, Shield, Gavel, Home, Receipt, Search, Briefcase, Leaf } from 'lucide-react';
 import { categories } from '../../data/procedures';
 
 // Create icon map for dynamic access
@@ -22,7 +22,9 @@ const iconMap = {
   Shield,
   Gavel,
   Home,
-  Receipt
+  Receipt,
+  Briefcase,
+  Leaf
 };
 
 export default function CategoriesSection() {
