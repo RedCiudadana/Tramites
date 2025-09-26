@@ -38,79 +38,79 @@ export default function CategoriesSection() {
   // Calculate real category counts from Supabase data
   const categoryMapping = [
     {
-      id: 'comunicaciones-y-transporte',
+      id: 'Comunicaciones y Transporte',
       name: 'Comunicaciones y Transporte',
       icon: 'Phone',
       dbCategory: 'Comunicaciones y Transporte'
     },
     {
-      id: 'economia',
+      id: 'Economía',
       name: 'Economía',
       icon: 'Building2',
       dbCategory: 'Economía'
     },
     {
-      id: 'educacion-cultura-deporte',
+      id: 'Educación, Cultura y Deporte',
       name: 'Educación, Cultura y Deporte',
       icon: 'GraduationCap',
       dbCategory: 'Educación, Cultura y Deporte'
     },
     {
-      id: 'energia',
+      id: 'Energía',
       name: 'Energía',
       icon: 'Zap',
       dbCategory: 'Energía'
     },
     {
-      id: 'inscripciones-registros',
+      id: 'Inscripciones y Registros',
       name: 'Inscripciones y Registros',
       icon: 'FileText',
       dbCategory: 'Inscripciones y Registros'
     },
     {
-      id: 'manejo-animales-vegetales',
+      id: 'Manejo de Animales y Vegetales',
       name: 'Manejo de Animales y Vegetales',
       icon: 'Heart',
       dbCategory: 'Manejo de Animales y Vegetales'
     },
     {
-      id: 'mediacion-dialogo',
+      id: 'Mediación y Diálogo',
       name: 'Mediación y Diálogo',
       icon: 'Users',
       dbCategory: 'Mediación y Diálogo'
     },
     {
-      id: 'medio-ambiente',
+      id: 'Medio Ambiente',
       name: 'Medio Ambiente',
       icon: 'Globe',
       dbCategory: 'Medio Ambiente'
     },
     {
-      id: 'salud',
+      id: 'Salud',
       name: 'Salud',
       icon: 'Heart',
       dbCategory: 'Salud'
     },
     {
-      id: 'seguridad',
+      id: 'Seguridad',
       name: 'Seguridad',
       icon: 'Shield',
       dbCategory: 'Seguridad'
     },
     {
-      id: 'servicios-migracion',
+      id: 'Servicios de Migración',
       name: 'Servicios de Migración',
       icon: 'Globe',
       dbCategory: 'Servicios de Migración'
     },
     {
-      id: 'territorio-vivienda-infraestructura',
+      id: 'Territorio, Vivienda e Infraestructura',
       name: 'Territorio, Vivienda e Infraestructura',
       icon: 'MapPin',
       dbCategory: 'Territorio, Vivienda e Infraestructura'
     },
     {
-      id: 'trabajo',
+      id: 'Trabajo',
       name: 'Trabajo',
       icon: 'Briefcase',
       dbCategory: 'Trabajo'

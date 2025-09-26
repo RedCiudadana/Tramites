@@ -16,30 +16,35 @@ export default function ProcedureCatalog({
 }: ProcedureCatalogProps) {
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
   const [institutionFilter, setInstitutionFilter] = useState<string>('');
-  const [categoryFilter, setCategoryFilter] = useState<string>(selectedCategory);
+  const [categoryFilter, setCategoryFilter] = useState<string>('');
   const [subcategoryFilter, setSubcategoryFilter] = useState<string>('');
   const [showFilters, setShowFilters] = useState(false);
   const navigate = useNavigate();
 
   // Use hooks to fetch data from Supabase
   const { procedures: allProcedures, loading: allLoading } = useProcedures();
-  const { procedures: searchResults, loading: searchLoading } = useProcedureSearch(
-    localSearchQuery || searchQuery, 
-    selectedCategory
-  );
+  const { procedures: searchResults, loading: searchLoading } = useProcedureSearch(localSearchQuery || searchQuery);
 
   const loading = allLoading || searchLoading;
-  const procedures = (localSearchQuery || searchQuery || selectedCategory) ? searchResults : allProcedures;
+  const procedures = (localSearchQuery || searchQuery) ? searchResults : allProcedures;
 
   const filteredProcedures = useMemo(() => {
-    return procedures.filter(procedure => {
+    let filtered = procedures;
+    
+    // Apply selected category from URL parameter first
+    if (selectedCategory) {
+      filtered = filtered.filter(procedure => procedure.category === selectedCategory);
+    }
+    
+    // Then apply other filters
+    return filtered.filter(procedure => {
       const matchesInstitution = institutionFilter === '' || procedure.institutions?.name === institutionFilter;
       const matchesCategory = categoryFilter === '' || procedure.category === categoryFilter;
       const matchesSubcategory = subcategoryFilter === '' || procedure.subcategory === subcategoryFilter;
       
       return matchesInstitution && matchesCategory && matchesSubcategory;
     });
-  }, [procedures, institutionFilter, categoryFilter, subcategoryFilter]);
+  }, [procedures, selectedCategory, institutionFilter, categoryFilter, subcategoryFilter]);
 
   // Get unique values for filter options
   const institutions = useMemo(() => {
