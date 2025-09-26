@@ -3,6 +3,7 @@ import { Search, Filter, Building2, Clock, User, Users, ChevronRight, ArrowRight
 import { Link, useNavigate } from 'react-router-dom';
 import { useProcedures, useProcedureSearch } from '../../hooks/useProcedures';
 import { Procedure } from '../../lib/supabase';
+import loader from '../../assets/loader.gif';
 
 interface ProcedureCatalogProps {
   searchQuery?: string;
@@ -83,7 +84,7 @@ export default function ProcedureCatalog({
       <div className="bg-gray-50 min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <img src={loader} alt="Cargando..." className="h-16 w-16 mx-auto mb-4" />
             <p className="text-gray-600">Cargando trámites...</p>
           </div>
         </div>
