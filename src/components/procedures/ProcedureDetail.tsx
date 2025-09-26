@@ -17,7 +17,7 @@ import {
   Info
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Procedure } from '../../types';
+import { Procedure } from '../../lib/supabase';
 
 interface ProcedureDetailProps {
   procedure: Procedure;
@@ -42,8 +42,8 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
     }
   };
 
-  const getUserTypeIcon = (userType: string) => {
-    switch (userType) {
+  const getUserTypeIcon = (user_type: string) => {
+    switch (user_type) {
       case 'persona': return <User className="h-4 w-4" />;
       case 'empresa': return <Building2 className="h-4 w-4" />;
       case 'ambos': return <Users className="h-4 w-4" />;
@@ -51,6 +51,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
     }
   };
 
+  const institutionName = procedure.institutions?.name || 'N/A';
   return (
     <div className="bg-gray-50 min-h-screen">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -83,7 +84,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
               )}
 
               <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                {procedure.fullDescription}
+                {procedure.full_description}
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -91,7 +92,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                   <Building2 className="h-6 w-6 text-blue-600" />
                   <div>
                     <p className="text-sm text-blue-600 font-medium">Institución</p>
-                    <p className="font-semibold text-blue-900">{procedure.institution}</p>
+                    <p className="font-semibold text-blue-900">{institutionName}</p>
                   </div>
                 </div>
 
@@ -104,10 +105,10 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                 </div>
 
                 <div className="flex items-center space-x-3 p-4 bg-purple-50 rounded-lg">
-                  {getUserTypeIcon(procedure.userType)}
+                  {getUserTypeIcon(procedure.user_type)}
                   <div>
                     <p className="text-sm text-purple-600 font-medium">Dirigido a</p>
-                    <p className="font-semibold text-purple-900 capitalize">{procedure.userType}</p>
+                    <p className="font-semibold text-purple-900 capitalize">{procedure.user_type}</p>
                   </div>
                 </div>
               </div>
@@ -202,7 +203,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <h3 className="font-semibold text-blue-900 mb-3">Institución Responsable</h3>
-              <p className="text-blue-800 text-lg font-medium mb-4">{procedure.institution}</p>
+              <p className="text-blue-800 text-lg font-medium mb-4">{institutionName}</p>
               
               <div className="space-y-3">
                 <div className="flex items-center space-x-3 text-blue-700">
@@ -228,7 +229,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                   className="flex items-center space-x-3 text-blue-700 hover:text-blue-900 transition-colors"
                 >
                   <Globe className="h-4 w-4" />
-                  <span>Sitio web oficial de {procedure.institution}</span>
+                  <span>Sitio web oficial de {institutionName}</span>
                   <ExternalLink className="h-3 w-3" />
                 </a>
                 <div className="flex items-center space-x-3 text-blue-700">

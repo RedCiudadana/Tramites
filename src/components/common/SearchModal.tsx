@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Search, X, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { procedures } from '../../data/procedures';
-import { Procedure } from '../../types';
+import { useProcedureSearch } from '../../hooks/useProcedures';
+import { Procedure } from '../../lib/supabase';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -11,23 +11,10 @@ interface SearchModalProps {
 
 export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<Procedure[]>([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (query.trim() === '') {
-      setResults([]);
-      return;
-    }
-
-    const filtered = procedures.filter(procedure =>
-      procedure.name.toLowerCase().includes(query.toLowerCase()) ||
-      procedure.description.toLowerCase().includes(query.toLowerCase()) ||
-      procedure.institution.toLowerCase().includes(query.toLowerCase())
-    ).slice(0, 5); // Limit to 5 results
-
-    setResults(filtered);
-  }, [query]);
+  const { procedures: results, loading } = useProcedureSearch(query);
+  const limitedResults = results.slice(0, 5); // Limit to 5 results
 
   const handleProcedureClick = (procedure: Procedure) => {
     navigate(`/tramite/${procedure.id}`);
@@ -68,9 +55,14 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
         {/* Results */}
         <div className="max-h-96 overflow-y-auto">
-          {results.length > 0 ? (
+          {loading ? (
+            <div className="p-8 text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+              <p className="text-gray-600">Buscando...</p>
+            </div>
+          ) : limitedResults.length > 0 ? (
             <div className="py-2">
-              {results.map((procedure) => (
+              {limitedResults.map((procedure) => (
                 <button
                   key={procedure.id}
                   onClick={() => handleProcedureClick(procedure)}
@@ -81,7 +73,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       <h3 className="font-medium text-gray-900 mb-1">{procedure.name}</h3>
                       <p className="text-sm text-gray-600 mb-1">{procedure.description}</p>
                       <div className="flex items-center space-x-4 text-xs text-gray-500">
-                        <span>{procedure.institution}</span>
+                        <span>{procedure.institutions?.name || 'N/A'}</span>
                         <span>{procedure.duration}</span>
                         <span className="capitalize">{procedure.type}</span>
                       </div>

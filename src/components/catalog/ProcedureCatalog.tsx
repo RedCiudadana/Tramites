@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Filter, Building2, Clock, User, Users, ChevronRight, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { procedures } from '../../data/procedures';
-import { Procedure } from '../../types';
+import { useProcedures, useProcedureSearch } from '../../hooks/useProcedures';
+import { Procedure } from '../../lib/supabase';
 import HeroSlider from '../common/HeroSlider';
 
 interface ProcedureCatalogProps {
@@ -21,6 +21,15 @@ export default function ProcedureCatalog({
   const [showFilters, setShowFilters] = useState(false);
   const navigate = useNavigate();
 
+  // Use hooks to fetch data from Supabase
+  const { procedures: allProcedures, loading: allLoading } = useProcedures();
+  const { procedures: searchResults, loading: searchLoading } = useProcedureSearch(
+    localSearchQuery || searchQuery, 
+    selectedCategory
+  );
+
+  const loading = allLoading || searchLoading;
+  const procedures = (localSearchQuery || searchQuery || selectedCategory) ? searchResults : allProcedures;
   // Hero slider data
   const heroSlides = [
     {
@@ -36,7 +45,7 @@ export default function ProcedureCatalog({
         document.getElementById('tramites-section')?.scrollIntoView({ behavior: 'smooth' });
       },
       stats: [
-        { label: 'Trámites', value: '120+' },
+        { label: 'Trámites', value: procedures.length.toString() },
         { label: 'Instituciones', value: '25+' },
         { label: 'Categorías', value: '6' },
         { label: 'Actualizaciones', value: 'Diarias' }
@@ -83,18 +92,14 @@ export default function ProcedureCatalog({
 
   const filteredProcedures = useMemo(() => {
     return procedures.filter(procedure => {
-      const matchesSearch = localSearchQuery === '' || 
-        procedure.name.toLowerCase().includes(localSearchQuery.toLowerCase()) ||
-        procedure.description.toLowerCase().includes(localSearchQuery.toLowerCase()) ||
-        procedure.institution.toLowerCase().includes(localSearchQuery.toLowerCase());
+      const institutionName = procedure.institutions?.name || '';
       
-      const matchesCategory = selectedCategory === '' || procedure.category === selectedCategory;
-      const matchesType = typeFilter === '' || procedure.userType === typeFilter || procedure.userType === 'ambos';
+      const matchesType = userTypeFilter === '' || procedure.user_type === userTypeFilter || procedure.user_type === 'ambos';
       const matchesModality = modalityFilter === '' || procedure.type === modalityFilter;
       
-      return matchesSearch && matchesCategory && matchesType && matchesModality;
+      return matchesType && matchesModality;
     });
-  }, [localSearchQuery, selectedCategory, typeFilter, modalityFilter]);
+  }, [procedures, userTypeFilter, modalityFilter]);
 
   const handleProcedureClick = (procedure: Procedure) => {
     navigate(`/tramite/${procedure.id}`);
@@ -118,6 +123,18 @@ export default function ProcedureCatalog({
     }
   };
 
+  if (loading) {
+    return (
+      <div className="bg-gray-50 min-h-screen">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Cargando trámites...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="bg-gray-50">
       {/* Hero Slider */}
@@ -270,21 +287,21 @@ export default function ProcedureCatalog({
                       <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
                         <div className="flex items-center space-x-1">
                           <Building2 className="h-4 w-4" />
-                          <span>{procedure.institution}</span>
+                          <span>{procedure.institutions?.name || 'N/A'}</span>
                         </div>
                         <div className="flex items-center space-x-1">
                           <Clock className="h-4 w-4" />
                           <span>{procedure.duration}</span>
                         </div>
                         <div className="flex items-center space-x-1">
-                          {procedure.userType === 'persona' ? (
+                          {procedure.user_type === 'persona' ? (
                             <User className="h-4 w-4" />
-                          ) : procedure.userType === 'empresa' ? (
+                          ) : procedure.user_type === 'empresa' ? (
                             <Building2 className="h-4 w-4" />
                           ) : (
                             <Users className="h-4 w-4" />
                           )}
-                          <span className="capitalize">{procedure.userType}</span>
+                          <span className="capitalize">{procedure.user_type}</span>
                         </div>
                       </div>
                     </div>

@@ -1,20 +1,5 @@
-export interface Procedure {
-  id: string;
-  name: string;
-  description: string;
-  fullDescription: string;
-  institution: string;
-  category: string;
-  subcategory?: string;
-  duration: string;
-  type: 'digital' | 'presencial' | 'mixto';
-  userType: 'persona' | 'empresa' | 'ambos';
-  requirements: string[];
-  steps: string[];
-  isDigital: boolean;
-  respaldo_legal?: string;
-  fecha_actualizado?: string;
-}
+// Re-export types from supabase lib
+export type { Procedure, Institution } from '../lib/supabase';
 
 export interface UserProcedure {
   id: string;
