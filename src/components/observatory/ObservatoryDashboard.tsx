@@ -33,14 +33,45 @@ import {
   Area,
   AreaChart
 } from 'recharts';
-import { procedures } from '../../data/procedures';
-import { observatoryData } from '../../data/observatory';
+import { useObservatory, useObservatoryStats } from '../../hooks/useObservatory';
 
 export default function ObservatoryDashboard() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedMaturity, setSelectedMaturity] = useState('');
   const [viewMode, setViewMode] = useState<'overview' | 'detailed'>('overview');
   const [activeTab, setActiveTab] = useState<'dashboard' | 'analysis'>('dashboard');
+
+  // Use Supabase data instead of static data
+  const { observatoryData, loading, error } = useObservatory();
+  const { stats } = useObservatoryStats();
+
+  if (loading) {
+    return (
+      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Cargando datos del observatorio...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Error al cargar datos</h1>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Reintentar
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const getMaturityColor = (level: number) => {
     if (level >= 4.5) return 'bg-green-500 text-white';
@@ -57,58 +88,51 @@ export default function ObservatoryDashboard() {
   };
 
   const filteredData = observatoryData.filter(item => {
-    const matchesCategory = !selectedCategory || item.category === selectedCategory;
+    const matchesCategory = !selectedCategory || item.procedure?.category === selectedCategory;
     const matchesMaturity = !selectedMaturity || 
-      (selectedMaturity === 'excellent' && item.maturityLevel >= 4.5) ||
-      (selectedMaturity === 'good' && item.maturityLevel >= 3.5 && item.maturityLevel < 4.5) ||
-      (selectedMaturity === 'regular' && item.maturityLevel >= 2.5 && item.maturityLevel < 3.5) ||
-      (selectedMaturity === 'poor' && item.maturityLevel < 2.5);
+      (selectedMaturity === 'excellent' && item.maturity_level >= 4.5) ||
+      (selectedMaturity === 'good' && item.maturity_level >= 3.5 && item.maturity_level < 4.5) ||
+      (selectedMaturity === 'regular' && item.maturity_level >= 2.5 && item.maturity_level < 3.5) ||
+      (selectedMaturity === 'poor' && item.maturity_level < 2.5);
     return matchesCategory && matchesMaturity;
   });
 
-  const overallStats = {
-    totalProcedures: observatoryData.length,
-    totalInstitutions: [...new Set(observatoryData.map(item => item.category))].length,
-    averageEvaluation: Math.round(observatoryData.reduce((sum, item) => sum + item.evaluationScore, 0) / observatoryData.length),
-    digitalProcedures: observatoryData.filter(item => item.isDigital).length,
-    excellentProcedures: observatoryData.filter(item => item.maturityLevel >= 4.5).length,
-    bestProcedures: observatoryData
-      .sort((a, b) => b.maturityLevel - a.maturityLevel)
-      .slice(0, 5)
-  };
+  // Use stats from the hook
+  const overallStats = stats;
 
   // Chart data
   const maturityDistribution = [
-    { name: 'Excelente (4.5-5.0)', value: observatoryData.filter(item => item.maturityLevel >= 4.5).length, color: '#10B981' },
-    { name: 'Bueno (3.5-4.4)', value: observatoryData.filter(item => item.maturityLevel >= 3.5 && item.maturityLevel < 4.5).length, color: '#3B82F6' },
-    { name: 'Regular (2.5-3.4)', value: observatoryData.filter(item => item.maturityLevel >= 2.5 && item.maturityLevel < 3.5).length, color: '#F59E0B' },
-    { name: 'Necesita Mejora (0-2.4)', value: observatoryData.filter(item => item.maturityLevel < 2.5).length, color: '#EF4444' }
+    { name: 'Excelente (4.5-5.0)', value: observatoryData.filter(item => item.maturity_level >= 4.5).length, color: '#10B981' },
+    { name: 'Bueno (3.5-4.4)', value: observatoryData.filter(item => item.maturity_level >= 3.5 && item.maturity_level < 4.5).length, color: '#3B82F6' },
+    { name: 'Regular (2.5-3.4)', value: observatoryData.filter(item => item.maturity_level >= 2.5 && item.maturity_level < 3.5).length, color: '#F59E0B' },
+    { name: 'Necesita Mejora (0-2.4)', value: observatoryData.filter(item => item.maturity_level < 2.5).length, color: '#EF4444' }
   ];
 
   const categoryData = observatoryData.reduce((acc, item) => {
-    const existing = acc.find(cat => cat.category === item.category);
+    const category = item.procedure?.category || 'Sin categoría';
+    const existing = acc.find(cat => cat.category === category);
     if (existing) {
       existing.count += 1;
-      existing.avgMaturity = (existing.avgMaturity + item.maturityLevel) / 2;
+      existing.avgMaturity = (existing.avgMaturity + item.maturity_level) / 2;
     } else {
       acc.push({
-        category: item.category.charAt(0).toUpperCase() + item.category.slice(1),
+        category: category.charAt(0).toUpperCase() + category.slice(1),
         count: 1,
-        avgMaturity: item.maturityLevel
+        avgMaturity: item.maturity_level
       });
     }
     return acc;
   }, [] as any[]);
 
   const digitalVsPresencial = [
-    { name: 'Digital', value: observatoryData.filter(item => item.isDigital).length, color: '#10B981' },
-    { name: 'Presencial/Mixto', value: observatoryData.filter(item => !item.isDigital).length, color: '#6B7280' }
+    { name: 'Digital', value: observatoryData.filter(item => item.is_digital).length, color: '#10B981' },
+    { name: 'Presencial/Mixto', value: observatoryData.filter(item => !item.is_digital).length, color: '#6B7280' }
   ];
 
   const satisfactionData = observatoryData.map(item => ({
-    name: item.name.length > 15 ? item.name.substring(0, 15) + '...' : item.name,
-    satisfaction: item.satisfactionRate,
-    maturity: item.maturityLevel * 20
+    name: item.procedure?.name && item.procedure.name.length > 15 ? item.procedure.name.substring(0, 15) + '...' : item.procedure?.name || 'Sin nombre',
+    satisfaction: item.satisfaction_rate,
+    maturity: item.maturity_level * 20
   })).sort((a, b) => b.satisfaction - a.satisfaction).slice(0, 8);
 
   const renderDashboard = () => (

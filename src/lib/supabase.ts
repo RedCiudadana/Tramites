@@ -73,6 +73,23 @@ export interface CommentHelpfulVote {
   created_at: string;
 }
 
+export interface ObservatoryData {
+  id: string;
+  procedure_id: string;
+  maturity_level: number;
+  evaluation_score: number;
+  evaluation_components: Record<string, number>;
+  average_time: string;
+  monthly_users: number;
+  satisfaction_rate: number;
+  is_digital: boolean;
+  issues: string[];
+  recommendations: string[];
+  last_updated: string;
+  created_at: string;
+  updated_at: string;
+}
+
 // Database service functions
 export const proceduresService = {
   async getAll() {
