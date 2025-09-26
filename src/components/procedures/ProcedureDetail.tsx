@@ -158,6 +158,43 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
 
         {/* Additional Information */}
         <div className="grid md:grid-cols-2 gap-8 mb-8">
+          {/* Cost Information */}
+          {(procedure.costo || procedure.codigo_moneda) && (
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="bg-green-100 p-2 rounded-lg">
+                  <FileText className="h-5 w-5 text-green-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900">Costo del Trámite</h3>
+              </div>
+              <div className="space-y-2">
+                {procedure.costo && (
+                  <p className="text-gray-700">
+                    <span className="font-medium">Costo:</span> {procedure.costo}
+                  </p>
+                )}
+                {procedure.codigo_moneda && (
+                  <p className="text-gray-700">
+                    <span className="font-medium">Moneda:</span> {procedure.codigo_moneda}
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Document Information */}
+          {procedure.documento_obtenible && (
+            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="bg-blue-100 p-2 rounded-lg">
+                  <CheckCircle className="h-5 w-5 text-blue-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900">Documento que Obtienes</h3>
+              </div>
+              <p className="text-gray-700">{procedure.documento_obtenible}</p>
+            </div>
+          )}
+
           {/* Legal Framework */}
           {procedure.respaldo_legal && (
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
@@ -190,6 +227,31 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
             </div>
           )}
         </div>
+
+        {/* Official Link */}
+        {procedure.enlace && (
+          <div className="bg-gradient-to-r from-purple-50 to-purple-100 rounded-xl p-8 mb-8 border border-purple-200">
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="bg-purple-600 p-2 rounded-lg">
+                <ExternalLink className="h-6 w-6 text-white" />
+              </div>
+              <h2 className="text-2xl font-bold text-purple-900">Enlace Oficial</h2>
+            </div>
+            <p className="text-purple-800 mb-4">
+              Accede directamente al portal oficial para realizar este trámite en línea o obtener más información.
+            </p>
+            <a
+              href={procedure.enlace}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center space-x-2 bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium"
+            >
+              <Globe className="h-5 w-5" />
+              <span>Ir al sitio oficial</span>
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          </div>
+        )}
 
         {/* Contact Information */}
         <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-8 border border-blue-200">
