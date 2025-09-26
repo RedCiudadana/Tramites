@@ -293,21 +293,21 @@ export default function ObservatoryDashboard() {
                   <div className="bg-yellow-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold">
                     {index + 1}
                   </div>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getMaturityColor(procedure.maturityLevel)}`}>
-                    {procedure.maturityLevel.toFixed(1)}
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getMaturityColor(procedure.maturity_level)}`}>
+                    {procedure.maturity_level.toFixed(1)}
                   </span>
                 </div>
-                {procedure.isDigital && (
+                {procedure.is_digital && (
                   <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
                     Digital
                   </span>
                 )}
               </div>
-              <h4 className="font-semibold text-gray-900 mb-1">{procedure.name}</h4>
+              <h4 className="font-semibold text-gray-900 mb-1">{procedure.procedure?.name || 'Sin nombre'}</h4>
               <div className="text-sm text-gray-600 space-y-1">
-                <p>⏱️ {procedure.averageTime}</p>
-                <p>👥 {procedure.monthlyUsers.toLocaleString()} usuarios/mes</p>
-                <p>⭐ {procedure.satisfactionRate}% satisfacción</p>
+                <p>⏱️ {procedure.average_time}</p>
+                <p>👥 {procedure.monthly_users.toLocaleString()} usuarios/mes</p>
+                <p>⭐ {procedure.satisfaction_rate}% satisfacción</p>
               </div>
             </div>
           ))}
@@ -431,29 +431,29 @@ export default function ObservatoryDashboard() {
                     <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
                       <div className="flex-1">
                         <div className="flex items-center space-x-3 mb-4">
-                          <h3 className="text-xl font-semibold text-gray-900">{item.name}</h3>
-                          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getMaturityColor(item.maturityLevel)}`}>
-                            {item.maturityLevel.toFixed(1)} - {getMaturityLabel(item.maturityLevel)}
+                          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getMaturityColor(item.maturity_level)}`}>
+                            {item.maturity_level.toFixed(1)} - {getMaturityLabel(item.maturity_level)}
                           </span>
-                          {item.isDigital && (
+                          {item.is_digital && (
                             <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
                               Digital
                             </span>
                           )}
                         </div>
+                        <h3 className="text-xl font-semibold text-gray-900">{item.procedure?.name || 'Sin nombre'}</h3>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                           <div className="flex items-center space-x-2 text-sm text-gray-600">
                             <Clock className="h-4 w-4" />
-                            <span>Tiempo promedio: {item.averageTime}</span>
+                            <span>Tiempo promedio: {item.average_time}</span>
                           </div>
                           <div className="flex items-center space-x-2 text-sm text-gray-600">
                             <Users className="h-4 w-4" />
-                            <span>Usuarios/mes: {item.monthlyUsers.toLocaleString()}</span>
+                            <span>Usuarios/mes: {item.monthly_users.toLocaleString()}</span>
                           </div>
                           <div className="flex items-center space-x-2 text-sm text-gray-600">
                             <TrendingUp className="h-4 w-4" />
-                            <span>Satisfacción: {item.satisfactionRate}%</span>
+                            <span>Satisfacción: {item.satisfaction_rate}%</span>
                           </div>
                         </div>
 
@@ -464,19 +464,19 @@ export default function ObservatoryDashboard() {
                               <div className="bg-blue-50 rounded-lg p-4 mb-4">
                                 <div className="flex items-center justify-between mb-2">
                                   <h4 className="font-semibold text-blue-900">Puntaje de Evaluación</h4>
-                                  <span className="text-2xl font-bold text-blue-800">{item.evaluationScore}%</span>
+                                  <span className="text-2xl font-bold text-blue-800">{item.evaluation_score}%</span>
                                 </div>
                                 <div className="w-full bg-blue-200 rounded-full h-3">
                                   <div 
                                     className="bg-blue-600 h-3 rounded-full transition-all duration-500" 
-                                    style={{ width: `${item.evaluationScore}%` }}
+                                    style={{ width: `${item.evaluation_score}%` }}
                                   ></div>
                                 </div>
                               </div>
                               
                               <h4 className="font-medium text-gray-900 mb-3">Componentes de Evaluación</h4>
                               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                {Object.entries(item.evaluationComponents).map(([component, score]) => {
+                                {Object.entries(item.evaluation_components).map(([component, score]) => {
                                   const componentLabels: Record<string, string> = {
                                     digitalizacion: '4.1 Digitalización',
                                     simplificacion: '4.2 Simplificación',
@@ -552,16 +552,16 @@ export default function ObservatoryDashboard() {
                   <div className="px-6 pb-4">
                     <div className="flex justify-between text-xs text-gray-500 mb-1">
                       <span>Nivel de Madurez</span>
-                      <span>{item.maturityLevel.toFixed(1)}/5.0</span>
+                      <span>{item.maturity_level.toFixed(1)}/5.0</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div 
                         className={`h-2 rounded-full ${
-                          item.maturityLevel >= 4.5 ? 'bg-green-500' :
-                          item.maturityLevel >= 3.5 ? 'bg-blue-500' :
-                          item.maturityLevel >= 2.5 ? 'bg-yellow-500' : 'bg-red-500'
+                          item.maturity_level >= 4.5 ? 'bg-green-500' :
+                          item.maturity_level >= 3.5 ? 'bg-blue-500' :
+                          item.maturity_level >= 2.5 ? 'bg-yellow-500' : 'bg-red-500'
                         }`}
-                        style={{ width: `${(item.maturityLevel / 5) * 100}%` }}
+                        style={{ width: `${(item.maturity_level / 5) * 100}%` }}
                       ></div>
                     </div>
                   </div>
