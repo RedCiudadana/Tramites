@@ -174,7 +174,7 @@ export default function CategoriesSection() {
     </section>
 
     {/* Institutions Section */}
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -187,65 +187,65 @@ export default function CategoriesSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* MAGA */}
-          <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border border-green-200 hover:shadow-lg transition-all">
+          <div className="bg-white rounded-xl p-6 border border-green-200 hover:shadow-lg transition-all">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="bg-green-600 p-3 rounded-xl">
+              <div className="bg-blue-600 p-3 rounded-xl">
                 <Heart className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-green-900">MAGA</h3>
-                <p className="text-sm text-green-700">Ministerio de Agricultura, Ganadería y Alimentación</p>
+                <h3 className="text-xl font-bold">MAGA</h3>
+                <p className="text-sm">Ministerio de Agricultura, Ganadería y Alimentación</p>
               </div>
             </div>
             <p className="text-green-800 text-sm mb-4">
               Ministerio encargado del desarrollo agropecuario y la seguridad alimentaria del país.
             </p>
             <div className="space-y-2 mb-4">
-              <div className="flex items-center space-x-2 text-sm text-green-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <Heart className="h-4 w-4" />
                 <span>{procedures.filter(p => p.institutions?.name === 'MAGA').length} trámites agrícolas</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-green-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <Heart className="h-4 w-4" />
                 <span>Agricultura y ganadería</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-green-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <Phone className="h-4 w-4" />
                 <span>2413-7000</span>
               </div>
             </div>
             <button
               onClick={() => navigate('/catalogo?search=MAGA')}
-              className="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium"
+              className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium"
             >
               Ver trámites
             </button>
           </div>
 
           {/* MINECO */}
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200 hover:shadow-lg transition-all">
+          <div className="bg-white rounded-xl p-6 border border-blue-200 hover:shadow-lg transition-all">
             <div className="flex items-center space-x-3 mb-4">
               <div className="bg-blue-600 p-3 rounded-xl">
                 <Building2 className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-blue-900">MINECO</h3>
-                <p className="text-sm text-blue-700">Ministerio de Economía</p>
+                <h3 className="text-xl font-bold">MINECO</h3>
+                <p className="text-sm">Ministerio de Economía</p>
               </div>
             </div>
-            <p className="text-blue-800 text-sm mb-4">
+            <p className="text-sm mb-4">
               Ministerio encargado de promover el desarrollo económico y empresarial del país.
             </p>
             <div className="space-y-2 mb-4">
-              <div className="flex items-center space-x-2 text-sm text-blue-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <Building2 className="h-4 w-4" />
                 <span>{procedures.filter(p => p.institutions?.name === 'MINECO').length} trámites empresariales</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-blue-700">
+              <div className="flex items-center space-x-2 text-sm ">
                 <FileCheck className="h-4 w-4" />
                 <span>Registro mercantil</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-blue-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <Phone className="h-4 w-4" />
                 <span>2411-9595</span>
               </div>
@@ -259,216 +259,216 @@ export default function CategoriesSection() {
           </div>
 
           {/* MINEDUC */}
-          <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border border-purple-200 hover:shadow-lg transition-all">
+          <div className="bg-white rounded-xl p-6 border border-purple-200 hover:shadow-lg transition-all">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="bg-purple-600 p-3 rounded-xl">
+              <div className="bg-blue-600 p-3 rounded-xl">
                 <GraduationCap className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-purple-900">MINEDUC</h3>
-                <p className="text-sm text-purple-700">Ministerio de Educación</p>
+                <h3 className="text-xl font-bold">MINEDUC</h3>
+                <p className="text-sm">Ministerio de Educación</p>
               </div>
             </div>
-            <p className="text-purple-800 text-sm mb-4">
+            <p className="text-sm mb-4">
               Ministerio encargado de la educación pública y el desarrollo educativo nacional.
             </p>
             <div className="space-y-2 mb-4">
-              <div className="flex items-center space-x-2 text-sm text-purple-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <GraduationCap className="h-4 w-4" />
                 <span>{procedures.filter(p => p.institutions?.name === 'MINEDUC').length} trámites educativos</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-purple-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <Certificate className="h-4 w-4" />
                 <span>Certificaciones académicas</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-purple-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <Phone className="h-4 w-4" />
                 <span>2411-9595</span>
               </div>
             </div>
             <button
               onClick={() => navigate('/catalogo?search=MINEDUC')}
-              className="w-full bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors font-medium"
+              className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors font-medium"
             >
               Ver trámites
             </button>
           </div>
 
           {/* MSPAS */}
-          <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-6 border border-red-200 hover:shadow-lg transition-all">
+          <div className="bg-white rounded-xl p-6 border border-red-200 hover:shadow-lg transition-all">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="bg-red-600 p-3 rounded-xl">
+              <div className="bg-blue-600 p-3 rounded-xl">
                 <Heart className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-red-900">MSPAS</h3>
-                <p className="text-sm text-red-700">Ministerio de Salud Pública</p>
+                <h3 className="text-xl font-bold">MSPAS</h3>
+                <p className="text-sm">Ministerio de Salud Pública</p>
               </div>
             </div>
-            <p className="text-red-800 text-sm mb-4">
+            <p className="text-sm mb-4">
               Ministerio encargado de formular políticas y programas en materia de salud pública.
             </p>
             <div className="space-y-2 mb-4">
-              <div className="flex items-center space-x-2 text-sm text-red-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <Heart className="h-4 w-4" />
                 <span>{procedures.filter(p => p.institutions?.name === 'MSPAS').length} trámites de salud</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-red-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <Shield className="h-4 w-4" />
                 <span>Licencias sanitarias</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-red-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <Phone className="h-4 w-4" />
                 <span>2440-4747</span>
               </div>
             </div>
             <button
               onClick={() => navigate('/catalogo?search=MSPAS')}
-              className="w-full bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors font-medium"
+              className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors font-medium"
             >
               Ver trámites
             </button>
           </div>
 
           {/* MINGOB */}
-          <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-6 border border-yellow-200 hover:shadow-lg transition-all">
+          <div className="bg-white rounded-xl p-6 border border-yellow-200 hover:shadow-lg transition-all">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="bg-yellow-600 p-3 rounded-xl">
+              <div className="bg-blue-600 p-3 rounded-xl">
                 <Shield className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-yellow-900">MINGOB</h3>
-                <p className="text-sm text-yellow-700">Ministerio de Gobernación</p>
+                <h3 className="text-xl font-bold">MINGOB</h3>
+                <p className="text-sm">Ministerio de Gobernación</p>
               </div>
             </div>
-            <p className="text-yellow-800 text-sm mb-4">
+            <p className="text-sm mb-4">
               Ministerio encargado de la seguridad interna y el orden público del país.
             </p>
             <div className="space-y-2 mb-4">
-              <div className="flex items-center space-x-2 text-sm text-yellow-700">
+              <div className="flex items-center space-x-2 text-sm ">
                 <Shield className="h-4 w-4" />
                 <span>{procedures.filter(p => p.institutions?.name === 'MINGOB').length} trámites de seguridad</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-yellow-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <FileCheck className="h-4 w-4" />
                 <span>Antecedentes penales</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-yellow-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <Phone className="h-4 w-4" />
                 <span>2413-8888</span>
               </div>
             </div>
             <button
               onClick={() => navigate('/catalogo?search=MINGOB')}
-              className="w-full bg-yellow-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors font-medium"
+              className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors font-medium"
             >
               Ver trámites
             </button>
           </div>
 
           {/* MARN */}
-          <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl p-6 border border-indigo-200 hover:shadow-lg transition-all">
+          <div className="bg-white rounded-xl p-6 border border-indigo-200 hover:shadow-lg transition-all">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="bg-indigo-600 p-3 rounded-xl">
+              <div className="bg-blue-600 p-3 rounded-xl">
                 <Globe className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-indigo-900">MARN</h3>
-                <p className="text-sm text-indigo-700">Ministerio de Ambiente y Recursos Naturales</p>
+                <h3 className="text-xl font-bold">MARN</h3>
+                <p className="text-sm">Ministerio de Ambiente y Recursos Naturales</p>
               </div>
             </div>
-            <p className="text-indigo-800 text-sm mb-4">
+            <p className="text-sm mb-4">
               Ministerio encargado de la protección del medio ambiente y recursos naturales.
             </p>
             <div className="space-y-2 mb-4">
-              <div className="flex items-center space-x-2 text-sm text-indigo-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <Globe className="h-4 w-4" />
                 <span>{procedures.filter(p => p.institutions?.name === 'MARN').length} trámites ambientales</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-indigo-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <Shield className="h-4 w-4" />
                 <span>Licencias ambientales</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-indigo-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <Phone className="h-4 w-4" />
                 <span>2423-0500</span>
               </div>
             </div>
             <button
               onClick={() => navigate('/catalogo?search=MARN')}
-              className="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+              className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-medium"
             >
               Ver trámites
             </button>
           </div>
 
           {/* MINTRABAJO */}
-          <div className="bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl p-6 border border-teal-200 hover:shadow-lg transition-all">
+          <div className="bg-white rounded-xl p-6 border border-teal-200 hover:shadow-lg transition-all">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="bg-teal-600 p-3 rounded-xl">
+              <div className="bg-blue-600 p-3 rounded-xl">
                 <Briefcase className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-teal-900">MINTRABAJO</h3>
-                <p className="text-sm text-teal-700">Ministerio de Trabajo y Previsión Social</p>
+                <h3 className="text-xl font-bold">MINTRABAJO</h3>
+                <p className="text-sm">Ministerio de Trabajo y Previsión Social</p>
               </div>
             </div>
-            <p className="text-teal-800 text-sm mb-4">
+            <p className="text-sm mb-4">
               Ministerio encargado de las políticas laborales y la previsión social.
             </p>
             <div className="space-y-2 mb-4">
-              <div className="flex items-center space-x-2 text-sm text-teal-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <Briefcase className="h-4 w-4" />
                 <span>{procedures.filter(p => p.institutions?.name === 'MINTRABAJO').length} trámites laborales</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-teal-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <FileCheck className="h-4 w-4" />
                 <span>Permisos de trabajo</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-teal-700">
+              <div className="flex items-center space-x-2 text-sm ">
                 <Phone className="h-4 w-4" />
                 <span>2422-2500</span>
               </div>
             </div>
             <button
               onClick={() => navigate('/catalogo?search=MINTRABAJO')}
-              className="w-full bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition-colors font-medium"
+              className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition-colors font-medium"
             >
               Ver trámites
             </button>
           </div>
 
           {/* MEM */}
-          <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-6 border border-orange-200 hover:shadow-lg transition-all">
+          <div className="bg-white rounded-xl p-6 border border-orange-200 hover:shadow-lg transition-all">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="bg-orange-600 p-3 rounded-xl">
+              <div className="bg-blue-600 p-3 rounded-xl">
                 <Zap className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-orange-900">MEM</h3>
-                <p className="text-sm text-orange-700">Ministerio de Energía y Minas</p>
+                <h3 className="text-xl font-bold">MEM</h3>
+                <p className="text-sm">Ministerio de Energía y Minas</p>
               </div>
             </div>
-            <p className="text-orange-800 text-sm mb-4">
+            <p className="text-sm mb-4">
               Ministerio encargado de la política energética y minera del país.
             </p>
             <div className="space-y-2 mb-4">
-              <div className="flex items-center space-x-2 text-sm text-orange-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <Zap className="h-4 w-4" />
                 <span>{procedures.filter(p => p.institutions?.name === 'MEM').length} trámites energéticos</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-orange-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <FileCheck className="h-4 w-4" />
                 <span>Licencias mineras</span>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-orange-700">
+              <div className="flex items-center space-x-2 text-sm">
                 <Phone className="h-4 w-4" />
                 <span>2277-4400</span>
               </div>
             </div>
             <button
               onClick={() => navigate('/catalogo?search=MEM')}
-              className="w-full bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors font-medium"
+              className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors font-medium"
             >
               Ver trámites
             </button>
