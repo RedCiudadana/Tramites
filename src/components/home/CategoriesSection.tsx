@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, User, Building2, GraduationCap, Heart, Scale, MapPin, FileText, AlignCenterVertical as Certificate, Phone, Building, FileCheck, BookOpen, Award, FileHeart, Shield, Gavel, Home, Receipt, Search } from 'lucide-react';
-import { categories } from '../../data/procedures';
+import { useProcedures } from '../../hooks/useProcedures';
+import { useInstitutions } from '../../hooks/useInstitutions';
 
 // Create icon map for dynamic access
 const iconMap = {
@@ -27,9 +28,56 @@ const iconMap = {
 
 export default function CategoriesSection() {
   const navigate = useNavigate();
+  const { procedures } = useProcedures();
+  const { institutions } = useInstitutions();
 
   const handleCategoryClick = (categoryId: string) => {
     navigate(`/catalogo/${categoryId}`);
+  };
+
+  // Calculate real category counts from Supabase data
+  const categories = [
+    {
+      id: 'identidad',
+      name: 'Identidad',
+      icon: 'User',
+      count: procedures.filter(p => p.category === 'identidad').length
+    },
+    {
+      id: 'negocios',
+      name: 'Negocios',
+      icon: 'Building2',
+      count: procedures.filter(p => p.category === 'negocios').length
+    },
+    {
+      id: 'educacion',
+      name: 'Educación',
+      icon: 'GraduationCap',
+      count: procedures.filter(p => p.category === 'educacion').length
+    },
+    {
+      id: 'salud',
+      name: 'Salud',
+      icon: 'Heart',
+      count: procedures.filter(p => p.category === 'salud').length
+    },
+    {
+      id: 'justicia',
+      name: 'Justicia',
+      icon: 'Scale',
+      count: procedures.filter(p => p.category === 'justicia').length
+    },
+    {
+      id: 'vivienda',
+      name: 'Vivienda',
+      icon: 'MapPin',
+      count: procedures.filter(p => p.category === 'vivienda').length
+    }
+  ];
+
+  // Get institution counts by category for the institutions section
+  const getInstitutionsByCategory = (category: string) => {
+    return institutions.filter(inst => inst.category === category).length;
   };
 
   return (
@@ -107,11 +155,11 @@ export default function CategoriesSection() {
             <div className="space-y-2 mb-4">
               <div className="flex items-center space-x-2 text-sm text-blue-700">
                 <FileText className="h-4 w-4" />
-                <span>DPI y renovaciones</span>
+                <span>{procedures.filter(p => p.name.toLowerCase().includes('dpi')).length} trámites de DPI</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-blue-700">
                 <Certificate className="h-4 w-4" />
-                <span>Certificaciones de nacimiento</span>
+                <span>{procedures.filter(p => p.name.toLowerCase().includes('nacimiento')).length} certificaciones</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-blue-700">
                 <Phone className="h-4 w-4" />
@@ -143,11 +191,11 @@ export default function CategoriesSection() {
             <div className="space-y-2 mb-4">
               <div className="flex items-center space-x-2 text-sm text-green-700">
                 <Building className="h-4 w-4" />
-                <span>Inscripción de empresas</span>
+                <span>{procedures.filter(p => p.name.toLowerCase().includes('empresa')).length} trámites empresariales</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-green-700">
                 <FileCheck className="h-4 w-4" />
-                <span>Patentes de comercio</span>
+                <span>{procedures.filter(p => p.name.toLowerCase().includes('patente')).length} patentes</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-green-700">
                 <Phone className="h-4 w-4" />
@@ -179,11 +227,11 @@ export default function CategoriesSection() {
             <div className="space-y-2 mb-4">
               <div className="flex items-center space-x-2 text-sm text-purple-700">
                <BookOpen className="h-4 w-4" />
-                <span>Inscripciones universitarias</span>
+                <span>{procedures.filter(p => p.name.toLowerCase().includes('inscripcion')).length} inscripciones</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-purple-700">
                <Award className="h-4 w-4" />
-                <span>Certificaciones académicas</span>
+                <span>{procedures.filter(p => p.name.toLowerCase().includes('certificacion')).length} certificaciones</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-purple-700">
                <Phone className="h-4 w-4" />
@@ -215,11 +263,11 @@ export default function CategoriesSection() {
             <div className="space-y-2 mb-4">
               <div className="flex items-center space-x-2 text-sm text-red-700">
                <FileHeart className="h-4 w-4" />
-                <span>Certificados de salud</span>
+                <span>{procedures.filter(p => p.name.toLowerCase().includes('salud')).length} certificados de salud</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-red-700">
                <Shield className="h-4 w-4" />
-                <span>Licencias sanitarias</span>
+                <span>{procedures.filter(p => p.name.toLowerCase().includes('licencia')).length} licencias</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-red-700">
                <Phone className="h-4 w-4" />
@@ -251,11 +299,11 @@ export default function CategoriesSection() {
             <div className="space-y-2 mb-4">
               <div className="flex items-center space-x-2 text-sm text-yellow-700">
                <FileCheck className="h-4 w-4" />
-                <span>Antecedentes penales</span>
+                <span>{procedures.filter(p => p.name.toLowerCase().includes('antecedentes')).length} antecedentes</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-yellow-700">
                <Gavel className="h-4 w-4" />
-                <span>Certificaciones judiciales</span>
+                <span>{procedures.filter(p => p.name.toLowerCase().includes('judicial')).length} certificaciones</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-yellow-700">
                <Phone className="h-4 w-4" />
@@ -287,11 +335,11 @@ export default function CategoriesSection() {
             <div className="space-y-2 mb-4">
               <div className="flex items-center space-x-2 text-sm text-indigo-700">
                <Home className="h-4 w-4" />
-                <span>Licencias de construcción</span>
+                <span>{procedures.filter(p => p.name.toLowerCase().includes('construccion')).length} licencias de construcción</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-indigo-700">
                <Receipt className="h-4 w-4" />
-                <span>Boleto de ornato</span>
+                <span>{procedures.filter(p => p.name.toLowerCase().includes('ornato')).length} boletos de ornato</span>
               </div>
               <div className="flex items-center space-x-2 text-sm text-indigo-700">
                <Phone className="h-4 w-4" />

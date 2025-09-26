@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { Search, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useProcedures } from '../../hooks/useProcedures';
+import { useInstitutions } from '../../hooks/useInstitutions';
 
 export default function HeroSection() {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+  const { procedures } = useProcedures();
+  const { institutions } = useInstitutions();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,6 +27,12 @@ export default function HeroSection() {
   const handlePopularSearch = (search: string) => {
     navigate(`/catalogo?search=${encodeURIComponent(search)}`);
   };
+
+  // Calculate real statistics
+  const totalProcedures = procedures.length;
+  const totalInstitutions = institutions.length;
+  const digitalProcedures = procedures.filter(p => p.is_digital).length;
+  const digitalPercentage = totalProcedures > 0 ? Math.round((digitalProcedures / totalProcedures) * 100) : 0;
 
   return (
     <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white relative overflow-hidden">
@@ -86,6 +96,42 @@ export default function HeroSection() {
             </div>
           </div>
         </div>
+          {/* Real-time Statistics */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-bold text-white mb-1">
+                {totalProcedures}
+              </div>
+              <div className="text-sm text-blue-200">
+                Trámites disponibles
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-bold text-white mb-1">
+                {totalInstitutions}
+              </div>
+              <div className="text-sm text-blue-200">
+                Instituciones
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-bold text-white mb-1">
+                {digitalProcedures}
+              </div>
+              <div className="text-sm text-blue-200">
+                Trámites digitales
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-bold text-white mb-1">
+                {digitalPercentage}%
+              </div>
+              <div className="text-sm text-blue-200">
+                Digitalización
+              </div>
+            </div>
+          </div>
+
       </div>
     </div>
   );
