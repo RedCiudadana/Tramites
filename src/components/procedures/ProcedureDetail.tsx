@@ -14,6 +14,7 @@ import {
   Globe,
   Calendar,
   AlertCircle,
+  Info
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Procedure } from '../../types';
@@ -23,8 +24,6 @@ interface ProcedureDetailProps {
 }
 
 export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
-  const institution = procedure.institutionData;
-
   const getTypeIcon = (type: string) => {
     switch (type) {
       case 'digital': return '💻';
@@ -157,7 +156,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
         </div>
 
         {/* Additional Information */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
+        <div className="grid md:grid-cols-2 gap-8 mb-8">
           {/* Legal Framework */}
           {procedure.respaldo_legal && (
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
@@ -189,25 +188,6 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
               </p>
             </div>
           )}
-
-          {/* Review Date */}
-          {procedure.fecha_revision && (
-            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="bg-blue-100 p-2 rounded-lg">
-                  <CheckCircle className="h-5 w-5 text-blue-600" />
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900">Fecha de Revisión</h3>
-              </div>
-              <p className="text-gray-700">
-                {new Date(procedure.fecha_revision).toLocaleDateString('es-GT', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </p>
-            </div>
-          )}
         </div>
 
         {/* Contact Information */}
@@ -222,100 +202,39 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <h3 className="font-semibold text-blue-900 mb-3">Institución Responsable</h3>
-              <p className="text-blue-800 text-lg font-medium mb-2">{procedure.institution}</p>
-              {institution && (
-                <p className="text-blue-700 text-sm mb-4">{institution.fullName}</p>
-              )}
+              <p className="text-blue-800 text-lg font-medium mb-4">{procedure.institution}</p>
               
               <div className="space-y-3">
-                {institution?.phone ? (
-                  <div className="flex items-center space-x-3 text-blue-700">
-                    <Phone className="h-4 w-4" />
-                    <span>{institution.phone}</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center space-x-3 text-blue-700">
-                    <Phone className="h-4 w-4" />
-                    <span>Consulta el directorio telefónico oficial</span>
-                  </div>
-                )}
-                
-                {institution?.email ? (
-                  <div className="flex items-center space-x-3 text-blue-700">
-                    <Mail className="h-4 w-4" />
-                    <span>{institution.email}</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center space-x-3 text-blue-700">
-                    <Mail className="h-4 w-4" />
-                    <span>Información disponible en el sitio web oficial</span>
-                  </div>
-                )}
-                
-                {institution?.address ? (
-                  <div className="flex items-center space-x-3 text-blue-700">
-                    <MapPin className="h-4 w-4" />
-                    <span>{institution.address}</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center space-x-3 text-blue-700">
-                    <MapPin className="h-4 w-4" />
-                    <span>Ubicaciones en el sitio web de la institución</span>
-                  </div>
-                )}
-                
-                {institution?.workingHours && (
-                  <div className="flex items-center space-x-3 text-blue-700">
-                    <Clock className="h-4 w-4" />
-                    <span>{institution.workingHours}</span>
-                  </div>
-                )}
+                <div className="flex items-center space-x-3 text-blue-700">
+                  <Phone className="h-4 w-4" />
+                  <span>Consulta el directorio telefónico oficial</span>
+                </div>
+                <div className="flex items-center space-x-3 text-blue-700">
+                  <Mail className="h-4 w-4" />
+                  <span>Información disponible en el sitio web oficial</span>
+                </div>
+                <div className="flex items-center space-x-3 text-blue-700">
+                  <MapPin className="h-4 w-4" />
+                  <span>Ubicaciones en el sitio web de la institución</span>
+                </div>
               </div>
             </div>
             
             <div>
               <h3 className="font-semibold text-blue-900 mb-3">Recursos Adicionales</h3>
               <div className="space-y-3">
-                {institution?.website ? (
-                  <a
-                    href={institution.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center space-x-3 text-blue-700 hover:text-blue-900 transition-colors"
-                  >
-                    <Globe className="h-4 w-4" />
-                    <span>Sitio web oficial</span>
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                ) : (
-                  <a
-                    href="#"
-                    className="flex items-center space-x-3 text-blue-700 hover:text-blue-900 transition-colors"
-                  >
-                    <Globe className="h-4 w-4" />
-                    <span>Sitio web oficial de {procedure.institution}</span>
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                )}
-                
-                {institution?.services && institution.services.length > 0 && (
-                  <div className="mt-4">
-                    <h4 className="font-medium text-blue-900 mb-2">Otros servicios:</h4>
-                    <ul className="text-sm text-blue-700 space-y-1">
-                      {institution.services.slice(0, 3).map((service, index) => (
-                        <li key={index} className="flex items-center space-x-2">
-                          <div className="w-1 h-1 bg-blue-600 rounded-full"></div>
-                          <span>{service}</span>
-                        </li>
-                      ))}
-                      {institution.services.length > 3 && (
-                        <li className="text-blue-600 font-medium">
-                          +{institution.services.length - 3} servicios más
-                        </li>
-                      )}
-                    </ul>
-                  </div>
-                )}
+                <a
+                  href="#"
+                  className="flex items-center space-x-3 text-blue-700 hover:text-blue-900 transition-colors"
+                >
+                  <Globe className="h-4 w-4" />
+                  <span>Sitio web oficial de {procedure.institution}</span>
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+                <div className="flex items-center space-x-3 text-blue-700">
+                  <Info className="h-4 w-4" />
+                  <span>Horarios de atención disponibles en línea</span>
+                </div>
               </div>
             </div>
           </div>
@@ -328,7 +247,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
             <div>
               <h3 className="font-semibold text-yellow-800 mb-2">Aviso Importante</h3>
               <p className="text-yellow-700 text-sm leading-relaxed">
-                Esta información es únicamente recopilada por Red Ciudadana para facilitar el acceso ciudadano. 
+                Esta información es recopilada y verificada por Red Ciudadana para facilitar el acceso ciudadano. 
                 Siempre confirme los requisitos y procedimientos actuales en las fuentes oficiales de la institución 
                 antes de realizar su trámite. Los procesos pueden cambiar sin previo aviso.
               </p>

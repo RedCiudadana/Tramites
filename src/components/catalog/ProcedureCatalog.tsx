@@ -1,13 +1,13 @@
 import React, { useState, useMemo } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import HeroSlider from '../common/HeroSlider';
-import { useProcedures } from '../../hooks/useProcedures';
 import { Search, Filter, Building2, Clock, User, Users, ChevronRight, ArrowRight } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { procedures } from '../../data/procedures';
+import { Procedure } from '../../types';
+import HeroSlider from '../common/HeroSlider';
 
 interface ProcedureCatalogProps {
   searchQuery?: string;
   selectedCategory?: string;
-  Procedure?: any;
 }
 
 export default function ProcedureCatalog({ 
@@ -20,13 +20,6 @@ export default function ProcedureCatalog({
   const [modalityFilter, setModalityFilter] = useState<string>('');
   const [showFilters, setShowFilters] = useState(false);
   const navigate = useNavigate();
-
-  const { procedures, loading, error } = useProcedures({
-    category: selectedCategory || undefined,
-    type: modalityFilter || undefined,
-    userType: userTypeFilter || undefined,
-    search: localSearchQuery || undefined
-  });
 
   // Hero slider data
   const heroSlides = [
@@ -43,7 +36,7 @@ export default function ProcedureCatalog({
         document.getElementById('tramites-section')?.scrollIntoView({ behavior: 'smooth' });
       },
       stats: [
-        { label: 'Trámites', value: `${procedures.length}+` },
+        { label: 'Trámites', value: '120+' },
         { label: 'Instituciones', value: '25+' },
         { label: 'Categorías', value: '6' },
         { label: 'Actualizaciones', value: 'Diarias' }
@@ -80,13 +73,28 @@ export default function ProcedureCatalog({
         document.getElementById('tramites-section')?.scrollIntoView({ behavior: 'smooth' });
       },
       stats: [
-        { label: 'Digitales', value: `${Math.round((procedures.filter(p => p.type === 'digital').length / procedures.length) * 100)}%` },
-        { label: 'Mixtos', value: `${Math.round((procedures.filter(p => p.type === 'mixto').length / procedures.length) * 100)}%` },
-        { label: 'Presenciales', value: `${Math.round((procedures.filter(p => p.type === 'presencial').length / procedures.length) * 100)}%` },
+        { label: 'Digitales', value: '40%' },
+        { label: 'Mixtos', value: '35%' },
+        { label: 'Presenciales', value: '25%' },
         { label: 'Crecimiento', value: '+15%' }
       ]
     }
   ];
+
+  const filteredProcedures = useMemo(() => {
+    return procedures.filter(procedure => {
+      const matchesSearch = localSearchQuery === '' || 
+        procedure.name.toLowerCase().includes(localSearchQuery.toLowerCase()) ||
+        procedure.description.toLowerCase().includes(localSearchQuery.toLowerCase()) ||
+        procedure.institution.toLowerCase().includes(localSearchQuery.toLowerCase());
+      
+      const matchesCategory = selectedCategory === '' || procedure.category === selectedCategory;
+      const matchesType = typeFilter === '' || procedure.userType === typeFilter || procedure.userType === 'ambos';
+      const matchesModality = modalityFilter === '' || procedure.type === modalityFilter;
+      
+      return matchesSearch && matchesCategory && matchesType && matchesModality;
+    });
+  }, [localSearchQuery, selectedCategory, typeFilter, modalityFilter]);
 
   const handleProcedureClick = (procedure: Procedure) => {
     navigate(`/tramite/${procedure.id}`);
@@ -142,8 +150,8 @@ export default function ProcedureCatalog({
           </h1>
           <p className="text-gray-600">
             {selectedCategory 
-              ? `Trámites de ${selectedCategory} • ${procedures.length} resultados`
-              : `${procedures.length} trámites disponibles`
+              ? `Trámites de ${selectedCategory} • ${filteredProcedures.length} resultados`
+              : `${filteredProcedures.length} trámites disponibles`
             }
           </p>
         </div>
@@ -226,27 +234,8 @@ export default function ProcedureCatalog({
         </div>
 
         {/* Results */}
-        {loading && (
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Cargando trámites...</p>
-          </div>
-        )}
-
-        {error && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-6 mb-8">
-            <p className="text-red-800">Error al cargar los trámites: {error}</p>
-            <button 
-              onClick={() => window.location.reload()}
-              className="mt-2 text-red-600 hover:text-red-800 underline"
-            >
-              Intentar de nuevo
-            </button>
-          </div>
-        )}
-
         <div id="tramites-section" className="grid gap-6">
-          {procedures.map((procedure) => (
+          {filteredProcedures.map((procedure) => (
             <div
               key={procedure.id}
               className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-100 group"
@@ -324,7 +313,7 @@ export default function ProcedureCatalog({
           ))}
         </div>
 
-        {!loading && !error && procedures.length === 0 && (
+        {filteredProcedures.length === 0 && (
           <div className="text-center py-12">
             <div className="text-gray-400 mb-6">
               <Search className="h-16 w-16 mx-auto" />
