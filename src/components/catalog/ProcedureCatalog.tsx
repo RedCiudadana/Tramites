@@ -218,6 +218,7 @@ export default function ProcedureCatalog({
                     Limpiar filtros
                   </button>
                 </div>
+              </div>
             </div>
           )}
         </div>
