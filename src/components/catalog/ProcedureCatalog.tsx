@@ -3,7 +3,6 @@ import { Search, Filter, Building2, Clock, User, Users, ChevronRight, ArrowRight
 import { Link, useNavigate } from 'react-router-dom';
 import { useProcedures, useProcedureSearch } from '../../hooks/useProcedures';
 import { Procedure } from '../../lib/supabase';
-import HeroSlider from '../common/HeroSlider';
 
 interface ProcedureCatalogProps {
   searchQuery?: string;
@@ -30,65 +29,6 @@ export default function ProcedureCatalog({
 
   const loading = allLoading || searchLoading;
   const procedures = (localSearchQuery || searchQuery || selectedCategory) ? searchResults : allProcedures;
-  // Hero slider data
-  const heroSlides = [
-    {
-      id: '1',
-      title: 'Catálogo Completo',
-      subtitle: 'de Trámites Gubernamentales',
-      description: 'Encuentra toda la información verificada sobre trámites en Guatemala. Más de 120 procesos organizados por categorías con requisitos, pasos y tiempos actualizados.',
-      backgroundImage: 'https://images.pexels.com/photos/5668858/pexels-photo-5668858.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      backgroundColor: '#1e40af',
-      textColor: 'text-white',
-      buttonText: 'Explorar Trámites',
-      buttonAction: () => {
-        document.getElementById('tramites-section')?.scrollIntoView({ behavior: 'smooth' });
-      },
-      stats: [
-        { label: 'Trámites', value: procedures.length.toString() },
-        { label: 'Instituciones', value: '25+' },
-        { label: 'Categorías', value: '6' },
-        { label: 'Actualizaciones', value: 'Diarias' }
-      ]
-    },
-    {
-      id: '2',
-      title: 'Información Verificada',
-      subtitle: 'por Red Ciudadana',
-      description: 'Nuestro equipo de investigación ciudadana verifica constantemente la información con fuentes oficiales para garantizar datos precisos y actualizados.',
-      backgroundImage: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      backgroundColor: '#059669',
-      textColor: 'text-white',
-      buttonText: 'Conocer Metodología',
-      buttonAction: () => navigate('/ayuda'),
-      stats: [
-        { label: 'Verificaciones', value: 'Semanales' },
-        { label: 'Fuentes', value: 'Oficiales' },
-        { label: 'Precisión', value: '95%+' },
-        { label: 'Colaboradores', value: '50+' }
-      ]
-    },
-    {
-      id: '3',
-      title: 'Trámites Digitales',
-      subtitle: 'y Presenciales',
-      description: 'Identifica fácilmente qué trámites puedes hacer completamente en línea y cuáles requieren visitas presenciales. Ahorra tiempo y planifica mejor.',
-      backgroundImage: 'https://images.pexels.com/photos/5668772/pexels-photo-5668772.jpeg?auto=compress&cs=tinysrgb&w=1600',
-      backgroundColor: '#7c3aed',
-      textColor: 'text-white',
-      buttonText: 'Ver Trámites Digitales',
-      buttonAction: () => {
-        setModalityFilter('digital');
-        document.getElementById('tramites-section')?.scrollIntoView({ behavior: 'smooth' });
-      },
-      stats: [
-        { label: 'Digitales', value: '40%' },
-        { label: 'Mixtos', value: '35%' },
-        { label: 'Presenciales', value: '25%' },
-        { label: 'Crecimiento', value: '+15%' }
-      ]
-    }
-  ];
 
   const filteredProcedures = useMemo(() => {
     return procedures.filter(procedure => {
@@ -137,14 +77,6 @@ export default function ProcedureCatalog({
   }
   return (
     <div className="bg-gray-50">
-      {/* Hero Slider */}
-      <HeroSlider 
-        slides={heroSlides}
-        autoPlay={true}
-        autoPlayInterval={6000}
-        height="h-[500px] md:h-[600px]"
-      />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumbs */}
         <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-6">
