@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, User, Building2, GraduationCap, Heart, Scale, MapPin, FileText, AlignCenterVertical as Certificate, Phone, Building, FileCheck, BookOpen, Award, FileHeart, Shield, Gavel, Home, Receipt, Search } from 'lucide-react';
+import { ArrowRight, User, Building2, GraduationCap, Heart, Scale, MapPin, FileText, AlignCenterVertical as Certificate, Phone, Building, FileCheck, BookOpen, Award, FileHeart, Shield, Gavel, Home, Receipt, Search, Zap, Users, Globe, Briefcase } from 'lucide-react';
 import { useProcedures } from '../../hooks/useProcedures';
 import { useInstitutions } from '../../hooks/useInstitutions';
 
@@ -23,7 +23,11 @@ const iconMap = {
   Shield,
   Gavel,
   Home,
-  Receipt
+  Receipt,
+  Zap,
+  Users,
+  Globe,
+  Briefcase
 };
 
 export default function CategoriesSection() {
@@ -36,44 +40,95 @@ export default function CategoriesSection() {
   };
 
   // Calculate real category counts from Supabase data
-  const categories = [
+  const categoryMapping = [
     {
-      id: 'identidad',
-      name: 'Identidad',
-      icon: 'User',
-      count: procedures.filter(p => p.category === 'identidad').length
+      id: 'comunicaciones-y-transporte',
+      name: 'Comunicaciones y Transporte',
+      icon: 'Phone',
+      dbCategory: 'Comunicaciones y Transporte'
     },
     {
-      id: 'negocios',
-      name: 'Negocios',
+      id: 'economia',
+      name: 'Economía',
       icon: 'Building2',
-      count: procedures.filter(p => p.category === 'negocios').length
+      dbCategory: 'Economía'
     },
     {
-      id: 'educacion',
-      name: 'Educación',
+      id: 'educacion-cultura-deporte',
+      name: 'Educación, Cultura y Deporte',
       icon: 'GraduationCap',
-      count: procedures.filter(p => p.category === 'educacion').length
+      dbCategory: 'Educación, Cultura y Deporte'
+    },
+    {
+      id: 'energia',
+      name: 'Energía',
+      icon: 'Zap',
+      dbCategory: 'Energía'
+    },
+    {
+      id: 'inscripciones-registros',
+      name: 'Inscripciones y Registros',
+      icon: 'FileText',
+      dbCategory: 'Inscripciones y Registros'
+    },
+    {
+      id: 'manejo-animales-vegetales',
+      name: 'Manejo de Animales y Vegetales',
+      icon: 'Heart',
+      dbCategory: 'Manejo de Animales y Vegetales'
+    },
+    {
+      id: 'mediacion-dialogo',
+      name: 'Mediación y Diálogo',
+      icon: 'Users',
+      dbCategory: 'Mediación y Diálogo'
+    },
+    {
+      id: 'medio-ambiente',
+      name: 'Medio Ambiente',
+      icon: 'Globe',
+      dbCategory: 'Medio Ambiente'
     },
     {
       id: 'salud',
       name: 'Salud',
       icon: 'Heart',
-      count: procedures.filter(p => p.category === 'salud').length
+      dbCategory: 'Salud'
     },
     {
-      id: 'justicia',
-      name: 'Justicia',
-      icon: 'Scale',
-      count: procedures.filter(p => p.category === 'justicia').length
+      id: 'seguridad',
+      name: 'Seguridad',
+      icon: 'Shield',
+      dbCategory: 'Seguridad'
     },
     {
-      id: 'vivienda',
-      name: 'Vivienda',
+      id: 'servicios-migracion',
+      name: 'Servicios de Migración',
+      icon: 'Globe',
+      dbCategory: 'Servicios de Migración'
+    },
+    {
+      id: 'territorio-vivienda-infraestructura',
+      name: 'Territorio, Vivienda e Infraestructura',
       icon: 'MapPin',
-      count: procedures.filter(p => p.category === 'vivienda').length
+      dbCategory: 'Territorio, Vivienda e Infraestructura'
+    },
+    {
+      id: 'trabajo',
+      name: 'Trabajo',
+      icon: 'Briefcase',
+      dbCategory: 'Trabajo'
     }
   ];
+
+  // Calculate categories with actual counts from Supabase
+  const categories = categoryMapping
+    .map(cat => ({
+      ...cat,
+      count: procedures.filter(p => p.category === cat.dbCategory).length
+    }))
+    .filter(cat => cat.count > 0) // Only show categories that have procedures
+    .sort((a, b) => b.count - a.count); // Sort by count descending
 
   // Get institution counts by category for the institutions section
   const getInstitutionsByCategory = (category: string) => {
@@ -93,7 +148,7 @@ export default function CategoriesSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {categories.map((category) => {
             const IconComponent = iconMap[category.icon as keyof typeof iconMap] as React.ComponentType<any>;
             
@@ -106,7 +161,7 @@ export default function CategoriesSection() {
                 <div className="bg-blue-50 text-blue-800 p-4 rounded-full mb-4 mx-auto w-16 h-16 flex items-center justify-center group-hover:bg-blue-800 group-hover:text-white transition-colors">
                   <IconComponent className="h-8 w-8" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-1">{category.name}</h3>
+                <h3 className="font-semibold text-gray-900 mb-1 text-sm">{category.name}</h3>
                 <p className="text-sm text-gray-500">{category.count} trámites</p>
               </button>
             );
