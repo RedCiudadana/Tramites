@@ -14,9 +14,9 @@ export default function ProcedureCatalog({
   selectedCategory = ''
 }: ProcedureCatalogProps) {
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
-  const [typeFilter, setTypeFilter] = useState<string>('');
-  const [userTypeFilter, setUserTypeFilter] = useState<string>('');
-  const [modalityFilter, setModalityFilter] = useState<string>('');
+  const [institutionFilter, setInstitutionFilter] = useState<string>('');
+  const [categoryFilter, setCategoryFilter] = useState<string>(selectedCategory);
+  const [subcategoryFilter, setSubcategoryFilter] = useState<string>('');
   const [showFilters, setShowFilters] = useState(false);
   const navigate = useNavigate();
 
@@ -32,14 +32,29 @@ export default function ProcedureCatalog({
 
   const filteredProcedures = useMemo(() => {
     return procedures.filter(procedure => {
-      const institutionName = procedure.institutions?.name || '';
+      const matchesInstitution = institutionFilter === '' || procedure.institutions?.name === institutionFilter;
+      const matchesCategory = categoryFilter === '' || procedure.category === categoryFilter;
+      const matchesSubcategory = subcategoryFilter === '' || procedure.subcategory === subcategoryFilter;
       
-      const matchesType = userTypeFilter === '' || procedure.user_type === userTypeFilter || procedure.user_type === 'ambos';
-      const matchesModality = modalityFilter === '' || procedure.type === modalityFilter;
-      
-      return matchesType && matchesModality;
+      return matchesInstitution && matchesCategory && matchesSubcategory;
     });
-  }, [procedures, userTypeFilter, modalityFilter]);
+  }, [procedures, institutionFilter, categoryFilter, subcategoryFilter]);
+
+  // Get unique values for filter options
+  const institutions = useMemo(() => {
+    const uniqueInstitutions = [...new Set(procedures.map(p => p.institutions?.name).filter(Boolean))];
+    return uniqueInstitutions.sort();
+  }, [procedures]);
+
+  const categories = useMemo(() => {
+    const uniqueCategories = [...new Set(procedures.map(p => p.category).filter(Boolean))];
+    return uniqueCategories.sort();
+  }, [procedures]);
+
+  const subcategories = useMemo(() => {
+    const uniqueSubcategories = [...new Set(procedures.map(p => p.subcategory).filter(Boolean))];
+    return uniqueSubcategories.sort();
+  }, [procedures]);
 
   const handleProcedureClick = (procedure: Procedure) => {
     navigate(`/tramite/${procedure.id}`);
@@ -136,40 +151,66 @@ export default function ProcedureCatalog({
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Tipo de usuario
+                    Institución
                   </label>
                   <select
-                    value={userTypeFilter}
-                    onChange={(e) => setUserTypeFilter(e.target.value)}
+                    value={institutionFilter}
+                    onChange={(e) => setInstitutionFilter(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
-                    <option value="">Todos</option>
-                    <option value="persona">Persona</option>
-                    <option value="empresa">Empresa</option>
+                    <option value="">Todas las instituciones</option>
+                    {institutions.map(institution => (
+                      <option key={institution} value={institution}>
+                        {institution}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Modalidad
+                    Categoría
                   </label>
                   <select
-                    value={modalityFilter}
-                    onChange={(e) => setModalityFilter(e.target.value)}
+                    value={categoryFilter}
+                    onChange={(e) => setCategoryFilter(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
-                    <option value="">Todas</option>
-                    <option value="digital">Digital</option>
-                    <option value="presencial">Presencial</option>
-                    <option value="mixto">Mixto</option>
+                    <option value="">Todas las categorías</option>
+                    {categories.map(category => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Subcategoría
+                  </label>
+                  <select
+                    value={subcategoryFilter}
+                    onChange={(e) => setSubcategoryFilter(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="">Todas las subcategorías</option>
+                    {subcategories.map(subcategory => (
+                      <option key={subcategory} value={subcategory}>
+                        {subcategory}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="mt-4">
                 <div className="flex items-end">
                   <button
                     onClick={() => {
-                      setUserTypeFilter('');
-                      setModalityFilter('');
+                      setInstitutionFilter('');
+                      setCategoryFilter('');
+                      setSubcategoryFilter('');
                       setLocalSearchQuery('');
                     }}
                     className="w-full px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
@@ -177,7 +218,6 @@ export default function ProcedureCatalog({
                     Limpiar filtros
                   </button>
                 </div>
-              </div>
             </div>
           )}
         </div>
@@ -277,8 +317,9 @@ export default function ProcedureCatalog({
               <button
                 onClick={() => {
                   setLocalSearchQuery('');
-                  setUserTypeFilter('');
-                  setModalityFilter('');
+                  setInstitutionFilter('');
+                  setCategoryFilter('');
+                  setSubcategoryFilter('');
                 }}
                 className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
               >
