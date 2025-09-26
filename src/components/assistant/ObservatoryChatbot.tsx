@@ -1,7 +1,65 @@
 import React from 'react';
 import { MessageCircle, Bot, Search, BarChart3, FileText, Users } from 'lucide-react';
+import { useProcedures } from '../../hooks/useProcedures';
+import { useInstitutions } from '../../hooks/useInstitutions';
+import { useNavigate } from 'react-router-dom';
 
 export default function ObservatoryChatbot() {
+  const { procedures, loading: proceduresLoading } = useProcedures();
+  const { institutions, loading: institutionsLoading } = useInstitutions();
+  const navigate = useNavigate();
+
+  // Calculate real statistics
+  const totalProcedures = procedures.length;
+  const totalInstitutions = institutions.length;
+  const digitalProcedures = procedures.filter(p => p.is_digital).length;
+  const digitalPercentage = totalProcedures > 0 ? Math.round((digitalProcedures / totalProcedures) * 100) : 0;
+  
+  // Get popular procedures (first 5 for example)
+  const popularProcedures = procedures.slice(0, 5);
+  
+  // Get categories with counts
+  const categories = [
+    { name: 'Identidad', count: procedures.filter(p => p.category === 'identidad').length },
+    { name: 'Negocios', count: procedures.filter(p => p.category === 'negocios').length },
+    { name: 'Educación', count: procedures.filter(p => p.category === 'educacion').length },
+    { name: 'Salud', count: procedures.filter(p => p.category === 'salud').length },
+    { name: 'Justicia', count: procedures.filter(p => p.category === 'justicia').length },
+    { name: 'Vivienda', count: procedures.filter(p => p.category === 'vivienda').length }
+  ].filter(cat => cat.count > 0);
+
+  const handleQuickAction = (action: string) => {
+    switch (action) {
+      case 'search':
+        navigate('/catalogo');
+        break;
+      case 'observatory':
+        navigate('/observatorio');
+        break;
+      case 'categories':
+        navigate('/catalogo');
+        break;
+      case 'help':
+        navigate('/ayuda');
+        break;
+    }
+  };
+
+  const handleProcedureClick = (procedureId: string) => {
+    navigate(`/tramite/${procedureId}`);
+  };
+
+  if (proceduresLoading || institutionsLoading) {
+    return (
+      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Cargando asistente...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-gray-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -17,7 +75,7 @@ export default function ObservatoryChatbot() {
           </div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Tu asistente inteligente para encontrar información sobre trámites gubernamentales. 
-            Pregúntame sobre requisitos, tiempos, instituciones y más.
+            Tengo información sobre {totalProcedures} trámites de {totalInstitutions} instituciones.
           </p>
         </div>
 
@@ -46,14 +104,14 @@ export default function ObservatoryChatbot() {
                 <div className="bg-gray-100 rounded-2xl p-4">
                   <p className="text-gray-800 mb-3">
                     ¡Hola! Soy tu asistente especializado en trámites gubernamentales de Guatemala. 
-                    Puedo ayudarte con:
+                    Tengo información actualizada sobre {totalProcedures} trámites. Puedo ayudarte con:
                   </p>
                   <ul className="text-sm text-gray-700 space-y-1">
                     <li>• Información sobre requisitos y documentos</li>
                     <li>• Tiempos estimados de procesamiento</li>
                     <li>• Ubicación y contacto de instituciones</li>
                     <li>• Pasos detallados para completar trámites</li>
-                    <li>• Análisis de eficiencia del Observatorio</li>
+                    <li>• {digitalProcedures} trámites disponibles digitalmente ({digitalPercentage}%)</li>
                   </ul>
                 </div>
                 <p className="text-xs text-gray-500 mt-2">
@@ -68,34 +126,38 @@ export default function ObservatoryChatbot() {
             <h4 className="font-medium text-gray-900 mb-4">Acciones rápidas:</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <button className="flex items-center space-x-3 p-4 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors text-left">
+                onClick={() => handleQuickAction('search')}
                 <Search className="h-5 w-5 text-blue-600" />
                 <div>
                   <p className="font-medium text-blue-900">Buscar trámite específico</p>
-                  <p className="text-xs text-blue-700">Encuentra información detallada</p>
+                  <p className="text-xs text-blue-700">{totalProcedures} trámites disponibles</p>
                 </div>
               </button>
               
+                onClick={() => handleQuickAction('observatory')}
               <button className="flex items-center space-x-3 p-4 bg-green-50 hover:bg-green-100 rounded-xl transition-colors text-left">
                 <BarChart3 className="h-5 w-5 text-green-600" />
                 <div>
                   <p className="font-medium text-green-900">Ver análisis del Observatorio</p>
-                  <p className="text-xs text-green-700">Eficiencia y satisfacción</p>
+                  <p className="text-xs text-green-700">Análisis de {totalProcedures} procesos</p>
                 </div>
               </button>
               
+                onClick={() => handleQuickAction('categories')}
               <button className="flex items-center space-x-3 p-4 bg-purple-50 hover:bg-purple-100 rounded-xl transition-colors text-left">
                 <FileText className="h-5 w-5 text-purple-600" />
                 <div>
-                  <p className="font-medium text-purple-900">Documentos requeridos</p>
-                  <p className="text-xs text-purple-700">Lista completa por trámite</p>
+                  <p className="font-medium text-purple-900">Explorar categorías</p>
+                  <p className="text-xs text-purple-700">{categories.length} categorías disponibles</p>
                 </div>
               </button>
               
               <button className="flex items-center space-x-3 p-4 bg-orange-50 hover:bg-orange-100 rounded-xl transition-colors text-left">
+                onClick={() => handleQuickAction('help')}
                 <Users className="h-5 w-5 text-orange-600" />
                 <div>
-                  <p className="font-medium text-orange-900">Contactar instituciones</p>
-                  <p className="text-xs text-orange-700">Información de contacto oficial</p>
+                  <p className="font-medium text-orange-900">Centro de ayuda</p>
+                  <p className="text-xs text-orange-700">Guías y preguntas frecuentes</p>
                 </div>
               </button>
             </div>
@@ -105,18 +167,22 @@ export default function ObservatoryChatbot() {
           <div className="p-6 border-b border-gray-200">
             <h4 className="font-medium text-gray-900 mb-4">Preguntas frecuentes:</h4>
             <div className="space-y-2">
-              {[
-                "¿Qué documentos necesito para renovar mi DPI?",
-                "¿Cuánto tiempo toma inscribir una empresa?",
-                "¿Dónde puedo obtener antecedentes penales?",
-                "¿Qué trámites puedo hacer completamente en línea?",
-                "¿Cuáles son los horarios de atención del RENAP?"
-              ].map((question, index) => (
+              {popularProcedures.map((procedure, index) => (
                 <button
                   key={index}
+                  onClick={() => handleProcedureClick(procedure.id)}
                   className="w-full text-left p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm text-gray-700"
                 >
-                  {question}
+                  ¿Cómo realizar: {procedure.name}?
+                </button>
+              ))}
+              {categories.slice(0, 3).map((category, index) => (
+                <button
+                  key={`cat-${index}`}
+                  onClick={() => navigate(`/catalogo/${category.name.toLowerCase()}`)}
+                  className="w-full text-left p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors text-sm text-gray-700"
+                >
+                  ¿Qué trámites de {category.name} están disponibles? ({category.count} trámites)
                 </button>
               ))}
             </div>
@@ -148,7 +214,7 @@ export default function ObservatoryChatbot() {
             </div>
             <h3 className="font-semibold text-gray-900 mb-2">Búsqueda Inteligente</h3>
             <p className="text-gray-600 text-sm">
-              Encuentra información específica usando lenguaje natural
+              Busca entre {totalProcedures} trámites usando lenguaje natural
             </p>
           </div>
           
@@ -158,7 +224,7 @@ export default function ObservatoryChatbot() {
             </div>
             <h3 className="font-semibold text-gray-900 mb-2">Análisis en Tiempo Real</h3>
             <p className="text-gray-600 text-sm">
-              Accede a datos actualizados del Observatorio Ciudadano
+              Datos de {totalInstitutions} instituciones actualizados constantemente
             </p>
           </div>
           
@@ -168,7 +234,7 @@ export default function ObservatoryChatbot() {
             </div>
             <h3 className="font-semibold text-gray-900 mb-2">Asistencia 24/7</h3>
             <p className="text-gray-600 text-sm">
-              Disponible en cualquier momento para resolver tus dudas
+              {digitalProcedures} trámites digitales disponibles las 24 horas
             </p>
           </div>
         </div>
