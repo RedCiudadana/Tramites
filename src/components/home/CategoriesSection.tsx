@@ -1,29 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  Building2, 
-  GraduationCap, 
-  Heart, 
-  Scale, 
-  MapPin, 
-  FileText, 
-  Building, 
-  FileCheck, 
-  BookOpen, 
-  FileHeart, 
-  Shield, 
-  Gavel, 
-  Home, 
-  Zap, 
-  Users, 
-  Globe, 
-  Phone,
-  User,
-  Certificate,
-  Award,
-  ArrowRight,
-  Briefcase
-} from 'lucide-react';
+import { Building2, GraduationCap, Heart, Scale, MapPin, FileText, Building, FileCheck, BookOpen, FileHeart, Shield, Gavel, Home, Zap, Users, Globe, Phone, User, AlignCenterVertical as Certificate, Award, ArrowRight, Briefcase } from 'lucide-react';
 import { useProcedures } from '../../hooks/useProcedures';
 import { useInstitutions } from '../../hooks/useInstitutions';
 
