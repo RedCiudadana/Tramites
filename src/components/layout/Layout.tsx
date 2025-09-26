@@ -28,7 +28,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </main>
 
       <Footer />
-      <Chatbot />
+      {/* <Chatbot /> */}
       <ReportProblemsButton />
       
       <SearchModal

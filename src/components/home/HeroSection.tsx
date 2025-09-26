@@ -56,7 +56,6 @@ export default function HeroSection() {
           <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-4xl mx-auto leading-relaxed">
             Red Ciudadana recopila y organiza información sobre trámites gubernamentales para que tengas todo lo necesario antes de ir a las oficinas oficiales.
             <br/><br/>
-            <span className="font-semibold text-white">Información verificada y actualizada por la sociedad civil.</span>
           </p>
 
           {/* Search Bar */}
@@ -81,7 +80,7 @@ export default function HeroSection() {
           </form>
 
           {/* Popular Searches */}
-          <div className="mb-12">
+          {/* <div className="mb-12">
             <p className="text-blue-200 text-sm mb-3">Búsquedas populares:</p>
             <div className="flex flex-wrap justify-center gap-3">
               {popularSearches.map((search, index) => (
@@ -94,10 +93,10 @@ export default function HeroSection() {
                 </button>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
           {/* Real-time Statistics */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+          {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-white mb-1">
                 {totalProcedures}
@@ -130,7 +129,7 @@ export default function HeroSection() {
                 Digitalización
               </div>
             </div>
-          </div>
+          </div> */}
 
       </div>
     </div>

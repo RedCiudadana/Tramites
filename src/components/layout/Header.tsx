@@ -15,7 +15,7 @@ export default function Header({ onSearchOpen }: HeaderProps) {
     { path: '/', label: 'Inicio' },
     { path: '/catalogo', label: 'Catálogo de Trámites' },
     { path: '/observatorio', label: 'Observatorio' },
-    { path: '/asistente-tramites', label: 'Asistente de Trámites' },
+    // { path: '/asistente-tramites', label: 'Asistente de Trámites' },
     { path: '/ayuda', label: 'Ayuda' }
   ];
 

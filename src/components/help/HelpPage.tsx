@@ -214,7 +214,7 @@ export default function HelpPage() {
             <h2 className="text-2xl font-bold mb-2">¿Necesitas ayuda inmediata?</h2>
             <p className="text-blue-100">Nuestro equipo está aquí para apoyarte</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-6">
             <div className="text-center">
               <div className="bg-white/20 p-4 rounded-xl mb-3 mx-auto w-fit">
                 <MessageCircle className="h-6 w-6" />
@@ -222,7 +222,7 @@ export default function HelpPage() {
               <h3 className="font-semibold mb-1">Chat en Vivo</h3>
               <p className="text-sm text-blue-100 mb-3">Respuesta inmediata</p>
               <button className="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors font-medium">
-                Iniciar chat
+                Próximamente
               </button>
             </div>
             <div className="text-center">
@@ -235,7 +235,7 @@ export default function HelpPage() {
                 Enviar correo
               </button>
             </div>
-            <div className="text-center">
+            {/* <div className="text-center">
               <div className="bg-white/20 p-4 rounded-xl mb-3 mx-auto w-fit">
                 <Phone className="h-6 w-6" />
               </div>
@@ -244,7 +244,7 @@ export default function HelpPage() {
               <button className="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors font-medium">
                 Llamar ahora
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Youtube, Music2 } from 'lucide-react';
 import logo from '../../assets/logoredblanco.png';
 
 export default function TopBar() {
@@ -20,7 +20,7 @@ export default function TopBar() {
           {/* Social Media Links */}
           <div className="flex items-center space-x-1">
             <a
-              href="https://facebook.com/redciudadanagt"
+              href="https://www.facebook.com/Redciudadanagt"
               target="_blank"
               rel="noopener noreferrer"
               className="p-1.5 hover:bg-gray-800 rounded transition-colors"
@@ -29,7 +29,7 @@ export default function TopBar() {
               <Facebook className="h-4 w-4" />
             </a>
             <a
-              href="https://twitter.com/redciudadanagt"
+              href="https://x.com/redxguate"
               target="_blank"
               rel="noopener noreferrer"
               className="p-1.5 hover:bg-gray-800 rounded transition-colors"
@@ -38,7 +38,7 @@ export default function TopBar() {
               <Twitter className="h-4 w-4" />
             </a>
             <a
-              href="https://instagram.com/redciudadanagt"
+              href="https://www.instagram.com/redxguate/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-1.5 hover:bg-gray-800 rounded transition-colors"
@@ -47,7 +47,16 @@ export default function TopBar() {
               <Instagram className="h-4 w-4" />
             </a>
             <a
-              href="https://youtube.com/@redciudadanagt"
+              href="https://www.tiktok.com/@redxguate"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-1.5 hover:bg-gray-800 rounded transition-colors"
+              aria-label="Instagram"
+            >
+              <Music2 className="h-4 w-4" />
+            </a>
+            <a
+              href="https://www.youtube.com/channel/UCQwc62j7beStZYFzwPxBEQg"
               target="_blank"
               rel="noopener noreferrer"
               className="p-1.5 hover:bg-gray-800 rounded transition-colors"
