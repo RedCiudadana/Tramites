@@ -6,6 +6,7 @@ import CatalogPage from '../pages/CatalogPage';
 import ProcedureDetailPage from '../pages/ProcedureDetailPage';
 import ObservatoryPage from '../pages/ObservatoryPage';
 import AssistantPage from '../pages/AssistantPage';
+import ExperiencesPage from '../pages/ExperiencesPage';
 import HelpPage from '../pages/HelpPage';
 import TermsPage from '../pages/TermsPage';
 import PrivacyPage from '../pages/PrivacyPage';
@@ -24,6 +25,7 @@ const AppRouter: React.FC = () => {
           <Route path="/tramite/:id" element={<ProcedureDetailPage />} />
           <Route path="/observatorio" element={<ObservatoryPage />} />
           <Route path="/asistente-tramites" element={<AssistantPage />} />
+          <Route path="/experiencias" element={<ExperiencesPage />} />
           <Route path="/ayuda" element={<HelpPage />} />
           <Route path="/terminos" element={<TermsPage />} />
           <Route path="/privacidad" element={<PrivacyPage />} />
