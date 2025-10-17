@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useProcedures, useProcedureSearch } from '../../hooks/useProcedures';
 import { Procedure } from '../../lib/data';
 import loader from '../../assets/loader.gif';
+import CatalogHero from './CatalogHero';
 
 interface ProcedureCatalogProps {
   searchQuery?: string;
@@ -106,25 +107,24 @@ export default function ProcedureCatalog({
           </Link>
           <ChevronRight className="h-4 w-4" />
           <span className="text-gray-900 font-medium">
-            {selectedCategory 
+            {selectedCategory
               ? `Categoría: ${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}`
               : 'Catálogo de Trámites'
             }
           </span>
         </nav>
 
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Catálogo de Trámites
-          </h1>
-          <p className="text-gray-600">
-            {selectedCategory 
-              ? `Trámites de ${selectedCategory} • ${filteredProcedures.length} resultados`
-              : `${filteredProcedures.length} trámites disponibles`
-            }
-          </p>
-        </div>
+        {/* Hero Slider */}
+        <CatalogHero totalProcedures={filteredProcedures.length} />
+
+        {/* Category Info if selected */}
+        {selectedCategory && (
+          <div className="mb-8 text-center">
+            <p className="text-lg text-gray-600">
+              Mostrando trámites de <span className="font-semibold text-gray-900">{selectedCategory}</span>
+            </p>
+          </div>
+        )}
 
         {/* Search and Filters */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
