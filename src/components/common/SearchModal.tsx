@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, X, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useProcedureSearch } from '../../hooks/useProcedures';
-import { Procedure } from '../../lib/supabase';
+import { Procedure } from '../../lib/data';
 
 interface SearchModalProps {
   isOpen: boolean;

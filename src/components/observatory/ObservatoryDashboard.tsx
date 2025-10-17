@@ -41,7 +41,7 @@ export default function ObservatoryDashboard() {
   const [viewMode, setViewMode] = useState<'overview' | 'detailed'>('overview');
   const [activeTab, setActiveTab] = useState<'dashboard' | 'analysis'>('dashboard');
 
-  // Use Supabase data instead of static data
+  // Use JSON data
   const { observatoryData, loading, error } = useObservatory();
   const { stats } = useObservatoryStats();
 

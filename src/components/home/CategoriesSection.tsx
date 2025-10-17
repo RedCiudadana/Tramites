@@ -35,7 +35,7 @@ export default function CategoriesSection() {
     navigate(`/catalogo/${categoryId}`);
   };
 
-  // Calculate real category counts from Supabase data
+  // Calculate real category counts from JSON data
   const categoryMapping = [
     {
       id: 'Comunicaciones y Transporte',

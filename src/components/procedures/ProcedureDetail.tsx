@@ -17,7 +17,7 @@ import {
   Info
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Procedure } from '../../lib/supabase';
+import { Procedure } from '../../lib/data';
 
 interface ProcedureDetailProps {
   procedure: Procedure;

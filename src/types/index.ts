@@ -1,5 +1,4 @@
-// Re-export types from supabase lib
-export type { Procedure, Institution } from '../lib/supabase';
+export type { Procedure, Institution } from '../lib/data';
 
 export interface UserProcedure {
   id: string;

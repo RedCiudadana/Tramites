@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { institutionsService, Institution } from '../lib/supabase';
+import { institutionsService, Institution } from '../lib/data';
 
 export function useInstitutions() {
   const [institutions, setInstitutions] = useState<Institution[]>([]);

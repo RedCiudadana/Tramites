@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { proceduresService, Procedure } from '../lib/supabase';
+import { proceduresService, Procedure } from '../lib/data';
 
 export function useProcedures() {
   const [procedures, setProcedures] = useState<Procedure[]>([]);

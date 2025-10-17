@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { observatoryService } from '../lib/data';
 
 export interface ObservatoryData {
   id: string;
@@ -23,7 +23,6 @@ export interface ObservatoryData {
   last_updated: string;
   created_at: string;
   updated_at: string;
-  // Joined data from procedures table
   procedure?: {
     id: string;
     name: string;
@@ -46,34 +45,8 @@ export function useObservatory() {
     try {
       setLoading(true);
       setError(null);
-      
-      const { data, error } = await supabase
-        .from('observatory_data')
-        .select(`
-          *,
-          procedures!inner (
-            id,
-            name,
-            category,
-            subcategory,
-            institution_id,
-            institutions (
-              name,
-              full_name
-            )
-          )
-        `)
-        .order('maturity_level', { ascending: false });
-
-      if (error) throw error;
-
-      // Transform data to match the expected format
-      const transformedData = (data || []).map(item => ({
-        ...item,
-        procedure: item.procedures
-      }));
-
-      setObservatoryData(transformedData);
+      const data = await observatoryService.getAll();
+      setObservatoryData(data || []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al cargar datos del observatorio');
     } finally {

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Search, Filter, Building2, Clock, User, Users, ChevronRight, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useProcedures, useProcedureSearch } from '../../hooks/useProcedures';
-import { Procedure } from '../../lib/supabase';
+import { Procedure } from '../../lib/data';
 import loader from '../../assets/loader.gif';
 
 interface ProcedureCatalogProps {
@@ -21,7 +21,7 @@ export default function ProcedureCatalog({
   const [showFilters, setShowFilters] = useState(false);
   const navigate = useNavigate();
 
-  // Use hooks to fetch data from Supabase
+  // Use hooks to fetch data from JSON
   const { procedures: allProcedures, loading: allLoading } = useProcedures();
   const { procedures: searchResults, loading: searchLoading } = useProcedureSearch(localSearchQuery || searchQuery);
 
