@@ -396,44 +396,6 @@ export default function HelpPage() {
           </div>
         </div>
 
-        {/* Additional Resources */}
-        <div className="mt-12 bg-white rounded-xl shadow-sm p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Recursos Adicionales</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="text-center p-6 bg-gray-50 rounded-xl">
-              <div className="bg-blue-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Globe className="h-8 w-8 text-blue-600" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Portales Oficiales</h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Enlaces directos a todos los portales gubernamentales oficiales
-              </p>
-              <button className="text-blue-600 hover:text-blue-700 font-medium">Ver portales</button>
-            </div>
-            
-            <div className="text-center p-6 bg-gray-50 rounded-xl">
-              <div className="bg-purple-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <AlertCircle className="h-8 w-8 text-purple-600" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Reportar Problemas</h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Informa sobre cambios en procesos o información desactualizada
-              </p>
-              <button className="text-purple-600 hover:text-purple-700 font-medium">Reportar</button>
-            </div>
-            
-            <div className="text-center p-6 bg-gray-50 rounded-xl">
-              <div className="bg-green-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <MessageCircle className="h-8 w-8 text-green-600" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Feedback</h3>
-              <p className="text-sm text-gray-600 mb-4">
-                Comparte tu experiencia para mejorar nuestro servicio
-              </p>
-              <button className="text-green-600 hover:text-green-700 font-medium">Dar feedback</button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
