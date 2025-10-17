@@ -1,6 +1,7 @@
 import React from 'react';
 import HeroSection from '../components/home/HeroSection';
 import PopularProceduresSection from '../components/home/PopularProceduresSection';
+import ExperiencesSection from '../components/home/ExperiencesSection';
 import CategoriesSection from '../components/home/CategoriesSection';
 
 const HomePage: React.FC = () => {
@@ -8,6 +9,7 @@ const HomePage: React.FC = () => {
     <>
       <HeroSection />
       <PopularProceduresSection />
+      <ExperiencesSection />
       <CategoriesSection />
     </>
   );
