@@ -131,45 +131,49 @@ export default function CategoriesSection() {
 
   return (
     <>
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Categorías de Trámites
-          </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Encuentra rápidamente el tipo de trámite que necesitas realizar
-          </p>
-        </div>
+        <button
+          onClick={() => navigate('/categorias')}
+          className="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden group"
+        >
+          <div className="relative p-12 text-white">
+            <div className="absolute top-0 right-0 opacity-10 group-hover:opacity-20 transition-opacity">
+              <FileText className="w-64 h-64 transform rotate-12" />
+            </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-          {categories.map((category) => {
-            const IconComponent = iconMap[category.icon as keyof typeof iconMap];
-            return (
-              <button
-                key={category.id}
-                onClick={() => handleCategoryClick(category.id)}
-                className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all hover:scale-105 text-center group border border-gray-100"
-              >
-                <div className="flex justify-center mb-4 text-blue-600 group-hover:text-blue-700 transition-colors">
-                  <IconComponent className="h-8 w-8" />
+            <div className="relative z-10">
+              <div className="flex items-center justify-center gap-4 mb-6">
+                <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 group-hover:scale-110 transition-transform">
+                  <FileText className="w-12 h-12" />
                 </div>
-                <h3 className="font-semibold text-gray-900 mb-1 text-sm">{category.name}</h3>
-                <p className="text-sm text-gray-500">{category.count} trámites</p>
-              </button>
-            );
-          })}
-        </div>
+                <h2 className="text-4xl md:text-5xl font-bold">
+                  Categorías de Trámites
+                </h2>
+              </div>
 
-        <div className="text-center mt-12">
-          <button
-            onClick={() => navigate('/categorias')}
-            className="bg-blue-800 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-900 transition-colors inline-flex items-center space-x-2"
-          >
-            <span>Ver todas las categorías</span>
-            <ArrowRight className="h-5 w-5" />
-          </button>
-        </div>
+              <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+                Explora todos los trámites organizados por categorías temáticas. Encuentra rápidamente el tipo de trámite que necesitas realizar.
+              </p>
+
+              <div className="flex items-center justify-center gap-8 mb-8">
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-4">
+                  <div className="text-3xl font-bold">{categories.length}</div>
+                  <div className="text-blue-100 text-sm">Categorías activas</div>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-4">
+                  <div className="text-3xl font-bold">{procedures.length}</div>
+                  <div className="text-blue-100 text-sm">Trámites disponibles</div>
+                </div>
+              </div>
+
+              <div className="inline-flex items-center gap-3 bg-white text-blue-800 px-8 py-4 rounded-xl font-bold text-lg group-hover:gap-4 transition-all shadow-lg">
+                Ver todas las categorías
+                <ArrowRight className="w-6 h-6" />
+              </div>
+            </div>
+          </div>
+        </button>
       </div>
     </section>
 
