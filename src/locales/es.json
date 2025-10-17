@@ -1,0 +1,172 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "catalog": "Catálogo",
+    "categories": "Categorías",
+    "experiences": "Experiencias",
+    "observatory": "Observatorio",
+    "help": "Ayuda",
+    "about": "Acerca de"
+  },
+  "header": {
+    "searchPlaceholder": "Buscar trámites, instituciones...",
+    "login": "Iniciar sesión",
+    "register": "Registrarse"
+  },
+  "footer": {
+    "description": "Información verificada sobre trámites gubernamentales para facilitar tu acceso a servicios públicos.",
+    "quickLinks": "Enlaces Rápidos",
+    "legal": "Legal",
+    "contact": "Contacto",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos y Condiciones",
+    "accessibility": "Accesibilidad",
+    "followUs": "Síguenos",
+    "rights": "Red Ciudadana. Todos los derechos reservados."
+  },
+  "home": {
+    "hero": {
+      "title": "Tu Guía para Trámites Gubernamentales",
+      "subtitle": "Encuentra información clara y actualizada sobre todos los trámites que necesitas realizar",
+      "searchButton": "Buscar",
+      "popularSearches": "Búsquedas populares"
+    },
+    "categories": {
+      "title": "Categorías de Trámites",
+      "description": "Explora todos los trámites organizados por categorías temáticas. Encuentra rápidamente el tipo de trámite que necesitas realizar.",
+      "activeCategories": "Categorías activas",
+      "availableProcedures": "Trámites disponibles",
+      "viewAll": "Ver todas las categorías"
+    },
+    "popular": {
+      "title": "Trámites Más Consultados",
+      "description": "Los trámites que más buscan los ciudadanos guatemaltecos",
+      "viewDetails": "Ver detalles",
+      "viewAll": "Ver todos los trámites"
+    },
+    "experiences": {
+      "title": "Experiencias Guiadas",
+      "description": "Rutas personalizadas para alcanzar tus objetivos",
+      "viewAll": "Ver todas las experiencias"
+    },
+    "institutions": {
+      "title": "Principales Instituciones",
+      "description": "Conoce las instituciones gubernamentales más importantes donde puedes realizar tus trámites",
+      "procedures": "trámites",
+      "viewProcedures": "Ver trámites",
+      "needOtherInstitution": "¿Necesitas información sobre otra institución?",
+      "exploreAll": "Explorar todas las instituciones"
+    }
+  },
+  "catalog": {
+    "title": "Catálogo de Trámites",
+    "description": "Explora todos los trámites disponibles",
+    "search": "Buscar trámites...",
+    "filters": "Filtros",
+    "all": "Todos",
+    "digital": "Digital",
+    "inPerson": "Presencial",
+    "person": "Persona",
+    "company": "Empresa",
+    "clearFilters": "Limpiar filtros",
+    "results": "resultados",
+    "noResults": "No se encontraron trámites",
+    "tryDifferent": "Intenta con otros criterios de búsqueda"
+  },
+  "procedure": {
+    "requirements": "Requisitos",
+    "steps": "Pasos a Seguir",
+    "costs": "Costos",
+    "time": "Tiempo Estimado",
+    "institution": "Institución",
+    "modality": "Modalidad",
+    "userType": "Tipo de Usuario",
+    "schedule": "Horario de Atención",
+    "contact": "Contacto",
+    "website": "Sitio Web",
+    "visitWebsite": "Visitar sitio web",
+    "relatedProcedures": "Trámites Relacionados",
+    "viewDetails": "Ver detalles",
+    "backToCatalog": "Volver al catálogo",
+    "workingDays": "días hábiles",
+    "free": "Gratuito"
+  },
+  "observatory": {
+    "title": "Observatorio de Trámites",
+    "description": "Métricas y análisis en tiempo real del ecosistema de trámites gubernamentales",
+    "askQuestion": "Hacer una pregunta sobre los datos...",
+    "overview": "Resumen General",
+    "totalProcedures": "Total de Trámites",
+    "activeInstitutions": "Instituciones Activas",
+    "digitalProcedures": "Trámites Digitales",
+    "avgProcessingTime": "Tiempo Promedio",
+    "days": "días",
+    "byCategory": "Trámites por Categoría",
+    "byInstitution": "Trámites por Institución",
+    "topInstitutions": "Instituciones con Más Trámites",
+    "digitalVsInPerson": "Trámites Digitales vs Presenciales",
+    "processingTime": "Tiempo de Procesamiento",
+    "procedures": "trámites",
+    "insights": "Perspectivas Clave",
+    "chatPlaceholder": "Escribe tu pregunta aquí...",
+    "send": "Enviar"
+  },
+  "help": {
+    "title": "Centro de Ayuda",
+    "description": "Encuentra respuestas a tus preguntas sobre trámites, instituciones y cómo usar la información de Red Ciudadana para tener éxito en tus gestiones gubernamentales.",
+    "needHelp": "¿Necesitas ayuda inmediata?",
+    "ourTeam": "Nuestro equipo está aquí para apoyarte",
+    "liveChat": "Chat en Vivo",
+    "immediateResponse": "Respuesta inmediata",
+    "comingSoon": "Próximamente",
+    "email": "Correo Electrónico",
+    "sendEmail": "Enviar correo",
+    "faq": "Preguntas Frecuentes",
+    "searchFAQ": "Buscar en preguntas frecuentes...",
+    "noResults": "No se encontraron preguntas que coincidan con tu búsqueda.",
+    "howToUse": "Cómo Usar Red Ciudadana",
+    "documentation": "Documentación",
+    "community": "Únete a la Comunidad",
+    "communityDescription": "Ayuda a otros ciudadanos compartiendo tu experiencia y manteniendo la información actualizada.",
+    "contribute": "Contribuir"
+  },
+  "categories": {
+    "title": "Categorías de Trámites",
+    "description": "Explora los trámites organizados por categorías temáticas",
+    "procedures": "trámites",
+    "viewProcedures": "Ver trámites"
+  },
+  "experiences": {
+    "title": "Experiencias Guiadas",
+    "description": "Rutas personalizadas paso a paso para alcanzar tus objetivos específicos",
+    "steps": "pasos",
+    "startExperience": "Iniciar experiencia"
+  },
+  "about": {
+    "title": "Acerca de Red Ciudadana",
+    "mission": "Nuestra Misión",
+    "vision": "Nuestra Visión",
+    "values": "Nuestros Valores",
+    "team": "Nuestro Equipo",
+    "contact": "Contacto"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "clear": "Limpiar",
+    "apply": "Aplicar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "view": "Ver",
+    "close": "Cerrar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "readMore": "Leer más",
+    "showLess": "Mostrar menos"
+  }
+}

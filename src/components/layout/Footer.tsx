@@ -3,9 +3,11 @@ import { Facebook, Twitter, Instagram, Mail, Phone, MapPin, Music2, Youtube } fr
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logored.png';
 import European from '../../assets/european.png';
-import Indico from '../../assets/indico.png'
+import Indico from '../../assets/indico.png';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export default function Footer() {
+  const { t } = useLanguage();
   return (
     <footer>
       <div className='bg-white my-8'>
@@ -30,8 +32,7 @@ export default function Footer() {
                 <img src={logo} alt="Red Ciudadana" />
               </div>
               <p className="text-gray-400 mb-6 max-w-md">
-                Organización de sociedad civil que recopila información sobre trámites 
-                gubernamentales para facilitar el acceso ciudadano a los servicios públicos.
+                {t('footer.description')}
               </p>
               <div className="flex space-x-4">
                 <a
@@ -84,17 +85,17 @@ export default function Footer() {
 
             {/* Quick Links */}
             <div>
-              <h4 className="text-lg font-semibold mb-4">Información</h4>
+              <h4 className="text-lg font-semibold mb-4">{t('footer.quickLinks')}</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><Link to="/catalogo" className="hover:text-white transition-colors">Catálogo de Información</Link></li>
-                <li><Link to="/observatorio" className="hover:text-white transition-colors">Observatorio</Link></li>
-                <li><Link to="/acerca-de" className="hover:text-white transition-colors">Acerca de Red Ciudadana</Link></li>
+                <li><Link to="/catalogo" className="hover:text-white transition-colors">{t('nav.catalog')}</Link></li>
+                <li><Link to="/observatorio" className="hover:text-white transition-colors">{t('nav.observatory')}</Link></li>
+                <li><Link to="/acerca-de" className="hover:text-white transition-colors">{t('nav.about')}</Link></li>
               </ul>
             </div>
 
             {/* Contact Info */}
             <div>
-              <h4 className="text-lg font-semibold mb-4">Contacto</h4>
+              <h4 className="text-lg font-semibold mb-4">{t('footer.contact')}</h4>
               <ul className="space-y-3 text-gray-400">
                 {/* <li className="flex items-center space-x-2">
                   <Phone className="h-4 w-4" />

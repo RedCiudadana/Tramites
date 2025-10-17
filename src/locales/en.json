@@ -1,0 +1,172 @@
+{
+  "nav": {
+    "home": "Home",
+    "catalog": "Catalog",
+    "categories": "Categories",
+    "experiences": "Experiences",
+    "observatory": "Observatory",
+    "help": "Help",
+    "about": "About"
+  },
+  "header": {
+    "searchPlaceholder": "Search procedures, institutions...",
+    "login": "Login",
+    "register": "Sign Up"
+  },
+  "footer": {
+    "description": "Verified information about government procedures to facilitate your access to public services.",
+    "quickLinks": "Quick Links",
+    "legal": "Legal",
+    "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "terms": "Terms and Conditions",
+    "accessibility": "Accessibility",
+    "followUs": "Follow Us",
+    "rights": "Red Ciudadana. All rights reserved."
+  },
+  "home": {
+    "hero": {
+      "title": "Your Guide to Government Procedures",
+      "subtitle": "Find clear and updated information about all the procedures you need to complete",
+      "searchButton": "Search",
+      "popularSearches": "Popular searches"
+    },
+    "categories": {
+      "title": "Procedure Categories",
+      "description": "Explore all procedures organized by thematic categories. Quickly find the type of procedure you need to complete.",
+      "activeCategories": "Active categories",
+      "availableProcedures": "Available procedures",
+      "viewAll": "View all categories"
+    },
+    "popular": {
+      "title": "Most Consulted Procedures",
+      "description": "The procedures most searched by Guatemalan citizens",
+      "viewDetails": "View details",
+      "viewAll": "View all procedures"
+    },
+    "experiences": {
+      "title": "Guided Experiences",
+      "description": "Personalized paths to achieve your goals",
+      "viewAll": "View all experiences"
+    },
+    "institutions": {
+      "title": "Main Institutions",
+      "description": "Learn about the most important government institutions where you can complete your procedures",
+      "procedures": "procedures",
+      "viewProcedures": "View procedures",
+      "needOtherInstitution": "Need information about another institution?",
+      "exploreAll": "Explore all institutions"
+    }
+  },
+  "catalog": {
+    "title": "Procedures Catalog",
+    "description": "Explore all available procedures",
+    "search": "Search procedures...",
+    "filters": "Filters",
+    "all": "All",
+    "digital": "Digital",
+    "inPerson": "In Person",
+    "person": "Individual",
+    "company": "Company",
+    "clearFilters": "Clear filters",
+    "results": "results",
+    "noResults": "No procedures found",
+    "tryDifferent": "Try different search criteria"
+  },
+  "procedure": {
+    "requirements": "Requirements",
+    "steps": "Steps to Follow",
+    "costs": "Costs",
+    "time": "Estimated Time",
+    "institution": "Institution",
+    "modality": "Modality",
+    "userType": "User Type",
+    "schedule": "Office Hours",
+    "contact": "Contact",
+    "website": "Website",
+    "visitWebsite": "Visit website",
+    "relatedProcedures": "Related Procedures",
+    "viewDetails": "View details",
+    "backToCatalog": "Back to catalog",
+    "workingDays": "working days",
+    "free": "Free"
+  },
+  "observatory": {
+    "title": "Procedures Observatory",
+    "description": "Real-time metrics and analysis of the government procedures ecosystem",
+    "askQuestion": "Ask a question about the data...",
+    "overview": "General Overview",
+    "totalProcedures": "Total Procedures",
+    "activeInstitutions": "Active Institutions",
+    "digitalProcedures": "Digital Procedures",
+    "avgProcessingTime": "Average Time",
+    "days": "days",
+    "byCategory": "Procedures by Category",
+    "byInstitution": "Procedures by Institution",
+    "topInstitutions": "Institutions with Most Procedures",
+    "digitalVsInPerson": "Digital vs In-Person Procedures",
+    "processingTime": "Processing Time",
+    "procedures": "procedures",
+    "insights": "Key Insights",
+    "chatPlaceholder": "Type your question here...",
+    "send": "Send"
+  },
+  "help": {
+    "title": "Help Center",
+    "description": "Find answers to your questions about procedures, institutions, and how to use Red Ciudadana information to succeed in your government transactions.",
+    "needHelp": "Need immediate help?",
+    "ourTeam": "Our team is here to support you",
+    "liveChat": "Live Chat",
+    "immediateResponse": "Immediate response",
+    "comingSoon": "Coming Soon",
+    "email": "Email",
+    "sendEmail": "Send email",
+    "faq": "Frequently Asked Questions",
+    "searchFAQ": "Search frequently asked questions...",
+    "noResults": "No questions found matching your search.",
+    "howToUse": "How to Use Red Ciudadana",
+    "documentation": "Documentation",
+    "community": "Join the Community",
+    "communityDescription": "Help other citizens by sharing your experience and keeping information up to date.",
+    "contribute": "Contribute"
+  },
+  "categories": {
+    "title": "Procedure Categories",
+    "description": "Explore procedures organized by thematic categories",
+    "procedures": "procedures",
+    "viewProcedures": "View procedures"
+  },
+  "experiences": {
+    "title": "Guided Experiences",
+    "description": "Step-by-step personalized paths to achieve your specific goals",
+    "steps": "steps",
+    "startExperience": "Start experience"
+  },
+  "about": {
+    "title": "About Red Ciudadana",
+    "mission": "Our Mission",
+    "vision": "Our Vision",
+    "values": "Our Values",
+    "team": "Our Team",
+    "contact": "Contact"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "readMore": "Read more",
+    "showLess": "Show less"
+  }
+}

@@ -2,6 +2,8 @@ import React from 'react';
 import { Search, Menu } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../../assets/logorednegro.png';
+import LanguageSelector from '../common/LanguageSelector';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface HeaderProps {
   onSearchOpen: () => void;
@@ -10,14 +12,14 @@ interface HeaderProps {
 export default function Header({ onSearchOpen }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
 
   const menuItems = [
-    { path: '/', label: 'Inicio' },
-    { path: '/catalogo', label: 'Catálogo de Trámites' },
-    { path: '/experiencias', label: 'Experiencias Guiadas' },
-    { path: '/observatorio', label: 'Observatorio' },
-    // { path: '/asistente-tramites', label: 'Asistente de Trámites' },
-    { path: '/ayuda', label: 'Ayuda' }
+    { path: '/', label: t('nav.home') },
+    { path: '/catalogo', label: t('nav.catalog') },
+    { path: '/experiencias', label: t('nav.experiences') },
+    { path: '/observatorio', label: t('nav.observatory') },
+    { path: '/ayuda', label: t('nav.help') }
   ];
 
   const isActive = (path: string) => {
@@ -55,13 +57,15 @@ export default function Header({ onSearchOpen }: HeaderProps) {
 
           {/* Actions */}
           <div className="flex items-center space-x-2">
+            <LanguageSelector />
+
             <button
               onClick={onSearchOpen}
               className="p-2.5 text-gray-400 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors md:hidden"
             >
               <Search className="h-5 w-5" />
             </button>
-            
+
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="p-2.5 text-gray-400 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-colors md:hidden"

@@ -3,12 +3,14 @@ import { Search, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useProcedures } from '../../hooks/useProcedures';
 import { useInstitutions } from '../../hooks/useInstitutions';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export default function HeroSection() {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
   const { procedures } = useProcedures();
   const { institutions } = useInstitutions();
+  const { t } = useLanguage();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
