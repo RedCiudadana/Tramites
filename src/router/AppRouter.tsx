@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import HomePage from '../pages/HomePage';
 import CatalogPage from '../pages/CatalogPage';
+import CategoriesPage from '../pages/CategoriesPage';
 import ProcedureDetailPage from '../pages/ProcedureDetailPage';
 import ObservatoryPage from '../pages/ObservatoryPage';
 import AssistantPage from '../pages/AssistantPage';
@@ -22,6 +23,7 @@ const AppRouter: React.FC = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/catalogo" element={<CatalogPage />} />
           <Route path="/catalogo/:category" element={<CatalogPage />} />
+          <Route path="/categorias" element={<CategoriesPage />} />
           <Route path="/tramite/:id" element={<ProcedureDetailPage />} />
           <Route path="/observatorio" element={<ObservatoryPage />} />
           <Route path="/asistente-tramites" element={<AssistantPage />} />

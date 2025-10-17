@@ -163,10 +163,10 @@ export default function CategoriesSection() {
 
         <div className="text-center mt-12">
           <button
-            onClick={() => navigate('/catalogo')}
+            onClick={() => navigate('/categorias')}
             className="bg-blue-800 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-900 transition-colors inline-flex items-center space-x-2"
           >
-            <span>Ver todos los trámites</span>
+            <span>Ver todas las categorías</span>
             <ArrowRight className="h-5 w-5" />
           </button>
         </div>
