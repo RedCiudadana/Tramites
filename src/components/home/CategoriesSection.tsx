@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Building2, GraduationCap, Heart, Scale, MapPin, FileText, Building, FileCheck, BookOpen, FileHeart, Shield, Gavel, Home, Zap, Users, Globe, Phone, User, AlignCenterVertical as Certificate, Award, ArrowRight, Briefcase } from 'lucide-react';
 import { useProcedures } from '../../hooks/useProcedures';
 import { useInstitutions } from '../../hooks/useInstitutions';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 // Create icon map for dynamic access
 const iconMap = {
@@ -30,6 +31,7 @@ export default function CategoriesSection() {
   const navigate = useNavigate();
   const { procedures } = useProcedures();
   const { institutions } = useInstitutions();
+  const { t } = useLanguage();
 
   const handleCategoryClick = (categoryId: string) => {
     navigate(`/catalogo/${categoryId}`);
@@ -148,27 +150,27 @@ export default function CategoriesSection() {
                   <FileText className="w-12 h-12" />
                 </div>
                 <h2 className="text-4xl md:text-5xl font-bold">
-                  Categorías de Trámites
+                  {t('home.categories.title')}
                 </h2>
               </div>
 
               <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
-                Explora todos los trámites organizados por categorías temáticas. Encuentra rápidamente el tipo de trámite que necesitas realizar.
+                {t('home.categories.description')}
               </p>
 
               <div className="flex items-center justify-center gap-8 mb-8">
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-4">
                   <div className="text-3xl font-bold">{categories.length}</div>
-                  <div className="text-blue-100 text-sm">Categorías activas</div>
+                  <div className="text-blue-100 text-sm">{t('home.categories.activeCategories')}</div>
                 </div>
                 <div className="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-4">
                   <div className="text-3xl font-bold">{procedures.length}</div>
-                  <div className="text-blue-100 text-sm">Trámites disponibles</div>
+                  <div className="text-blue-100 text-sm">{t('home.categories.availableProcedures')}</div>
                 </div>
               </div>
 
               <div className="inline-flex items-center gap-3 bg-white text-blue-800 px-8 py-4 rounded-xl font-bold text-lg group-hover:gap-4 transition-all shadow-lg">
-                Ver todas las categorías
+                {t('home.categories.viewAll')}
                 <ArrowRight className="w-6 h-6" />
               </div>
             </div>

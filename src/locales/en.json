@@ -26,10 +26,16 @@
   },
   "home": {
     "hero": {
-      "title": "Your Guide to Government Procedures",
-      "subtitle": "Find clear and updated information about all the procedures you need to complete",
+      "title": "Procedures Observatory",
+      "subtitle": "of Guatemala",
+      "description": "Red Ciudadana collects and organizes information about government procedures so you have everything you need before going to official offices.",
+      "searchPlaceholder": "What information do you need? Ex: renew ID, register company...",
       "searchButton": "Search",
-      "popularSearches": "Popular searches"
+      "popularSearches": "Popular searches",
+      "totalProcedures": "Available procedures",
+      "totalInstitutions": "Institutions",
+      "digitalProcedures": "Digital procedures",
+      "digitalPercentage": "Digitized"
     },
     "categories": {
       "title": "Procedure Categories",
@@ -168,5 +174,36 @@
     "previous": "Previous",
     "readMore": "Read more",
     "showLess": "Show less"
+  },
+  "popup": {
+    "new": "New",
+    "title": "Discover Our New Features",
+    "subtitle": "We've improved your experience with powerful tools",
+    "categories": "Categories",
+    "categoriesDesc": "Explore by topics",
+    "experiences": "Guided Experiences",
+    "experiencesDesc": "Achieve your goals",
+    "observatory": "Observatory",
+    "observatoryDesc": "Real-time statistics",
+    "dontShowToday": "Don't show today"
+  },
+  "gdpr": {
+    "message": "We use cookies to improve your experience. By continuing to browse, you accept our privacy policy.",
+    "accept": "Accept",
+    "decline": "Decline",
+    "learnMore": "Learn more"
+  },
+  "chatbot": {
+    "title": "Virtual Assistant",
+    "placeholder": "Type your question here...",
+    "send": "Send",
+    "greeting": "Hello, how can I help you?",
+    "thinking": "Thinking..."
+  },
+  "buttons": {
+    "scrollToTop": "Scroll to top",
+    "reportProblem": "Report a problem",
+    "reportTitle": "Report Problem",
+    "reportDescription": "Help us improve by reporting outdated information or errors"
   }
 }

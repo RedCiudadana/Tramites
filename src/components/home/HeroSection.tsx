@@ -48,15 +48,15 @@ export default function HeroSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative">
         <div className="text-center">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-            Observatorio de Trámites
+            {t('home.hero.title')}
             <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-white">
-              de Guatemala
+              {t('home.hero.subtitle')}
             </span>
           </h1>
-          
+
           <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-4xl mx-auto leading-relaxed">
-            Red Ciudadana recopila y organiza información sobre trámites gubernamentales para que tengas todo lo necesario antes de ir a las oficinas oficiales.
+            {t('home.hero.description')}
             <br/><br/>
           </p>
 
@@ -68,14 +68,14 @@ export default function HeroSection() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="¿Qué información necesitas? Ej: renovar DPI, inscribir empresa..."
+                placeholder={t('home.hero.searchPlaceholder')}
                 className="w-full pl-16 pr-40 py-5 text-lg rounded-2xl text-gray-900 placeholder-gray-500 border-0 focus:ring-4 focus:ring-blue-300/50 focus:outline-none shadow-2xl backdrop-blur-sm"
               />
               <button
                 type="submit"
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-blue-600 to-blue-500 text-white px-8 py-3 rounded-xl hover:from-blue-500 hover:to-blue-400 transition-all flex items-center space-x-2 font-medium shadow-lg hover:shadow-xl"
               >
-                <span>Buscar</span>
+                <span>{t('home.hero.searchButton')}</span>
                 <ArrowRight className="h-5 w-5" />
               </button>
             </div>

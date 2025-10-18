@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { X, Sparkles, Search, Target, BarChart3, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export default function PromoPopup() {
+  const { t } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -65,15 +67,15 @@ export default function PromoPopup() {
                 <Sparkles className="w-5 h-5 text-red-900" />
               </div>
               <span className="bg-yellow-400 text-red-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
-                Nuevo
+                {t('popup.new')}
               </span>
             </div>
 
             <h3 className="text-2xl font-bold text-white mb-2">
-              Descubre Nuestras Nuevas Funcionalidades
+              {t('popup.title')}
             </h3>
             <p className="text-red-100 text-sm mb-4">
-              Hemos mejorado tu experiencia con herramientas poderosas
+              {t('popup.subtitle')}
             </p>
 
             <div className="space-y-3 mb-5">
@@ -86,8 +88,8 @@ export default function PromoPopup() {
                   <Search className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1">
-                  <div className="text-white font-semibold text-sm">Categorías</div>
-                  <div className="text-red-100 text-xs">Explora por temas</div>
+                  <div className="text-white font-semibold text-sm">{t('popup.categories')}</div>
+                  <div className="text-red-100 text-xs">{t('popup.categoriesDesc')}</div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
@@ -101,8 +103,8 @@ export default function PromoPopup() {
                   <Target className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1">
-                  <div className="text-white font-semibold text-sm">Experiencias Guiadas</div>
-                  <div className="text-red-100 text-xs">Alcanza tus metas</div>
+                  <div className="text-white font-semibold text-sm">{t('popup.experiences')}</div>
+                  <div className="text-red-100 text-xs">{t('popup.experiencesDesc')}</div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
@@ -116,8 +118,8 @@ export default function PromoPopup() {
                   <BarChart3 className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1">
-                  <div className="text-white font-semibold text-sm">Observatorio</div>
-                  <div className="text-red-100 text-xs">Estadísticas en tiempo real</div>
+                  <div className="text-white font-semibold text-sm">{t('popup.observatory')}</div>
+                  <div className="text-red-100 text-xs">{t('popup.observatoryDesc')}</div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
@@ -130,7 +132,7 @@ export default function PromoPopup() {
             onClick={handleClose}
             className="text-white text-xs hover:text-red-100 transition-colors underline"
           >
-            No mostrar hoy
+            {t('popup.dontShowToday')}
           </button>
         </div>
 

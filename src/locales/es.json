@@ -26,10 +26,16 @@
   },
   "home": {
     "hero": {
-      "title": "Tu Guía para Trámites Gubernamentales",
-      "subtitle": "Encuentra información clara y actualizada sobre todos los trámites que necesitas realizar",
+      "title": "Observatorio de Trámites",
+      "subtitle": "de Guatemala",
+      "description": "Red Ciudadana recopila y organiza información sobre trámites gubernamentales para que tengas todo lo necesario antes de ir a las oficinas oficiales.",
+      "searchPlaceholder": "¿Qué información necesitas? Ej: renovar DPI, inscribir empresa...",
       "searchButton": "Buscar",
-      "popularSearches": "Búsquedas populares"
+      "popularSearches": "Búsquedas populares",
+      "totalProcedures": "Trámites disponibles",
+      "totalInstitutions": "Instituciones",
+      "digitalProcedures": "Trámites digitales",
+      "digitalPercentage": "Digitalizados"
     },
     "categories": {
       "title": "Categorías de Trámites",
@@ -168,5 +174,36 @@
     "previous": "Anterior",
     "readMore": "Leer más",
     "showLess": "Mostrar menos"
+  },
+  "popup": {
+    "new": "Nuevo",
+    "title": "Descubre Nuestras Nuevas Funcionalidades",
+    "subtitle": "Hemos mejorado tu experiencia con herramientas poderosas",
+    "categories": "Categorías",
+    "categoriesDesc": "Explora por temas",
+    "experiences": "Experiencias Guiadas",
+    "experiencesDesc": "Alcanza tus metas",
+    "observatory": "Observatorio",
+    "observatoryDesc": "Estadísticas en tiempo real",
+    "dontShowToday": "No mostrar hoy"
+  },
+  "gdpr": {
+    "message": "Usamos cookies para mejorar tu experiencia. Al continuar navegando, aceptas nuestra política de privacidad.",
+    "accept": "Aceptar",
+    "decline": "Rechazar",
+    "learnMore": "Más información"
+  },
+  "chatbot": {
+    "title": "Asistente Virtual",
+    "placeholder": "Escribe tu pregunta aquí...",
+    "send": "Enviar",
+    "greeting": "Hola, ¿en qué puedo ayudarte?",
+    "thinking": "Pensando..."
+  },
+  "buttons": {
+    "scrollToTop": "Volver arriba",
+    "reportProblem": "Reportar un problema",
+    "reportTitle": "Reportar Problema",
+    "reportDescription": "Ayúdanos a mejorar reportando información desactualizada o errores"
   }
 }

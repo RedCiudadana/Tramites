@@ -2,9 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { TrendingUp, Clock, Building2, ArrowRight, Star } from 'lucide-react';
 import { useProcedures } from '../../hooks/useProcedures';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export default function PopularProceduresSection() {
   const { procedures, loading } = useProcedures();
+  const { t } = useLanguage();
 
   const popularProcedures = procedures.slice(0, 3);
 
@@ -30,11 +32,11 @@ export default function PopularProceduresSection() {
           <div className="flex items-center justify-center gap-2 mb-4">
             <TrendingUp className="w-8 h-8 text-red-600" />
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              Trámites Populares
+              {t('home.popular.title')}
             </h2>
           </div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Los trámites más solicitados por los ciudadanos guatemaltecos
+            {t('home.popular.description')}
           </p>
         </div>
 
