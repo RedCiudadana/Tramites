@@ -1,0 +1,162 @@
+[
+  {
+    "id": "exp-001",
+    "nombre": "Iniciar un Negocio Agrícola",
+    "descripcion": "Todo lo necesario para establecer y operar legalmente un negocio relacionado con agricultura y productos agrícolas",
+    "icon": "Sprout",
+    "color": "from-green-500 to-green-700",
+    "categoria": "Emprendimiento",
+    "duracion_estimada": "45-60 días",
+    "ids_procedures": [
+      "650e8400-e29b-41d4-a716-446655440003",
+      "650e8400-e29b-41d4-a716-446655440004",
+      "650e8400-e29b-41d4-a716-446655440005"
+    ],
+    "pasos_adicionales": [
+      "Investigar el mercado local y competencia",
+      "Preparar plan de negocios",
+      "Asegurar financiamiento inicial",
+      "Establecer contactos con proveedores"
+    ]
+  },
+  {
+    "id": "exp-002",
+    "nombre": "Exportar Productos Agrícolas",
+    "descripcion": "Proceso completo para obtener permisos y certificaciones necesarias para exportar productos agrícolas",
+    "icon": "Globe",
+    "color": "from-blue-500 to-blue-700",
+    "categoria": "Comercio Exterior",
+    "duracion_estimada": "30-45 días",
+    "ids_procedures": [
+      "650e8400-e29b-41d4-a716-446655440001",
+      "650e8400-e29b-41d4-a716-446655440004"
+    ],
+    "pasos_adicionales": [
+      "Identificar mercados objetivo",
+      "Investigar requisitos del país destino",
+      "Establecer logística de transporte",
+      "Obtener certificaciones internacionales"
+    ]
+  },
+  {
+    "id": "exp-003",
+    "nombre": "Producir Semillas Certificadas",
+    "descripcion": "Guía completa para convertirse en productor autorizado de semillas certificadas",
+    "icon": "Leaf",
+    "color": "from-emerald-500 to-emerald-700",
+    "categoria": "Agricultura",
+    "duracion_estimada": "25-35 días",
+    "ids_procedures": [
+      "650e8400-e29b-41d4-a716-446655440003",
+      "650e8400-e29b-41d4-a716-446655440005"
+    ],
+    "pasos_adicionales": [
+      "Preparar instalaciones adecuadas",
+      "Contratar personal capacitado",
+      "Implementar controles de calidad",
+      "Establecer sistema de trazabilidad"
+    ]
+  },
+  {
+    "id": "exp-004",
+    "nombre": "Fabricar Medicamentos Veterinarios",
+    "descripcion": "Requisitos y permisos para establecer una planta de fabricación de medicamentos veterinarios",
+    "icon": "Pill",
+    "color": "from-purple-500 to-purple-700",
+    "categoria": "Industria",
+    "duracion_estimada": "20-30 días",
+    "ids_procedures": [
+      "650e8400-e29b-41d4-a716-446655440002"
+    ],
+    "pasos_adicionales": [
+      "Diseñar planta según normas BPM",
+      "Contratar químico farmacéutico responsable",
+      "Implementar sistema de gestión de calidad",
+      "Establecer controles de bioseguridad",
+      "Preparar manuales de procedimientos"
+    ]
+  },
+  {
+    "id": "exp-005",
+    "nombre": "Trabajar con Biotecnología Agrícola",
+    "descripcion": "Proceso para obtener autorizaciones para uso de organismos genéticamente modificados en agricultura",
+    "icon": "Dna",
+    "color": "from-indigo-500 to-indigo-700",
+    "categoria": "Investigación",
+    "duracion_estimada": "60-90 días",
+    "ids_procedures": [
+      "650e8400-e29b-41d4-a716-446655440006",
+      "650e8400-e29b-41d4-a716-446655440007",
+      "650e8400-e29b-41d4-a716-446655440008",
+      "650e8400-e29b-41d4-a716-446655440009"
+    ],
+    "pasos_adicionales": [
+      "Realizar estudios de bioseguridad",
+      "Preparar protocolos de manejo",
+      "Establecer áreas de confinamiento",
+      "Implementar monitoreo ambiental",
+      "Capacitar personal en bioseguridad"
+    ]
+  },
+  {
+    "id": "exp-006",
+    "nombre": "Montar un Laboratorio de Análisis de Semillas",
+    "descripcion": "Todo lo necesario para establecer y operar un laboratorio de análisis de calidad de semillas",
+    "icon": "Microscope",
+    "color": "from-cyan-500 to-cyan-700",
+    "categoria": "Servicios",
+    "duracion_estimada": "15-25 días",
+    "ids_procedures": [
+      "650e8400-e29b-41d4-a716-446655440004"
+    ],
+    "pasos_adicionales": [
+      "Adquirir equipo especializado",
+      "Contratar personal técnico certificado",
+      "Implementar procedimientos estandarizados",
+      "Obtener acreditación de laboratorio",
+      "Establecer sistema de control de calidad"
+    ]
+  },
+  {
+    "id": "exp-007",
+    "nombre": "Importar Productos Zoosanitarios",
+    "descripcion": "Pasos necesarios para importar productos de origen animal cumpliendo normativas sanitarias",
+    "icon": "Package",
+    "color": "from-orange-500 to-orange-700",
+    "categoria": "Comercio Exterior",
+    "duracion_estimada": "25-35 días",
+    "ids_procedures": [
+      "650e8400-e29b-41d4-a716-446655440001"
+    ],
+    "pasos_adicionales": [
+      "Verificar requisitos del país de origen",
+      "Contratar agente aduanal",
+      "Coordinar inspección zoosanitaria",
+      "Preparar documentación de importación",
+      "Establecer cadena de frío si aplica"
+    ]
+  },
+  {
+    "id": "exp-008",
+    "nombre": "Desarrollar Proyecto de Biotecnología",
+    "descripcion": "Ruta completa desde investigación básica hasta liberación comercial de productos biotecnológicos",
+    "icon": "FlaskConical",
+    "color": "from-rose-500 to-rose-700",
+    "categoria": "Investigación",
+    "duracion_estimada": "90-180 días",
+    "ids_procedures": [
+      "650e8400-e29b-41d4-a716-446655440006",
+      "650e8400-e29b-41d4-a716-446655440007",
+      "650e8400-e29b-41d4-a716-446655440008",
+      "650e8400-e29b-41d4-a716-446655440009"
+    ],
+    "pasos_adicionales": [
+      "Fase I: Investigación en laboratorio",
+      "Fase II: Pruebas de bioseguridad",
+      "Fase III: Uso confinado experimental",
+      "Fase IV: Liberación pre-comercial",
+      "Fase V: Liberación comercial",
+      "Monitoreo y seguimiento continuo"
+    ]
+  }
+]
