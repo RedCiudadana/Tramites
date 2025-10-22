@@ -51,6 +51,17 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
     }
   };
 
+  const parseArrayField = (field: string[] | string | undefined): string[] => {
+    if (!field) return [];
+    if (Array.isArray(field)) return field;
+    if (typeof field === 'string') {
+      return field.split(',').map(item => item.trim()).filter(item => item.length > 0);
+    }
+    return [];
+  };
+
+  const requirements = parseArrayField(procedure.requirements);
+  const steps = parseArrayField(procedure.steps);
   const institutionName = procedure.institutions?.name || 'N/A';
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -126,7 +137,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
           </div>
           
           <div className="grid gap-4">
-            {(procedure.requirements || []).map((requirement, index) => (
+            {requirements.map((requirement, index) => (
               <div key={index} className="flex items-start space-x-3 p-4 bg-orange-50 rounded-lg border border-orange-100">
                 <CheckCircle className="h-5 w-5 text-orange-600 mt-0.5 flex-shrink-0" />
                 <p className="text-gray-800">{requirement}</p>
@@ -145,7 +156,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
           </div>
           
           <div className="space-y-4">
-            {(procedure.steps || []).map((step, index) => (
+            {steps.map((step, index) => (
               <div key={index} className="flex items-start space-x-4 p-4 bg-blue-50 rounded-lg border border-blue-100">
                 <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold flex-shrink-0">
                   {index + 1}
