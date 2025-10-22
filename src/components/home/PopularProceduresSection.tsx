@@ -8,7 +8,16 @@ export default function PopularProceduresSection() {
   const { procedures, loading } = useProcedures();
   const { t } = useLanguage();
 
-  const popularProcedures = procedures.slice(0, 3);
+  const popularProcedureNames = [
+    'Inscripción al NIT',
+    'Licencia sanitaria',
+    'Constitución de empresa o comerciante individual'
+  ];
+
+  const popularProcedures = popularProcedureNames
+    .map(name => procedures.find(p => p.name === name))
+    .filter(Boolean)
+    .slice(0, 3);
 
   if (loading) {
     return (
@@ -82,9 +91,13 @@ export default function PopularProceduresSection() {
 
               <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                 <div className="flex items-center gap-2">
-                  {procedure.is_digital ? (
+                  {procedure.type?.toLowerCase() === 'digital' ? (
                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                       💻 Digital
+                    </span>
+                  ) : procedure.type?.toLowerCase() === 'mixto' ? (
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                      🔄 Mixto
                     </span>
                   ) : (
                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
