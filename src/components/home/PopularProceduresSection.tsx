@@ -30,7 +30,7 @@ export default function PopularProceduresSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <TrendingUp className="w-8 h-8 text-red-600" />
+            <TrendingUp className="w-8 h-8 text-blue-600" />
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
               {t('home.popular.title')}
             </h2>
@@ -45,18 +45,18 @@ export default function PopularProceduresSection() {
             <Link
               key={procedure.id}
               to={`/tramite/${procedure.id}`}
-              className="group relative bg-gradient-to-br from-gray-50 to-white border-2 border-gray-200 rounded-2xl p-6 hover:border-red-500 hover:shadow-xl transition-all duration-300"
+              className="group relative bg-gradient-to-br from-gray-50 to-white border-2 border-gray-200 rounded-2xl p-6 hover:border-blue-500 hover:shadow-xl transition-all duration-300"
             >
-              <div className="absolute -top-3 -right-3 bg-red-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shadow-lg">
+              <div className="absolute -top-3 -right-3 bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-lg shadow-lg">
                 {index + 1}
               </div>
 
               <div className="flex items-start gap-3 mb-4">
-                <div className="bg-red-100 rounded-lg p-3 group-hover:bg-red-600 transition-colors">
-                  <Star className="w-6 h-6 text-red-600 group-hover:text-white" />
+                <div className="bg-blue-100 rounded-lg p-3 group-hover:bg-blue-600 transition-colors">
+                  <Star className="w-6 h-6 text-blue-600 group-hover:text-white" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors line-clamp-2">
+                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2">
                     {procedure.name}
                   </h3>
                 </div>
@@ -93,7 +93,7 @@ export default function PopularProceduresSection() {
                   )}
                 </div>
 
-                <div className="flex items-center gap-1 text-red-600 font-semibold text-sm group-hover:gap-2 transition-all">
+                <div className="flex items-center gap-1 text-blue-600 font-semibold text-sm group-hover:gap-2 transition-all">
                   Ver más
                   <ArrowRight className="w-4 h-4" />
                 </div>
@@ -105,7 +105,7 @@ export default function PopularProceduresSection() {
         <div className="text-center mt-12">
           <Link
             to="/catalogo"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-red-600 text-white font-semibold rounded-xl hover:bg-red-700 transition-colors shadow-lg hover:shadow-xl"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl"
           >
             Ver todos los trámites
             <ArrowRight className="w-5 h-5" />

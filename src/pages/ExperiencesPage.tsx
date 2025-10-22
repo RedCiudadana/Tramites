@@ -93,7 +93,7 @@ export default function ExperiencesPage() {
   };
 
   const getColorClasses = (colorGradient: string) => {
-    return colorMap[colorGradient] || { icon: 'text-red-600', bg: 'bg-red-50' };
+    return colorMap[colorGradient] || { icon: 'text-blue-600', bg: 'bg-blue-50' };
   };
 
   const getTypeIcon = (type: string) => {
@@ -133,11 +133,11 @@ export default function ExperiencesPage() {
 
     return (
       <div className="min-h-screen bg-gray-50">
-        <div className="bg-gradient-to-r from-red-600 to-red-700 text-white py-16">
+        <div className="bg-gradient-to-r from-blue-800 to-blue-900 text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <button
               onClick={() => setSelectedExperienceId(null)}
-              className="mb-6 flex items-center gap-2 text-white hover:text-red-100 font-semibold"
+              className="mb-6 flex items-center gap-2 text-white hover:text-blue-100 font-semibold"
             >
               <ChevronRight className="w-5 h-5 rotate-180" />
               {t('common.back')} a experiencias
@@ -151,7 +151,7 @@ export default function ExperiencesPage() {
                 <h1 className="text-4xl md:text-5xl font-bold mb-2">
                   {selectedExperience.nombre}
                 </h1>
-                <p className="text-xl text-red-100">
+                <p className="text-xl text-blue-100">
                   {selectedExperience.descripcion}
                 </p>
               </div>
@@ -194,10 +194,10 @@ export default function ExperiencesPage() {
               {expProcedures.map((procedure, index) => (
                 <div
                   key={procedure.id}
-                  className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors border-l-4 border-red-600"
+                  className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors border-l-4 border-blue-600"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
+                    <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold flex-shrink-0">
                       {index + 1}
                     </div>
 
@@ -227,7 +227,7 @@ export default function ExperiencesPage() {
 
                       <Link
                         to={`/tramite/${procedure.id}`}
-                        className="inline-flex items-center gap-2 text-red-600 hover:text-red-700 font-semibold text-sm"
+                        className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold text-sm"
                       >
                         {t('procedure.viewDetails')}
                         <ChevronRight className="w-4 h-4" />
@@ -284,14 +284,14 @@ export default function ExperiencesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-gradient-to-r from-red-600 to-red-700 text-white py-16">
+      <div className="bg-gradient-to-r from-blue-800 to-blue-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <Target className="w-16 h-16 mx-auto mb-4" />
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               {t('experiences.title')}
             </h1>
-            <p className="text-xl text-red-100 max-w-3xl mx-auto">
+            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
               {t('experiences.description')}
             </p>
           </div>
@@ -307,7 +307,7 @@ export default function ExperiencesPage() {
               placeholder="Buscar experiencias... (ej: negocio, semillas, exportar)"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 border-2 border-gray-300 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all"
+              className="w-full pl-12 pr-4 py-4 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
             />
           </div>
         </div>
@@ -322,11 +322,11 @@ export default function ExperiencesPage() {
               <button
                 key={experience.id}
                 onClick={() => setSelectedExperienceId(experience.id)}
-                className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden text-left group border-2 border-transparent hover:border-red-500"
+                className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden text-left group border-2 border-transparent hover:border-blue-500"
               >
                 <div className={`${colors.bg} p-6`}>
                   <IconComponent className={`w-12 h-12 ${colors.icon} mb-4`} />
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                     {experience.nombre}
                   </h3>
                   <p className="text-gray-600 text-sm mb-4">
@@ -350,7 +350,7 @@ export default function ExperiencesPage() {
                     <span>{experience.duracion_estimada}</span>
                   </div>
 
-                  <div className="flex items-center justify-end gap-2 text-red-600 font-semibold text-sm group-hover:gap-3 transition-all pt-2">
+                  <div className="flex items-center justify-end gap-2 text-blue-600 font-semibold text-sm group-hover:gap-3 transition-all pt-2">
                     {t('procedure.viewDetails')}
                     <ChevronRight className="w-5 h-5" />
                   </div>

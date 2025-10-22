@@ -10,7 +10,7 @@ const slides = [
     id: 1,
     title: 'Catálogo Completo de Trámites',
     description: 'Encuentra todos los trámites disponibles en un solo lugar',
-    gradient: 'from-red-600 to-red-700',
+    gradient: 'from-blue-800 to-blue-900',
     icon: FileText
   },
   {
@@ -67,7 +67,7 @@ export default function CatalogHero({ totalProcedures }: CatalogHeroProps) {
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
           Catálogo de Trámites
         </h1>
-        <div className="inline-flex items-center gap-2 px-6 py-3 bg-red-600 text-white rounded-full font-semibold text-lg shadow-lg">
+        <div className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full font-semibold text-lg shadow-lg">
           <FileText className="w-5 h-5" />
           <span>{totalProcedures} trámites disponibles</span>
         </div>

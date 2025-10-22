@@ -74,8 +74,8 @@ export default function CategoriesPage() {
       name: 'Salud y Asistencia Social',
       description: 'Servicios de salud, asistencia médica y programas sociales',
       icon: 'Heart',
-      color: 'text-red-600',
-      bgColor: 'bg-red-50'
+      color: 'text-blue-600',
+      bgColor: 'bg-blue-50'
     },
     {
       id: 'Justicia',
@@ -132,7 +132,7 @@ export default function CategoriesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-gradient-to-r from-red-600 to-red-700 text-white py-16">
+      <div className="bg-gradient-to-r from-blue-800 to-blue-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex items-center space-x-2 text-sm text-white/80 mb-6">
             <Link to="/" className="hover:text-white transition-colors">
@@ -147,18 +147,18 @@ export default function CategoriesPage() {
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Categorías de Trámites
             </h1>
-            <p className="text-xl text-red-100 max-w-3xl mx-auto mb-6">
+            <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-6">
               Explora los trámites organizados por categorías temáticas
             </p>
 
             <div className="flex justify-center gap-8 mt-8">
               <div className="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4">
                 <div className="text-3xl font-bold">{categoriesWithProcedures}</div>
-                <div className="text-red-100 text-sm">Categorías activas</div>
+                <div className="text-blue-100 text-sm">Categorías activas</div>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4">
                 <div className="text-3xl font-bold">{totalProcedures}</div>
-                <div className="text-red-100 text-sm">Trámites disponibles</div>
+                <div className="text-blue-100 text-sm">Trámites disponibles</div>
               </div>
             </div>
           </div>
@@ -174,7 +174,7 @@ export default function CategoriesPage() {
               placeholder="Buscar categorías..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 border-2 border-gray-300 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all"
+              className="w-full pl-12 pr-4 py-4 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all"
             />
           </div>
         </div>
@@ -206,7 +206,7 @@ export default function CategoriesPage() {
                 disabled={category.count === 0}
                 className={`bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden text-left group border-2 border-transparent ${
                   category.count > 0
-                    ? 'hover:border-red-500 cursor-pointer'
+                    ? 'hover:border-blue-500 cursor-pointer'
                     : 'opacity-60 cursor-not-allowed'
                 }`}
               >
@@ -218,7 +218,7 @@ export default function CategoriesPage() {
                     </div>
                   </div>
 
-                  <h3 className={`text-xl font-bold text-gray-900 mb-2 ${category.count > 0 ? 'group-hover:text-red-600' : ''} transition-colors`}>
+                  <h3 className={`text-xl font-bold text-gray-900 mb-2 ${category.count > 0 ? 'group-hover:text-blue-600' : ''} transition-colors`}>
                     {category.name}
                   </h3>
                   <p className="text-gray-600 text-sm">
@@ -232,7 +232,7 @@ export default function CategoriesPage() {
                       <span className="text-sm text-gray-600">
                         {category.count} trámite{category.count !== 1 ? 's' : ''} disponible{category.count !== 1 ? 's' : ''}
                       </span>
-                      <div className="flex items-center gap-2 text-red-600 font-semibold text-sm group-hover:gap-3 transition-all">
+                      <div className="flex items-center gap-2 text-blue-600 font-semibold text-sm group-hover:gap-3 transition-all">
                         Ver trámites
                         <ArrowRight className="w-4 h-4" />
                       </div>
@@ -265,7 +265,7 @@ export default function CategoriesPage() {
         <div className="mt-12 text-center">
           <Link
             to="/catalogo"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all hover:gap-3"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all hover:gap-3"
           >
             Ver catálogo completo
             <ArrowRight className="w-5 h-5" />

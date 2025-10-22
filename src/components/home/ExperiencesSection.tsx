@@ -60,7 +60,7 @@ export default function ExperiencesSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Target className="w-8 h-8 text-red-600" />
+            <Target className="w-8 h-8 text-blue-600" />
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
               Experiencias Guiadas
             </h2>
@@ -81,7 +81,7 @@ export default function ExperiencesSection() {
               >
                 <div className={`${experience.bgColor} p-6`}>
                   <Icon className={`w-12 h-12 ${experience.color} mb-4 group-hover:scale-110 transition-transform`} />
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                     {experience.title}
                   </h3>
                   <p className="text-gray-600 text-sm mb-4">
@@ -107,7 +107,7 @@ export default function ExperiencesSection() {
 
                   <Link
                     to="/experiencias"
-                    className="flex items-center justify-center gap-2 w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition-all group-hover:gap-3 mt-4"
+                    className="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-all group-hover:gap-3 mt-4"
                   >
                     Ver detalles
                     <ArrowRight className="w-5 h-5" />
@@ -121,7 +121,7 @@ export default function ExperiencesSection() {
         <div className="text-center">
           <Link
             to="/experiencias"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all hover:gap-3 text-lg"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all hover:gap-3 text-lg"
           >
             Ver todas las experiencias
             <ArrowRight className="w-6 h-6" />

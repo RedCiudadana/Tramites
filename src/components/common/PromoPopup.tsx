@@ -47,7 +47,7 @@ export default function PromoPopup() {
           : 'translate-y-8 opacity-0'
       }`}
     >
-      <div className="relative bg-gradient-to-br from-red-600 via-red-700 to-red-800 rounded-2xl shadow-2xl overflow-hidden max-w-sm">
+      <div className="relative bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-2xl shadow-2xl overflow-hidden max-w-sm">
         <button
           onClick={handleClose}
           className="absolute top-3 right-3 bg-white/20 hover:bg-white/30 text-white rounded-full p-1.5 transition-all z-10"
@@ -64,9 +64,9 @@ export default function PromoPopup() {
           <div className="relative">
             <div className="flex items-center gap-2 mb-4">
               <div className="bg-yellow-400 rounded-full p-2 animate-pulse">
-                <Sparkles className="w-5 h-5 text-red-900" />
+                <Sparkles className="w-5 h-5 text-blue-900" />
               </div>
-              <span className="bg-yellow-400 text-red-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+              <span className="bg-yellow-400 text-blue-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
                 {t('popup.new')}
               </span>
             </div>
@@ -74,7 +74,7 @@ export default function PromoPopup() {
             <h3 className="text-2xl font-bold text-white mb-2">
               {t('popup.title')}
             </h3>
-            <p className="text-red-100 text-sm mb-4">
+            <p className="text-blue-100 text-sm mb-4">
               {t('popup.subtitle')}
             </p>
 
@@ -89,7 +89,7 @@ export default function PromoPopup() {
                 </div>
                 <div className="flex-1">
                   <div className="text-white font-semibold text-sm">{t('popup.categories')}</div>
-                  <div className="text-red-100 text-xs">{t('popup.categoriesDesc')}</div>
+                  <div className="text-blue-100 text-xs">{t('popup.categoriesDesc')}</div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
@@ -104,7 +104,7 @@ export default function PromoPopup() {
                 </div>
                 <div className="flex-1">
                   <div className="text-white font-semibold text-sm">{t('popup.experiences')}</div>
-                  <div className="text-red-100 text-xs">{t('popup.experiencesDesc')}</div>
+                  <div className="text-blue-100 text-xs">{t('popup.experiencesDesc')}</div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
@@ -119,7 +119,7 @@ export default function PromoPopup() {
                 </div>
                 <div className="flex-1">
                   <div className="text-white font-semibold text-sm">{t('popup.observatory')}</div>
-                  <div className="text-red-100 text-xs">{t('popup.observatoryDesc')}</div>
+                  <div className="text-blue-100 text-xs">{t('popup.observatoryDesc')}</div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
@@ -130,7 +130,7 @@ export default function PromoPopup() {
         <div className="bg-black/20 px-6 py-3 text-center">
           <button
             onClick={handleClose}
-            className="text-white text-xs hover:text-red-100 transition-colors underline"
+            className="text-white text-xs hover:text-blue-100 transition-colors underline"
           >
             {t('popup.dontShowToday')}
           </button>
