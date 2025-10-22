@@ -38,7 +38,7 @@ export default function Accessibility() {
     {
       category: "Accesibilidad Auditiva",
       icon: Ear,
-      color: "green",
+      color: "blue",
       items: [
         "Transcripciones disponibles para contenido de audio",
         "Subtítulos en videos informativos",
@@ -50,7 +50,7 @@ export default function Accessibility() {
     {
       category: "Accesibilidad Motriz",
       icon: Hand,
-      color: "purple",
+      color: "blue",
       items: [
         "Navegación completa por teclado",
         "Áreas de clic amplias (mínimo 44x44 píxeles)",
@@ -121,8 +121,8 @@ export default function Accessibility() {
   const getColorClasses = (color: string) => {
     const colors = {
       blue: "bg-blue-100 text-blue-600",
-      green: "bg-green-100 text-green-600",
-      purple: "bg-purple-100 text-purple-600",
+      blue: "bg-blue-100 text-blue-600",
+      blue: "bg-blue-100 text-blue-600",
       orange: "bg-orange-100 text-orange-600"
     };
     return colors[color as keyof typeof colors] || colors.blue;
@@ -134,8 +134,8 @@ export default function Accessibility() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center space-x-3 mb-4">
-            <div className="bg-purple-100 p-3 rounded-xl">
-              <Heart className="h-8 w-8 text-purple-600" />
+            <div className="bg-blue-100 p-3 rounded-xl">
+              <Heart className="h-8 w-8 text-blue-600" />
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
               Accesibilidad
@@ -144,8 +144,8 @@ export default function Accessibility() {
           <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-4">
             Red Ciudadana está comprometida con hacer que la información sea accesible para todos los ciudadanos guatemaltecos
           </p>
-          <div className="bg-purple-50 rounded-lg p-4 border border-purple-200">
-            <p className="text-sm text-purple-800">
+          <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+            <p className="text-sm text-blue-800">
               <strong>Última actualización:</strong> {lastUpdated}
             </p>
           </div>
@@ -154,8 +154,8 @@ export default function Accessibility() {
         {/* Commitment Statement */}
         <div className="bg-white rounded-xl shadow-sm p-8 mb-8 border border-gray-100">
           <div className="text-center">
-            <div className="bg-purple-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-              <Heart className="h-8 w-8 text-purple-600" />
+            <div className="bg-blue-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+              <Heart className="h-8 w-8 text-blue-600" />
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Nuestro Compromiso</h2>
             <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
@@ -185,7 +185,7 @@ export default function Accessibility() {
                   <ul className="space-y-2">
                     {feature.items.map((item, itemIndex) => (
                       <li key={itemIndex} className="flex items-start space-x-2">
-                        <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                        <CheckCircle className="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0" />
                         <span className="text-gray-700 text-sm">{item}</span>
                       </li>
                     ))}
@@ -211,7 +211,7 @@ export default function Accessibility() {
                   </div>
                   <h3 className="font-semibold text-gray-900 mb-2">{tech.name}</h3>
                   <p className="text-sm text-gray-600 mb-3">{tech.description}</p>
-                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                     {tech.status}
                   </span>
                 </div>
@@ -302,8 +302,8 @@ export default function Accessibility() {
         <div className="mb-12">
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
             <div className="flex items-center space-x-3 mb-6">
-              <div className="bg-green-100 p-3 rounded-xl">
-                <Zap className="h-6 w-6 text-green-600" />
+              <div className="bg-blue-100 p-3 rounded-xl">
+                <Zap className="h-6 w-6 text-blue-600" />
               </div>
               <h2 className="text-2xl font-bold text-gray-900">Herramientas de Accesibilidad</h2>
             </div>
@@ -319,18 +319,18 @@ export default function Accessibility() {
                 </div>
               </div>
               <div className="text-center p-6 bg-gray-50 rounded-xl">
-                <Contrast className="h-8 w-8 text-purple-600 mx-auto mb-3" />
+                <Contrast className="h-8 w-8 text-blue-600 mx-auto mb-3" />
                 <h3 className="font-semibold text-gray-900 mb-2">Alto Contraste</h3>
                 <p className="text-sm text-gray-600 mb-4">Activa el modo de alto contraste para mejor visibilidad</p>
-                <button className="px-4 py-2 bg-purple-100 text-purple-800 rounded hover:bg-purple-200">
+                <button className="px-4 py-2 bg-blue-100 text-blue-800 rounded hover:bg-blue-200">
                   Activar
                 </button>
               </div>
               <div className="text-center p-6 bg-gray-50 rounded-xl">
-                <Eye className="h-8 w-8 text-green-600 mx-auto mb-3" />
+                <Eye className="h-8 w-8 text-blue-600 mx-auto mb-3" />
                 <h3 className="font-semibold text-gray-900 mb-2">Modo de Lectura</h3>
                 <p className="text-sm text-gray-600 mb-4">Simplifica la página para una lectura más fácil</p>
-                <button className="px-4 py-2 bg-green-100 text-green-800 rounded hover:bg-green-200">
+                <button className="px-4 py-2 bg-blue-100 text-blue-800 rounded hover:bg-blue-200">
                   Activar
                 </button>
               </div>
@@ -339,10 +339,10 @@ export default function Accessibility() {
         </div>
 
         {/* Feedback Section */}
-        <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl p-8 border border-purple-200">
+        <div className="bg-gradient-to-r from-blue-50 to-blue-50 rounded-xl p-8 border border-blue-200">
           <div className="text-center mb-6">
             <div className="flex items-center justify-center space-x-2 mb-4">
-              <AlertCircle className="h-6 w-6 text-purple-600" />
+              <AlertCircle className="h-6 w-6 text-blue-600" />
               <h3 className="text-xl font-semibold text-gray-900">¿Encontraste una barrera de accesibilidad?</h3>
             </div>
             <p className="text-gray-700 mb-6">
@@ -353,13 +353,13 @@ export default function Accessibility() {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="text-center">
               <div className="bg-white p-4 rounded-xl mb-3 shadow-sm">
-                <Mail className="h-6 w-6 text-purple-600 mx-auto" />
+                <Mail className="h-6 w-6 text-blue-600 mx-auto" />
               </div>
               <h4 className="font-semibold text-gray-900 mb-1">Correo de Accesibilidad</h4>
               <p className="text-sm text-gray-600 mb-3">accesibilidad@redciudadana.org.gt</p>
               <a
                 href="mailto:accesibilidad@redciudadana.org.gt"
-                className="inline-flex items-center space-x-2 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors font-medium"
+                className="inline-flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
               >
                 <Mail className="h-4 w-4" />
                 <span>Enviar reporte</span>
@@ -367,13 +367,13 @@ export default function Accessibility() {
             </div>
             <div className="text-center">
               <div className="bg-white p-4 rounded-xl mb-3 shadow-sm">
-                <Phone className="h-6 w-6 text-purple-600 mx-auto" />
+                <Phone className="h-6 w-6 text-blue-600 mx-auto" />
               </div>
               <h4 className="font-semibold text-gray-900 mb-1">Línea de Accesibilidad</h4>
               <p className="text-sm text-gray-600 mb-3">+502 2440-0000 ext. 123</p>
               <a
                 href="tel:+50224400000"
-                className="inline-flex items-center space-x-2 border border-purple-600 text-purple-600 px-4 py-2 rounded-lg hover:bg-purple-600 hover:text-white transition-colors font-medium"
+                className="inline-flex items-center space-x-2 border border-blue-600 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition-colors font-medium"
               >
                 <Phone className="h-4 w-4" />
                 <span>Llamar</span>

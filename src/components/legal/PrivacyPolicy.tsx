@@ -162,8 +162,8 @@ export default function PrivacyPolicy() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center space-x-3 mb-4">
-            <div className="bg-green-100 p-3 rounded-xl">
-              <Shield className="h-8 w-8 text-green-600" />
+            <div className="bg-blue-100 p-3 rounded-xl">
+              <Shield className="h-8 w-8 text-blue-600" />
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
               Política de Privacidad
@@ -172,8 +172,8 @@ export default function PrivacyPolicy() {
           <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-4">
             Cómo Red Ciudadana protege y maneja su información personal
           </p>
-          <div className="bg-green-50 rounded-lg p-4 border border-green-200">
-            <p className="text-sm text-green-800">
+          <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+            <p className="text-sm text-blue-800">
               <strong>Última actualización:</strong> {lastUpdated}
             </p>
           </div>
@@ -182,7 +182,7 @@ export default function PrivacyPolicy() {
         {/* Data Summary Table */}
         <div className="bg-white rounded-xl shadow-sm p-8 mb-8 border border-gray-100">
           <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center space-x-2">
-            <Database className="h-5 w-5 text-green-600" />
+            <Database className="h-5 w-5 text-blue-600" />
             <span>Resumen de Datos que Manejamos</span>
           </h2>
           <div className="overflow-x-auto">
@@ -217,8 +217,8 @@ export default function PrivacyPolicy() {
               <div key={section.id} className="bg-white rounded-xl shadow-sm border border-gray-100">
                 <div className="p-8">
                   <div className="flex items-center space-x-3 mb-6">
-                    <div className="bg-green-100 p-2 rounded-lg">
-                      <IconComponent className="h-5 w-5 text-green-600" />
+                    <div className="bg-blue-100 p-2 rounded-lg">
+                      <IconComponent className="h-5 w-5 text-blue-600" />
                     </div>
                     <h2 className="text-xl font-semibold text-gray-900">{section.title}</h2>
                   </div>
@@ -236,10 +236,10 @@ export default function PrivacyPolicy() {
         </div>
 
         {/* Your Rights Section */}
-        <div className="mt-12 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-8 border border-green-200">
+        <div className="mt-12 bg-gradient-to-r from-blue-50 to-blue-50 rounded-xl p-8 border border-blue-200">
           <div className="text-center mb-6">
             <div className="flex items-center justify-center space-x-2 mb-4">
-              <CheckCircle className="h-6 w-6 text-green-600" />
+              <CheckCircle className="h-6 w-6 text-blue-600" />
               <h3 className="text-xl font-semibold text-gray-900">Ejercer sus Derechos</h3>
             </div>
             <p className="text-gray-700 mb-6">
@@ -249,37 +249,37 @@ export default function PrivacyPolicy() {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="text-center">
               <div className="bg-white p-4 rounded-xl mb-3 shadow-sm">
-                <Mail className="h-6 w-6 text-green-600 mx-auto" />
+                <Mail className="h-6 w-6 text-blue-600 mx-auto" />
               </div>
               <h4 className="font-semibold text-gray-900 mb-1">Correo Electrónico</h4>
               <p className="text-sm text-gray-600 mb-3">privacidad@redciudadana.org.gt</p>
               <a
                 href="mailto:privacidad@redciudadana.org.gt"
-                className="text-green-600 hover:text-green-700 font-medium text-sm"
+                className="text-blue-600 hover:text-blue-700 font-medium text-sm"
               >
                 Enviar correo
               </a>
             </div>
             <div className="text-center">
               <div className="bg-white p-4 rounded-xl mb-3 shadow-sm">
-                <Phone className="h-6 w-6 text-green-600 mx-auto" />
+                <Phone className="h-6 w-6 text-blue-600 mx-auto" />
               </div>
               <h4 className="font-semibold text-gray-900 mb-1">Teléfono</h4>
               <p className="text-sm text-gray-600 mb-3">+502 2440-0000</p>
               <a
                 href="tel:+50224400000"
-                className="text-green-600 hover:text-green-700 font-medium text-sm"
+                className="text-blue-600 hover:text-blue-700 font-medium text-sm"
               >
                 Llamar ahora
               </a>
             </div>
             <div className="text-center">
               <div className="bg-white p-4 rounded-xl mb-3 shadow-sm">
-                <Globe className="h-6 w-6 text-green-600 mx-auto" />
+                <Globe className="h-6 w-6 text-blue-600 mx-auto" />
               </div>
               <h4 className="font-semibold text-gray-900 mb-1">Formulario Web</h4>
               <p className="text-sm text-gray-600 mb-3">Portal de contacto</p>
-              <button className="text-green-600 hover:text-green-700 font-medium text-sm">
+              <button className="text-blue-600 hover:text-blue-700 font-medium text-sm">
                 Ir al formulario
               </button>
             </div>

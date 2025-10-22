@@ -51,10 +51,10 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 const colorMap: Record<string, { icon: string; bg: string }> = {
-  'from-green-500 to-green-700': { icon: 'text-green-600', bg: 'bg-green-50' },
+  'from-blue-500 to-blue-700': { icon: 'text-blue-600', bg: 'bg-blue-50' },
   'from-blue-500 to-blue-700': { icon: 'text-blue-600', bg: 'bg-blue-50' },
   'from-emerald-500 to-emerald-700': { icon: 'text-emerald-600', bg: 'bg-emerald-50' },
-  'from-purple-500 to-purple-700': { icon: 'text-purple-600', bg: 'bg-purple-50' },
+  'from-blue-500 to-blue-700': { icon: 'text-blue-600', bg: 'bg-blue-50' },
   'from-indigo-500 to-indigo-700': { icon: 'text-indigo-600', bg: 'bg-indigo-50' },
   'from-cyan-500 to-cyan-700': { icon: 'text-cyan-600', bg: 'bg-cyan-50' },
   'from-orange-500 to-orange-700': { icon: 'text-orange-600', bg: 'bg-orange-50' },
@@ -107,7 +107,7 @@ export default function ExperiencesPage() {
 
   const getStatusColor = (type: string) => {
     switch (type?.toLowerCase()) {
-      case 'digital': return 'bg-green-100 text-green-800';
+      case 'digital': return 'bg-blue-100 text-blue-800';
       case 'presencial': return 'bg-blue-100 text-blue-800';
       case 'mixto': return 'bg-yellow-100 text-yellow-800';
       default: return 'bg-gray-100 text-gray-800';
@@ -186,7 +186,7 @@ export default function ExperiencesPage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="bg-white rounded-xl shadow-lg p-8">
             <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <CheckCircle className="w-6 h-6 text-green-600" />
+              <CheckCircle className="w-6 h-6 text-blue-600" />
               Trámites Requeridos
             </h3>
 

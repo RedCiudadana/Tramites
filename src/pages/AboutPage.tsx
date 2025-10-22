@@ -54,8 +54,8 @@ const AboutPage: React.FC = () => {
           <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Nuestros Valores</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center">
-              <div className="bg-green-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Heart className="h-8 w-8 text-green-600" />
+              <div className="bg-blue-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <Heart className="h-8 w-8 text-blue-600" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">Transparencia</h3>
               <p className="text-sm text-gray-600">
@@ -64,8 +64,8 @@ const AboutPage: React.FC = () => {
             </div>
 
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 text-center">
-              <div className="bg-purple-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Award className="h-8 w-8 text-purple-600" />
+              <div className="bg-blue-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <Award className="h-8 w-8 text-blue-600" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">Calidad</h3>
               <p className="text-sm text-gray-600">

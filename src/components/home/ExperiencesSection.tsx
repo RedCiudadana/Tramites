@@ -47,10 +47,8 @@ const iconMap: Record<string, React.ElementType> = {
 };
 
 const colorMap: Record<string, { icon: string; bg: string }> = {
-  'from-green-500 to-green-700': { icon: 'text-green-600', bg: 'bg-green-50' },
   'from-blue-500 to-blue-700': { icon: 'text-blue-600', bg: 'bg-blue-50' },
   'from-emerald-500 to-emerald-700': { icon: 'text-emerald-600', bg: 'bg-emerald-50' },
-  'from-purple-500 to-purple-700': { icon: 'text-purple-600', bg: 'bg-purple-50' },
   'from-indigo-500 to-indigo-700': { icon: 'text-indigo-600', bg: 'bg-indigo-50' },
   'from-cyan-500 to-cyan-700': { icon: 'text-cyan-600', bg: 'bg-cyan-50' },
   'from-orange-500 to-orange-700': { icon: 'text-orange-600', bg: 'bg-orange-50' },

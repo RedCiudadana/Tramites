@@ -159,7 +159,7 @@ export default function GDPRBottomBar() {
                   </div>
                 </div>
                 <div className="flex-shrink-0">
-                  <div className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+                  <div className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
                     Siempre activas
                   </div>
                 </div>

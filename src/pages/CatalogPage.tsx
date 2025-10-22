@@ -78,7 +78,7 @@ const CatalogPage: React.FC = () => {
 
   const getStatusColor = (type: string) => {
     switch (type?.toLowerCase()) {
-      case 'digital': return 'bg-green-100 text-green-800';
+      case 'digital': return 'bg-blue-100 text-blue-800';
       case 'presencial': return 'bg-blue-100 text-blue-800';
       case 'mixto': return 'bg-yellow-100 text-yellow-800';
       default: return 'bg-gray-100 text-gray-800';
@@ -285,7 +285,7 @@ const CatalogPage: React.FC = () => {
                     )}
                   </div>
                   {institution.is_digital_enabled && (
-                    <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+                    <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
                       Digital
                     </span>
                   )}

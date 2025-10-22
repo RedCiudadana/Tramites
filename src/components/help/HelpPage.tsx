@@ -328,7 +328,7 @@ export default function HelpPage() {
             {/* Process Guide */}
             <div className="bg-white rounded-xl shadow-sm p-6">
               <div className="flex items-center space-x-3 mb-4">
-                <CheckCircle className="h-6 w-6 text-green-600" />
+                <CheckCircle className="h-6 w-6 text-blue-600" />
                 <h3 className="text-lg font-semibold text-gray-900">Cómo Usar Red Ciudadana</h3>
               </div>
               <div className="space-y-4">
@@ -352,7 +352,7 @@ export default function HelpPage() {
             {/* Documentation */}
             <div className="bg-white rounded-xl shadow-sm p-6">
               <div className="flex items-center space-x-3 mb-4">
-                <FileText className="h-6 w-6 text-purple-600" />
+                <FileText className="h-6 w-6 text-blue-600" />
                 <h3 className="text-lg font-semibold text-gray-900">Documentación</h3>
               </div>
               <div className="space-y-3">
@@ -381,15 +381,15 @@ export default function HelpPage() {
             </div>
 
             {/* Community */}
-            <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-xl p-6 border border-green-100">
+            <div className="bg-gradient-to-br from-blue-50 to-blue-50 rounded-xl p-6 border border-blue-100">
               <div className="flex items-center space-x-3 mb-4">
-                <Users className="h-6 w-6 text-green-600" />
+                <Users className="h-6 w-6 text-blue-600" />
                 <h3 className="text-lg font-semibold text-gray-900">Únete a la Comunidad</h3>
               </div>
               <p className="text-sm text-gray-700 mb-4">
                 Ayuda a otros ciudadanos compartiendo tu experiencia y manteniendo la información actualizada.
               </p>
-              <button className="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium">
+              <button className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium">
                 Contribuir
               </button>
             </div>

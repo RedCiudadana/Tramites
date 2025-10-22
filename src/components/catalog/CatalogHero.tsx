@@ -24,7 +24,7 @@ const slides = [
     id: 3,
     title: 'Los Trámites Más Solicitados',
     description: 'Descubre cuáles son los procedimientos más populares',
-    gradient: 'from-green-600 to-green-700',
+    gradient: 'from-blue-600 to-blue-700',
     icon: TrendingUp
   }
 ];
@@ -63,15 +63,6 @@ export default function CatalogHero({ totalProcedures }: CatalogHeroProps) {
 
   return (
     <div className="mb-8">
-      <div className="text-center mb-6">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
-          Catálogo de Trámites
-        </h1>
-        <div className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full font-semibold text-lg shadow-lg">
-          <FileText className="w-5 h-5" />
-          <span>{totalProcedures} trámites disponibles</span>
-        </div>
-      </div>
 
       <div className="relative bg-white rounded-2xl shadow-xl overflow-hidden">
         <div className={`bg-gradient-to-r ${currentSlideData.gradient} text-white transition-all duration-500`}>

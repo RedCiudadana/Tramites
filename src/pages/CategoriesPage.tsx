@@ -58,16 +58,16 @@ export default function CategoriesPage() {
       name: 'Economía',
       description: 'Registro de empresas, patentes, comercio y asuntos económicos',
       icon: 'Building2',
-      color: 'text-green-600',
-      bgColor: 'bg-green-50'
+      color: 'text-blue-600',
+      bgColor: 'bg-blue-50'
     },
     {
       id: 'Educación',
       name: 'Educación',
       description: 'Servicios educativos, certificaciones y programas académicos',
       icon: 'GraduationCap',
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-50'
+      color: 'text-blue-600',
+      bgColor: 'bg-blue-50'
     },
     {
       id: 'Salud y Asistencia Social',

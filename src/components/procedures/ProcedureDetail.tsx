@@ -35,7 +35,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
 
   const getStatusColor = (type: string) => {
     switch (type) {
-      case 'digital': return 'bg-green-100 text-green-800';
+      case 'digital': return 'bg-blue-100 text-blue-800';
       case 'presencial': return 'bg-blue-100 text-blue-800';
       case 'mixto': return 'bg-yellow-100 text-yellow-800';
       default: return 'bg-gray-100 text-gray-800';
@@ -107,19 +107,19 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-3 p-4 bg-green-50 rounded-lg">
-                  <Clock className="h-6 w-6 text-green-600" />
+                <div className="flex items-center space-x-3 p-4 bg-blue-50 rounded-lg">
+                  <Clock className="h-6 w-6 text-blue-600" />
                   <div>
-                    <p className="text-sm text-green-600 font-medium">Duración</p>
-                    <p className="font-semibold text-green-900">{procedure.duration}</p>
+                    <p className="text-sm text-blue-600 font-medium">Duración</p>
+                    <p className="font-semibold text-blue-900">{procedure.duration}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-3 p-4 bg-purple-50 rounded-lg">
+                <div className="flex items-center space-x-3 p-4 bg-blue-50 rounded-lg">
                   {getUserTypeIcon(procedure.user_type)}
                   <div>
-                    <p className="text-sm text-purple-600 font-medium">Dirigido a</p>
-                    <p className="font-semibold text-purple-900 capitalize">{procedure.user_type}</p>
+                    <p className="text-sm text-blue-600 font-medium">Dirigido a</p>
+                    <p className="font-semibold text-blue-900 capitalize">{procedure.user_type}</p>
                   </div>
                 </div>
               </div>
@@ -173,8 +173,8 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
           {(procedure.costo || procedure.codigo_moneda) && (
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center space-x-3 mb-4">
-                <div className="bg-green-100 p-2 rounded-lg">
-                  <FileText className="h-5 w-5 text-green-600" />
+                <div className="bg-blue-100 p-2 rounded-lg">
+                  <FileText className="h-5 w-5 text-blue-600" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900">Costo del Trámite</h3>
               </div>
@@ -210,8 +210,8 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
           {procedure.respaldo_legal && (
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center space-x-3 mb-4">
-                <div className="bg-purple-100 p-2 rounded-lg">
-                  <FileText className="h-5 w-5 text-purple-600" />
+                <div className="bg-blue-100 p-2 rounded-lg">
+                  <FileText className="h-5 w-5 text-blue-600" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900">Marco Legal</h3>
               </div>
@@ -223,8 +223,8 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
           {procedure.fecha_actualizado && (
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center space-x-3 mb-4">
-                <div className="bg-green-100 p-2 rounded-lg">
-                  <Calendar className="h-5 w-5 text-green-600" />
+                <div className="bg-blue-100 p-2 rounded-lg">
+                  <Calendar className="h-5 w-5 text-blue-600" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900">Última Actualización</h3>
               </div>
@@ -241,21 +241,21 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
 
         {/* Official Link */}
         {procedure.enlace && (
-          <div className="bg-gradient-to-r from-purple-50 to-purple-100 rounded-xl p-8 mb-8 border border-purple-200">
+          <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-8 mb-8 border border-blue-200">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="bg-purple-600 p-2 rounded-lg">
+              <div className="bg-blue-600 p-2 rounded-lg">
                 <ExternalLink className="h-6 w-6 text-white" />
               </div>
-              <h2 className="text-2xl font-bold text-purple-900">Enlace Oficial</h2>
+              <h2 className="text-2xl font-bold text-blue-900">Enlace Oficial</h2>
             </div>
-            <p className="text-purple-800 mb-4">
+            <p className="text-blue-800 mb-4">
               Accede directamente al portal oficial para realizar este trámite en línea o obtener más información.
             </p>
             <a
               href={procedure.enlace}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center space-x-2 bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium"
+              className="inline-flex items-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
             >
               <Globe className="h-5 w-5" />
               <span>Ir al sitio oficial</span>

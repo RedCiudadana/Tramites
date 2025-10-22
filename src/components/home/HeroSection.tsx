@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useProcedures } from '../../hooks/useProcedures';
 import { useInstitutions } from '../../hooks/useInstitutions';
 import { useLanguage } from '../../contexts/LanguageContext';
+import Slider from '../../assets/TG-09.png'
 
 export default function HeroSection() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -44,6 +45,10 @@ export default function HeroSection() {
         <div className="absolute bottom-20 right-10 w-40 h-40 bg-blue-300 rounded-full blur-3xl"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-400 rounded-full blur-3xl"></div>
       </div>
+
+      <img src={Slider} alt="Hero Background" className="absolute right-0 bottom-0 w-1/3 opacity-20 pointer-events-none select-none" 
+        style={{ position: 'absolute', top: '0%', left: 0, bottom:0, margin:'auto', width: '2000px'}}
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 relative">
         <div className="text-center">

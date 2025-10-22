@@ -193,7 +193,7 @@ export default function CategoriesSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* MAGA */}
-          <div className="bg-white rounded-xl p-6 border border-green-200 hover:shadow-lg transition-all">
+          <div className="bg-white rounded-xl p-6 border border-blue-200 hover:shadow-lg transition-all">
             <div className="flex items-center space-x-3 mb-4">
               <div className="bg-blue-600 p-3 rounded-xl">
                 <Heart className="h-8 w-8 text-white" />
@@ -203,7 +203,7 @@ export default function CategoriesSection() {
                 <p className="text-sm">Ministerio de Agricultura, Ganadería y Alimentación</p>
               </div>
             </div>
-            <p className="text-green-800 text-sm mb-4">
+            <p className="text-blue-800 text-sm mb-4">
               Ministerio encargado del desarrollo agropecuario y la seguridad alimentaria del país.
             </p>
             <div className="space-y-2 mb-4">
@@ -222,7 +222,7 @@ export default function CategoriesSection() {
             </div>
             <button
               onClick={() => navigate('/catalogo?search=MAGA')}
-              className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium"
+              className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
             >
               Ver trámites
             </button>
@@ -265,7 +265,7 @@ export default function CategoriesSection() {
           </div>
 
           {/* MINEDUC */}
-          <div className="bg-white rounded-xl p-6 border border-purple-200 hover:shadow-lg transition-all">
+          <div className="bg-white rounded-xl p-6 border border-blue-200 hover:shadow-lg transition-all">
             <div className="flex items-center space-x-3 mb-4">
               <div className="bg-blue-600 p-3 rounded-xl">
                 <GraduationCap className="h-8 w-8 text-white" />
@@ -294,7 +294,7 @@ export default function CategoriesSection() {
             </div>
             <button
               onClick={() => navigate('/catalogo?search=MINEDUC')}
-              className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors font-medium"
+              className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
             >
               Ver trámites
             </button>

@@ -53,7 +53,7 @@ export default function ObservatoryChatbot() {
     return (
       <div className="bg-gray-50 min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Cargando asistente...</p>
         </div>
       </div>
@@ -66,8 +66,8 @@ export default function ObservatoryChatbot() {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center space-x-3 mb-4">
-            <div className="bg-purple-100 p-3 rounded-xl">
-              <Bot className="h-8 w-8 text-purple-600" />
+            <div className="bg-blue-100 p-3 rounded-xl">
+              <Bot className="h-8 w-8 text-blue-600" />
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
               Asistente de Trámites
@@ -82,14 +82,14 @@ export default function ObservatoryChatbot() {
         {/* Chat Interface */}
         <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
           {/* Chat Header */}
-          <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-6">
+          <div className="bg-gradient-to-r from-blue-600 to-blue-600 text-white p-6">
             <div className="flex items-center space-x-3">
               <div className="bg-white/20 p-2 rounded-full">
                 <Bot className="h-6 w-6" />
               </div>
               <div>
                 <h3 className="text-xl font-semibold">Asistente Red Ciudadana</h3>
-                <p className="text-purple-100">Especialista en información de trámites</p>
+                <p className="text-blue-100">Especialista en información de trámites</p>
               </div>
             </div>
           </div>
@@ -97,8 +97,8 @@ export default function ObservatoryChatbot() {
           {/* Welcome Message */}
           <div className="p-6 border-b border-gray-200">
             <div className="flex items-start space-x-3">
-              <div className="bg-purple-100 p-2 rounded-full flex-shrink-0">
-                <Bot className="h-5 w-5 text-purple-600" />
+              <div className="bg-blue-100 p-2 rounded-full flex-shrink-0">
+                <Bot className="h-5 w-5 text-blue-600" />
               </div>
               <div className="flex-1">
                 <div className="bg-gray-100 rounded-2xl p-4">
@@ -135,20 +135,20 @@ export default function ObservatoryChatbot() {
               </button>
               
                 onClick={() => handleQuickAction('observatory')}
-              <button className="flex items-center space-x-3 p-4 bg-green-50 hover:bg-green-100 rounded-xl transition-colors text-left">
-                <BarChart3 className="h-5 w-5 text-green-600" />
+              <button className="flex items-center space-x-3 p-4 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors text-left">
+                <BarChart3 className="h-5 w-5 text-blue-600" />
                 <div>
-                  <p className="font-medium text-green-900">Ver análisis del Observatorio</p>
-                  <p className="text-xs text-green-700">Análisis de {totalProcedures} procesos</p>
+                  <p className="font-medium text-blue-900">Ver análisis del Observatorio</p>
+                  <p className="text-xs text-blue-700">Análisis de {totalProcedures} procesos</p>
                 </div>
               </button>
               
                 onClick={() => handleQuickAction('categories')}
-              <button className="flex items-center space-x-3 p-4 bg-purple-50 hover:bg-purple-100 rounded-xl transition-colors text-left">
-                <FileText className="h-5 w-5 text-purple-600" />
+              <button className="flex items-center space-x-3 p-4 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors text-left">
+                <FileText className="h-5 w-5 text-blue-600" />
                 <div>
-                  <p className="font-medium text-purple-900">Explorar categorías</p>
-                  <p className="text-xs text-purple-700">{categories.length} categorías disponibles</p>
+                  <p className="font-medium text-blue-900">Explorar categorías</p>
+                  <p className="text-xs text-blue-700">{categories.length} categorías disponibles</p>
                 </div>
               </button>
               
@@ -194,9 +194,9 @@ export default function ObservatoryChatbot() {
               <input
                 type="text"
                 placeholder="Escribe tu pregunta sobre trámites aquí..."
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
-              <button className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-colors font-medium">
+              <button className="bg-gradient-to-r from-blue-600 to-blue-600 text-white px-6 py-3 rounded-xl hover:from-blue-700 hover:to-blue-700 transition-colors font-medium">
                 Enviar
               </button>
             </div>
@@ -219,8 +219,8 @@ export default function ObservatoryChatbot() {
           </div>
           
           <div className="text-center">
-            <div className="bg-green-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-              <BarChart3 className="h-8 w-8 text-green-600" />
+            <div className="bg-blue-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+              <BarChart3 className="h-8 w-8 text-blue-600" />
             </div>
             <h3 className="font-semibold text-gray-900 mb-2">Análisis en Tiempo Real</h3>
             <p className="text-gray-600 text-sm">
@@ -229,8 +229,8 @@ export default function ObservatoryChatbot() {
           </div>
           
           <div className="text-center">
-            <div className="bg-purple-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-              <MessageCircle className="h-8 w-8 text-purple-600" />
+            <div className="bg-blue-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+              <MessageCircle className="h-8 w-8 text-blue-600" />
             </div>
             <h3 className="font-semibold text-gray-900 mb-2">Asistencia 24/7</h3>
             <p className="text-gray-600 text-sm">

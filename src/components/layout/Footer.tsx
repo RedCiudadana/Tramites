@@ -17,9 +17,9 @@ export default function Footer() {
               Con el apoyo de:
             </h2>
           </div>
-          <div className='flex justify-center align-center mt-8 mb-16'>
-            <img style={{width: '300px', height: '95px'}} src={European}/>
-            <img style={{width: '300px', height: '95px'}} className='ml-4' src={Indico}/>
+          <div className="flex flex-col sm:flex-row items-center justify-center mt-8 mb-16 gap-4">
+            <img src={European} alt="European" className="w-48 md:w-72 h-auto object-contain block" />
+            <img src={Indico} alt="Indico" className="w-48 md:w-72 h-auto object-contain block" />
           </div>
         </div>
       </div>

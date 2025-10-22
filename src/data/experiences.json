@@ -4,7 +4,7 @@
     "nombre": "Quiero Abrir una Panadería",
     "descripcion": "Todos los trámites necesarios para abrir y operar legalmente una panadería en Guatemala",
     "icon": "Store",
-    "color": "from-amber-500 to-amber-700",
+    "color": "from-blue-500 to-blue-700",
     "categoria": "Emprendimiento",
     "duracion_estimada": "35-45 días",
     "ids_procedures": [
@@ -47,7 +47,7 @@
     "nombre": "Quiero Exportar mis Productos",
     "descripcion": "Proceso completo para obtener permisos y certificaciones necesarias para exportar",
     "icon": "Plane",
-    "color": "from-green-500 to-green-700",
+    "color": "from-blue-500 to-blue-700",
     "categoria": "Comercio Exterior",
     "duracion_estimada": "5-10 días",
     "ids_procedures": [
@@ -69,7 +69,7 @@
     "nombre": "Quiero Contratar Empleados",
     "descripcion": "Trámites laborales necesarios para contratar personal de manera formal y legal",
     "icon": "Users",
-    "color": "from-purple-500 to-purple-700",
+    "color": "from-blue-500 to-blue-700",
     "categoria": "Recursos Humanos",
     "duracion_estimada": "7-10 días",
     "ids_procedures": [
@@ -91,7 +91,7 @@
     "nombre": "Quiero Construir mi Casa",
     "descripcion": "Permisos y licencias necesarias para construir tu vivienda de forma legal",
     "icon": "Home",
-    "color": "from-orange-500 to-orange-700",
+    "color": "from-blue-500 to-blue-700",
     "categoria": "Construcción",
     "duracion_estimada": "35-40 días",
     "ids_procedures": [
@@ -113,7 +113,7 @@
     "nombre": "Quiero Estudiar en la USAC",
     "descripcion": "Proceso completo de admisión para ingresar a la Universidad de San Carlos",
     "icon": "GraduationCap",
-    "color": "from-indigo-500 to-indigo-700",
+    "color": "from-blue-500 to-blue-700",
     "categoria": "Educación",
     "duracion_estimada": "Variable según calendario",
     "ids_procedures": [
@@ -135,7 +135,7 @@
     "nombre": "Quiero Proteger mi Marca",
     "descripcion": "Registro de marca para proteger el nombre o logo de tu negocio",
     "icon": "Award",
-    "color": "from-rose-500 to-rose-700",
+    "color": "from-blue-500 to-blue-700",
     "categoria": "Propiedad Intelectual",
     "duracion_estimada": "30 días",
     "ids_procedures": [
@@ -156,7 +156,7 @@
     "nombre": "Iniciar Negocio con Empleados",
     "descripcion": "Ruta completa para establecer un negocio formal con personal contratado",
     "icon": "Building2",
-    "color": "from-cyan-500 to-cyan-700",
+    "color": "from-blue-500 to-blue-700",
     "categoria": "Emprendimiento Formal",
     "duracion_estimada": "20-30 días",
     "ids_procedures": [

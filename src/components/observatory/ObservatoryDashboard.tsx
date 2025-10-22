@@ -56,14 +56,14 @@ export default function ObservatoryDashboard() {
   }
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-green-600 bg-green-100';
+    if (score >= 80) return 'text-blue-600 bg-blue-100';
     if (score >= 60) return 'text-blue-600 bg-blue-100';
     if (score >= 40) return 'text-yellow-600 bg-yellow-100';
     return 'text-red-600 bg-red-100';
   };
 
   const getDigitalIcon = (value: number) => {
-    if (value === 100) return <CheckCircle className="w-5 h-5 text-green-600" />;
+    if (value === 100) return <CheckCircle className="w-5 h-5 text-blue-600" />;
     if (value === 50) return <MinusCircle className="w-5 h-5 text-yellow-600" />;
     return <XCircle className="w-5 h-5 text-red-600" />;
   };
@@ -81,31 +81,31 @@ export default function ObservatoryDashboard() {
         icon: <CheckCircle className="w-5 h-5" />,
         label: 'Completamente en Línea',
         value: `${item.completamente_en_linea}%`,
-        color: item.completamente_en_linea === 100 ? 'text-green-600' : item.completamente_en_linea === 50 ? 'text-yellow-600' : 'text-red-600'
+        color: item.completamente_en_linea === 100 ? 'text-blue-600' : item.completamente_en_linea === 50 ? 'text-yellow-600' : 'text-red-600'
       },
       {
         icon: <FileCheck className="w-5 h-5" />,
         label: 'Adjunta Documentos Digitalmente',
         value: item.adjunta_docs_digitalmente,
-        color: item.adjunta_docs_digitalmente.toLowerCase().startsWith('sí') ? 'text-green-600' : item.adjunta_docs_digitalmente.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
+        color: item.adjunta_docs_digitalmente.toLowerCase().startsWith('sí') ? 'text-blue-600' : item.adjunta_docs_digitalmente.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
       },
       {
         icon: <Shield className="w-5 h-5" />,
         label: 'Firma Electrónica Avanzada',
         value: item.firma_electronica_avanzada,
-        color: item.firma_electronica_avanzada.toLowerCase().startsWith('sí') ? 'text-green-600' : item.firma_electronica_avanzada.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
+        color: item.firma_electronica_avanzada.toLowerCase().startsWith('sí') ? 'text-blue-600' : item.firma_electronica_avanzada.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
       },
       {
         icon: <FileText className="w-5 h-5" />,
         label: 'Resultado Electrónico',
         value: item.resultado_electronico,
-        color: item.resultado_electronico.toLowerCase().startsWith('sí') ? 'text-green-600' : item.resultado_electronico.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
+        color: item.resultado_electronico.toLowerCase().startsWith('sí') ? 'text-blue-600' : item.resultado_electronico.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
       },
       {
         icon: <TrendingUp className="w-5 h-5" />,
         label: 'Número de Pasos',
         value: `${item.num_pasos} pasos`,
-        color: item.num_pasos <= 3 ? 'text-green-600' : item.num_pasos <= 5 ? 'text-yellow-600' : 'text-red-600'
+        color: item.num_pasos <= 3 ? 'text-blue-600' : item.num_pasos <= 5 ? 'text-yellow-600' : 'text-red-600'
       },
       {
         icon: <FileText className="w-5 h-5" />,
@@ -117,61 +117,61 @@ export default function ObservatoryDashboard() {
         icon: <FileCheck className="w-5 h-5" />,
         label: 'Docs de Misma Entidad',
         value: item.docs_misma_entidad,
-        color: item.docs_misma_entidad.toLowerCase().startsWith('no') ? 'text-green-600' : 'text-red-600'
+        color: item.docs_misma_entidad.toLowerCase().startsWith('no') ? 'text-blue-600' : 'text-red-600'
       },
       {
         icon: <UserCheck className="w-5 h-5" />,
         label: 'Declaración Jurada Innecesaria',
         value: item.decl_jurada_innec,
-        color: item.decl_jurada_innec.toLowerCase().startsWith('sí') ? 'text-green-600' : 'text-red-600'
+        color: item.decl_jurada_innec.toLowerCase().startsWith('sí') ? 'text-blue-600' : 'text-red-600'
       },
       {
         icon: <Link2 className="w-5 h-5" />,
         label: 'Intercambia Datos',
         value: item.intercambia_datos,
-        color: item.intercambia_datos.toLowerCase().startsWith('sí') ? 'text-green-600' : item.intercambia_datos.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
+        color: item.intercambia_datos.toLowerCase().startsWith('sí') ? 'text-blue-600' : item.intercambia_datos.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
       },
       {
         icon: <Globe className="w-5 h-5" />,
         label: 'Portal Interinstitucional',
         value: item.portal_interinst,
-        color: item.portal_interinst.toLowerCase().startsWith('sí') ? 'text-green-600' : 'text-red-600'
+        color: item.portal_interinst.toLowerCase().startsWith('sí') ? 'text-blue-600' : 'text-red-600'
       },
       {
         icon: <Link2 className="w-5 h-5" />,
         label: 'Usa X-Road/API',
         value: item.usa_xroad_api,
-        color: item.usa_xroad_api.toLowerCase().startsWith('sí') ? 'text-green-600' : item.usa_xroad_api.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
+        color: item.usa_xroad_api.toLowerCase().startsWith('sí') ? 'text-blue-600' : item.usa_xroad_api.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
       },
       {
         icon: <Eye className="w-5 h-5" />,
         label: 'Consulta Estado',
         value: item.consulta_estado,
-        color: item.consulta_estado.toLowerCase().startsWith('sí') ? 'text-green-600' : item.consulta_estado.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
+        color: item.consulta_estado.toLowerCase().startsWith('sí') ? 'text-blue-600' : item.consulta_estado.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
       },
       {
         icon: <Bell className="w-5 h-5" />,
         label: 'Notificación Electrónica',
         value: item.notificacion_electronica,
-        color: item.notificacion_electronica.toLowerCase().startsWith('sí') ? 'text-green-600' : 'text-red-600'
+        color: item.notificacion_electronica.toLowerCase().startsWith('sí') ? 'text-blue-600' : 'text-red-600'
       },
       {
         icon: <Info className="w-5 h-5" />,
         label: 'Información en Línea',
         value: item.info_en_linea,
-        color: item.info_en_linea.toLowerCase().startsWith('sí') ? 'text-green-600' : item.info_en_linea.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
+        color: item.info_en_linea.toLowerCase().startsWith('sí') ? 'text-blue-600' : item.info_en_linea.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
       },
       {
         icon: <Globe className="w-5 h-5" />,
         label: 'Atención Alternativa',
         value: item.atencion_alterna,
-        color: item.atencion_alterna.toLowerCase().startsWith('sí') ? 'text-green-600' : item.atencion_alterna.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
+        color: item.atencion_alterna.toLowerCase().startsWith('sí') ? 'text-blue-600' : item.atencion_alterna.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
       },
       {
         icon: <Globe className="w-5 h-5" />,
         label: 'Multi-idioma',
         value: item.multi_idioma,
-        color: item.multi_idioma.toLowerCase().startsWith('sí') ? 'text-green-600' : 'text-red-600'
+        color: item.multi_idioma.toLowerCase().startsWith('sí') ? 'text-blue-600' : 'text-red-600'
       },
       {
         icon: <Award className="w-5 h-5" />,
@@ -183,19 +183,19 @@ export default function ObservatoryDashboard() {
         icon: <Scale className="w-5 h-5" />,
         label: 'Requisitos Solo por Ley',
         value: item.req_solo_por_ley,
-        color: item.req_solo_por_ley.toLowerCase().startsWith('sí') ? 'text-green-600' : 'text-red-600'
+        color: item.req_solo_por_ley.toLowerCase().startsWith('sí') ? 'text-blue-600' : 'text-red-600'
       },
       {
         icon: <BookOpen className="w-5 h-5" />,
         label: 'Normativa Vigente',
         value: item.normativa_vigente,
-        color: item.normativa_vigente.toLowerCase().startsWith('sí') ? 'text-green-600' : item.normativa_vigente.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
+        color: item.normativa_vigente.toLowerCase().startsWith('sí') ? 'text-blue-600' : item.normativa_vigente.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
       },
       {
         icon: <UserCheck className="w-5 h-5" />,
         label: 'Presunción de Buena Fe',
         value: item.presuncion_buena_fe,
-        color: item.presuncion_buena_fe.toLowerCase().startsWith('sí') ? 'text-green-600' : item.presuncion_buena_fe.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
+        color: item.presuncion_buena_fe.toLowerCase().startsWith('sí') ? 'text-blue-600' : item.presuncion_buena_fe.toLowerCase().startsWith('parcial') ? 'text-yellow-600' : 'text-red-600'
       }
     ];
 
@@ -237,11 +237,11 @@ export default function ObservatoryDashboard() {
                   <div className="text-sm text-gray-600 mt-1">Digitalización</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-purple-600">{item.num_pasos}</div>
+                  <div className="text-3xl font-bold text-blue-600">{item.num_pasos}</div>
                   <div className="text-sm text-gray-600 mt-1">Pasos</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-green-600">{item.evaluation_score}</div>
+                  <div className="text-3xl font-bold text-blue-600">{item.evaluation_score}</div>
                   <div className="text-sm text-gray-600 mt-1">Evaluación</div>
                 </div>
                 <div className="text-center">
@@ -285,7 +285,7 @@ export default function ObservatoryDashboard() {
               <div className="w-full bg-gray-300 rounded-full h-4">
                 <div
                   className={`h-4 rounded-full transition-all ${
-                    item.evaluation_score >= 80 ? 'bg-green-500' :
+                    item.evaluation_score >= 80 ? 'bg-blue-500' :
                     item.evaluation_score >= 60 ? 'bg-blue-500' :
                     item.evaluation_score >= 40 ? 'bg-yellow-500' : 'bg-red-500'
                   }`}
@@ -347,9 +347,9 @@ export default function ObservatoryDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">Completamente Digitales</p>
-                <p className="text-3xl font-bold text-green-600">{stats.digitalProcedures}</p>
+                <p className="text-3xl font-bold text-blue-600">{stats.digitalProcedures}</p>
               </div>
-              <CheckCircle className="h-12 w-12 text-green-600" />
+              <CheckCircle className="h-12 w-12 text-blue-600" />
             </div>
           </div>
 
@@ -359,8 +359,8 @@ export default function ObservatoryDashboard() {
                 <p className="text-sm text-gray-600">Evaluación Promedio</p>
                 <p className="text-3xl font-bold text-gray-900">{stats.averageEvaluation}%</p>
               </div>
-              <div className="bg-purple-100 p-3 rounded-xl">
-                <TrendingUp className="h-8 w-8 text-purple-600" />
+              <div className="bg-blue-100 p-3 rounded-xl">
+                <TrendingUp className="h-8 w-8 text-blue-600" />
               </div>
             </div>
           </div>
@@ -395,7 +395,7 @@ export default function ObservatoryDashboard() {
               onClick={() => setSelectedFilter('digital')}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                 selectedFilter === 'digital'
-                  ? 'bg-green-600 text-white'
+                  ? 'bg-blue-600 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
@@ -478,7 +478,7 @@ export default function ObservatoryDashboard() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-center">
                       <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${
-                        item.maturity_level >= 4.0 ? 'bg-green-100 text-green-800' :
+                        item.maturity_level >= 4.0 ? 'bg-blue-100 text-blue-800' :
                         item.maturity_level >= 3.0 ? 'bg-blue-100 text-blue-800' :
                         item.maturity_level >= 2.0 ? 'bg-yellow-100 text-yellow-800' :
                         'bg-red-100 text-red-800'
