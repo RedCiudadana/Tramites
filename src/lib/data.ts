@@ -242,12 +242,12 @@ export const commentsService = {
 
 export const observatoryService = {
   async getAll(): Promise<any[]> {
-    // Return the observatory data directly from the file
-    // The data is now self-contained and doesn't need procedure lookups
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(observatoryData);
-      }, 100);
-    });
+    const { data, error } = await supabase
+      .from('observatory')
+      .select('*')
+      .order('evaluation_score', { ascending: false });
+
+    if (error) throw error;
+    return data || [];
   }
 };
