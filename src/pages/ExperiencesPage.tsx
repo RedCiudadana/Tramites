@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   Target,
   ChevronRight,
@@ -23,16 +23,9 @@ import {
   Users,
   Home,
   GraduationCap,
-  Award,
-  Star,
-  Filter,
-  Phone,
-  Mail,
-  MapPin,
-  User
+  Award
 } from 'lucide-react';
 import { useProcedures } from '../hooks/useProcedures';
-import { useInstitutions } from '../hooks/useInstitutions';
 import { useExperiences } from '../hooks/useExperiences';
 import { useLanguage } from '../contexts/LanguageContext';
 import loader from '../assets/loader.gif';
@@ -70,19 +63,14 @@ const colorMap: Record<string, { icon: string; bg: string }> = {
 };
 
 export default function ExperiencesPage() {
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'experiences' | 'procedures' | 'institutions'>('experiences');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedExperienceId, setSelectedExperienceId] = useState<string | null>(null);
-  const [categoryFilter, setCategoryFilter] = useState('');
-  const [showFilters, setShowFilters] = useState(false);
 
   const { procedures, loading: proceduresLoading } = useProcedures();
-  const { institutions, loading: institutionsLoading } = useInstitutions();
   const { experiences, loading: experiencesLoading } = useExperiences();
   const { t } = useLanguage();
 
-  const loading = proceduresLoading || institutionsLoading || experiencesLoading;
+  const loading = proceduresLoading || experiencesLoading;
 
   const selectedExperience = useMemo(() => {
     return experiences.find(exp => exp.id === selectedExperienceId) || null;
@@ -97,37 +85,6 @@ export default function ExperiencesPage() {
       exp.categoria.toLowerCase().includes(query)
     );
   }, [experiences, searchQuery]);
-
-  const filteredProcedures = useMemo(() => {
-    let filtered = procedures;
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(p =>
-        p.name.toLowerCase().includes(query) ||
-        p.description.toLowerCase().includes(query) ||
-        p.institutions?.name.toLowerCase().includes(query)
-      );
-    }
-    if (categoryFilter) {
-      filtered = filtered.filter(p => p.category === categoryFilter);
-    }
-    return filtered;
-  }, [procedures, searchQuery, categoryFilter]);
-
-  const filteredInstitutions = useMemo(() => {
-    if (!searchQuery) return institutions;
-    const query = searchQuery.toLowerCase();
-    return institutions.filter(i =>
-      i.name.toLowerCase().includes(query) ||
-      i.full_name?.toLowerCase().includes(query) ||
-      i.description?.toLowerCase().includes(query)
-    );
-  }, [institutions, searchQuery]);
-
-  const categories = useMemo(() => {
-    const unique = [...new Set(procedures.map(p => p.category).filter(Boolean))];
-    return unique.sort();
-  }, [procedures]);
 
   const getExperienceProcedures = (experienceId: string) => {
     const experience = experiences.find(exp => exp.id === experienceId);
@@ -342,309 +299,76 @@ export default function ExperiencesPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-white rounded-lg shadow-sm mb-8">
-          <div className="border-b border-gray-200">
-            <nav className="flex -mb-px">
-              <button
-                onClick={() => {
-                  setActiveTab('experiences');
-                  setSearchQuery('');
-                  setCategoryFilter('');
-                }}
-                className={`flex-1 py-4 px-6 text-center border-b-2 font-medium transition-colors ${
-                  activeTab === 'experiences'
-                    ? 'border-red-600 text-red-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                <div className="flex items-center justify-center space-x-2">
-                  <Star className="h-5 w-5" />
-                  <span>Experiencias ({experiences.length})</span>
-                </div>
-              </button>
-              <button
-                onClick={() => {
-                  setActiveTab('procedures');
-                  setSearchQuery('');
-                  setCategoryFilter('');
-                }}
-                className={`flex-1 py-4 px-6 text-center border-b-2 font-medium transition-colors ${
-                  activeTab === 'procedures'
-                    ? 'border-red-600 text-red-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                <div className="flex items-center justify-center space-x-2">
-                  <Briefcase className="h-5 w-5" />
-                  <span>Trámites ({procedures.length})</span>
-                </div>
-              </button>
-              <button
-                onClick={() => {
-                  setActiveTab('institutions');
-                  setSearchQuery('');
-                  setCategoryFilter('');
-                }}
-                className={`flex-1 py-4 px-6 text-center border-b-2 font-medium transition-colors ${
-                  activeTab === 'institutions'
-                    ? 'border-red-600 text-red-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                <div className="flex items-center justify-center space-x-2">
-                  <Building2 className="h-5 w-5" />
-                  <span>Instituciones ({institutions.length})</span>
-                </div>
-              </button>
-            </nav>
-          </div>
-
-          <div className="p-6">
-            <div className="flex flex-col lg:flex-row gap-4">
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={`Buscar ${activeTab === 'experiences' ? 'experiencias' : activeTab === 'procedures' ? 'trámites' : 'instituciones'}...`}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                />
-              </div>
-
-              {activeTab === 'procedures' && (
-                <button
-                  onClick={() => setShowFilters(!showFilters)}
-                  className="flex items-center space-x-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  <Filter className="h-5 w-5" />
-                  <span>Filtros</span>
-                </button>
-              )}
-            </div>
-
-            {showFilters && activeTab === 'procedures' && (
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Categoría
-                    </label>
-                    <select
-                      value={categoryFilter}
-                      onChange={(e) => setCategoryFilter(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                    >
-                      <option value="">Todas las categorías</option>
-                      {categories.map(category => (
-                        <option key={category} value={category}>
-                          {category}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="flex items-end">
-                    <button
-                      onClick={() => {
-                        setCategoryFilter('');
-                        setSearchQuery('');
-                      }}
-                      className="w-full px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      Limpiar filtros
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
+        <div className="mb-8">
+          <div className="relative max-w-2xl mx-auto">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Buscar experiencias... (ej: negocio, semillas, exportar)"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-12 pr-4 py-4 border-2 border-gray-300 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all"
+            />
           </div>
         </div>
 
-        {activeTab === 'experiences' && (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredExperiences.map((experience) => {
-              const IconComponent = iconMap[experience.icon] || Target;
-              const expProcedures = getExperienceProcedures(experience.id);
-              const colors = getColorClasses(experience.color);
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredExperiences.map((experience) => {
+            const IconComponent = iconMap[experience.icon] || Target;
+            const expProcedures = getExperienceProcedures(experience.id);
+            const colors = getColorClasses(experience.color);
 
-              return (
-                <button
-                  key={experience.id}
-                  onClick={() => setSelectedExperienceId(experience.id)}
-                  className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden text-left group border-2 border-transparent hover:border-red-500"
-                >
-                  <div className={`${colors.bg} p-6`}>
-                    <IconComponent className={`w-12 h-12 ${colors.icon} mb-4`} />
-                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
-                      {experience.nombre}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-4">
-                      {experience.descripcion}
-                    </p>
-                    <span className={`inline-block ${colors.icon} text-xs px-3 py-1 rounded-full font-semibold bg-white`}>
-                      {experience.categoria}
+            return (
+              <button
+                key={experience.id}
+                onClick={() => setSelectedExperienceId(experience.id)}
+                className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden text-left group border-2 border-transparent hover:border-red-500"
+              >
+                <div className={`${colors.bg} p-6`}>
+                  <IconComponent className={`w-12 h-12 ${colors.icon} mb-4`} />
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
+                    {experience.nombre}
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-4">
+                    {experience.descripcion}
+                  </p>
+                  <span className={`inline-block ${colors.icon} text-xs px-3 py-1 rounded-full font-semibold bg-white`}>
+                    {experience.categoria}
+                  </span>
+                </div>
+
+                <div className="p-6 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600 flex items-center gap-2">
+                      <FileText className="w-4 h-4" />
+                      {expProcedures.length} {t('categories.procedures')}
                     </span>
                   </div>
 
-                  <div className="p-6 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600 flex items-center gap-2">
-                        <FileText className="w-4 h-4" />
-                        {expProcedures.length} {t('categories.procedures')}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <Clock className="w-4 h-4" />
-                      <span>{experience.duracion_estimada}</span>
-                    </div>
-
-                    <div className="flex items-center justify-end gap-2 text-red-600 font-semibold text-sm group-hover:gap-3 transition-all pt-2">
-                      {t('procedure.viewDetails')}
-                      <ChevronRight className="w-5 h-5" />
-                    </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <Clock className="w-4 h-4" />
+                    <span>{experience.duracion_estimada}</span>
                   </div>
-                </button>
-              );
-            })}
-          </div>
-        )}
 
-        {activeTab === 'procedures' && (
-          <div className="grid gap-6">
-            {filteredProcedures.map((procedure) => (
-              <div
-                key={procedure.id}
-                className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-100 group"
-                onClick={() => navigate(`/tramite/${procedure.id}`)}
-              >
-                <div className="p-6">
-                  <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <h3 className="text-xl font-semibold text-gray-900 group-hover:text-red-600 transition-colors">
-                          {procedure.name}
-                        </h3>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(procedure.type)}`}>
-                          {getTypeIcon(procedure.type)} {procedure.type}
-                        </span>
-                      </div>
-                      <p className="text-gray-600 mb-4">{procedure.description}</p>
-                      <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
-                        <div className="flex items-center space-x-1">
-                          <Building2 className="h-4 w-4" />
-                          <span>{procedure.institutions?.name || 'N/A'}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <Clock className="h-4 w-4" />
-                          <span>{procedure.duration}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <User className="h-4 w-4" />
-                          <span className="capitalize">{procedure.user_type}</span>
-                        </div>
-                      </div>
-                    </div>
+                  <div className="flex items-center justify-end gap-2 text-red-600 font-semibold text-sm group-hover:gap-3 transition-all pt-2">
+                    {t('procedure.viewDetails')}
+                    <ChevronRight className="w-5 h-5" />
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
+              </button>
+            );
+          })}
+        </div>
 
-        {activeTab === 'institutions' && (
-          <div className="grid gap-6">
-            {filteredInstitutions.map((institution) => (
-              <div
-                key={institution.id}
-                className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100"
-              >
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-1">
-                        {institution.name}
-                      </h3>
-                      {institution.full_name && (
-                        <p className="text-sm text-gray-600 mb-2">{institution.full_name}</p>
-                      )}
-                      {institution.description && (
-                        <p className="text-gray-600 mb-4">{institution.description}</p>
-                      )}
-                    </div>
-                    {institution.is_digital_enabled && (
-                      <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
-                        Digital
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    {institution.phone && (
-                      <div className="flex items-start space-x-2">
-                        <Phone className="h-4 w-4 text-gray-400 mt-0.5" />
-                        <span className="text-gray-600">{institution.phone}</span>
-                      </div>
-                    )}
-                    {institution.email && (
-                      <div className="flex items-start space-x-2">
-                        <Mail className="h-4 w-4 text-gray-400 mt-0.5" />
-                        <span className="text-gray-600">{institution.email}</span>
-                      </div>
-                    )}
-                    {institution.address && (
-                      <div className="flex items-start space-x-2 md:col-span-2">
-                        <MapPin className="h-4 w-4 text-gray-400 mt-0.5" />
-                        <span className="text-gray-600">{institution.address}</span>
-                      </div>
-                    )}
-                    {institution.website && (
-                      <div className="flex items-start space-x-2 md:col-span-2">
-                        <Globe className="h-4 w-4 text-gray-400 mt-0.5" />
-                        <a
-                          href={institution.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-red-600 hover:text-red-800 hover:underline"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          {institution.website}
-                        </a>
-                      </div>
-                    )}
-                    {institution.working_hours && (
-                      <div className="flex items-start space-x-2 md:col-span-2">
-                        <Clock className="h-4 w-4 text-gray-400 mt-0.5" />
-                        <span className="text-gray-600">{institution.working_hours}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {((activeTab === 'experiences' && filteredExperiences.length === 0) ||
-          (activeTab === 'procedures' && filteredProcedures.length === 0) ||
-          (activeTab === 'institutions' && filteredInstitutions.length === 0)) && (
-          <div className="text-center py-12 bg-white rounded-lg">
+        {filteredExperiences.length === 0 && (
+          <div className="text-center py-12">
             <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              No se encontraron resultados
+              No se encontraron experiencias
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600">
               Intenta con otros términos de búsqueda
             </p>
-            <button
-              onClick={() => {
-                setSearchQuery('');
-                setCategoryFilter('');
-              }}
-              className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors font-medium"
-            >
-              Limpiar búsqueda
-            </button>
           </div>
         )}
       </div>
