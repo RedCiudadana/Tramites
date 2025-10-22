@@ -246,7 +246,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
               <div className="bg-blue-600 p-2 rounded-lg">
                 <ExternalLink className="h-6 w-6 text-white" />
               </div>
-              <h2 className="text-2xl font-bold text-blue-900">Enlace Oficial</h2>
+              <h2 className="text-2xl font-bold text-blue-900">Enlace Oficial del Trámite</h2>
             </div>
             <p className="text-blue-800 mb-4">
               Accede directamente al portal oficial para realizar este trámite en línea o obtener más información.
@@ -258,7 +258,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
               className="inline-flex items-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
             >
               <Globe className="h-5 w-5" />
-              <span>Ir al sitio oficial</span>
+              <span>Ver Trámite</span>
               <ExternalLink className="h-4 w-4" />
             </a>
           </div>
