@@ -16,7 +16,14 @@ import {
   Dna,
   Microscope,
   Package,
-  FlaskConical
+  FlaskConical,
+  Store,
+  Briefcase,
+  Plane,
+  Users,
+  Home,
+  GraduationCap,
+  Award
 } from 'lucide-react';
 import { useProcedures } from '../hooks/useProcedures';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -43,7 +50,15 @@ const iconMap: Record<string, React.ElementType> = {
   Microscope,
   Package,
   FlaskConical,
-  Target
+  Target,
+  Store,
+  Briefcase,
+  Plane,
+  Users,
+  Home,
+  GraduationCap,
+  Award,
+  Building2
 };
 
 // Map para los colores que funcionan con el diseño anterior
@@ -55,7 +70,8 @@ const colorMap: Record<string, { icon: string; bg: string }> = {
   'from-indigo-500 to-indigo-700': { icon: 'text-indigo-600', bg: 'bg-indigo-50' },
   'from-cyan-500 to-cyan-700': { icon: 'text-cyan-600', bg: 'bg-cyan-50' },
   'from-orange-500 to-orange-700': { icon: 'text-orange-600', bg: 'bg-orange-50' },
-  'from-rose-500 to-rose-700': { icon: 'text-rose-600', bg: 'bg-rose-50' }
+  'from-rose-500 to-rose-700': { icon: 'text-rose-600', bg: 'bg-rose-50' },
+  'from-amber-500 to-amber-700': { icon: 'text-amber-600', bg: 'bg-amber-50' }
 };
 
 export default function ExperiencesPage() {
