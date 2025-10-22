@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { Flag, X, Send, FileText, Clock, Building2, User } from 'lucide-react';
+import { Flag, X, Send, FileText, Clock, Building2, User, CheckCircle, AlertCircle } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
 
 export default function ReportProblemsButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [formData, setFormData] = useState({
     problemType: '',
     procedureName: '',
@@ -21,25 +24,61 @@ export default function ReportProblemsButton() {
     { value: 'other', label: 'Otro problema' }
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Aquí se enviaría la información al backend
-    console.log('Reporte enviado:', formData);
-    
-    // Simular envío exitoso
-    alert('¡Gracias por tu reporte! Nuestro equipo revisará la información y la actualizará pronto.');
-    
-    // Limpiar formulario y cerrar modal
-    setFormData({
-      problemType: '',
-      procedureName: '',
-      institution: '',
-      description: '',
-      contactEmail: '',
-      contactName: ''
-    });
-    setIsModalOpen(false);
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Obtener información del navegador y página
+      const browserInfo = `${navigator.userAgent}`;
+      const pageUrl = window.location.href;
+
+      // Preparar datos para insertar
+      const reportData = {
+        problem_type: formData.problemType,
+        description: `Trámite: ${formData.procedureName}\nInstitución: ${formData.institution || 'No especificada'}\n\n${formData.description}`,
+        user_name: formData.contactName || '',
+        user_email: formData.contactEmail || '',
+        page_url: pageUrl,
+        browser_info: browserInfo,
+        status: 'pending'
+      };
+
+      // Insertar en Supabase
+      const { error } = await supabase
+        .from('problem_reports')
+        .insert([reportData]);
+
+      if (error) {
+        console.error('Error al guardar reporte:', error);
+        setSubmitStatus('error');
+        return;
+      }
+
+      // Éxito
+      setSubmitStatus('success');
+
+      // Limpiar formulario después de 2 segundos
+      setTimeout(() => {
+        setFormData({
+          problemType: '',
+          procedureName: '',
+          institution: '',
+          description: '',
+          contactEmail: '',
+          contactName: ''
+        });
+        setIsModalOpen(false);
+        setSubmitStatus('idle');
+      }, 2000);
+
+    } catch (error) {
+      console.error('Error al enviar reporte:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -204,21 +243,57 @@ export default function ReportProblemsButton() {
                 </p>
               </div>
 
+              {/* Success/Error Messages */}
+              {submitStatus === 'success' && (
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-start space-x-3">
+                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-medium text-green-900">¡Reporte enviado exitosamente!</p>
+                    <p className="text-xs text-green-700 mt-1">
+                      Gracias por tu reporte. Nuestro equipo lo revisará pronto.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {submitStatus === 'error' && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start space-x-3">
+                  <AlertCircle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-medium text-red-900">Error al enviar el reporte</p>
+                    <p className="text-xs text-red-700 mt-1">
+                      Por favor, intenta nuevamente o contacta al soporte.
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {/* Submit Button */}
               <div className="flex flex-col sm:flex-row gap-3 pt-4">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+                  disabled={isSubmitting}
+                  className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-gradient-to-r from-orange-600 to-red-600 text-white px-6 py-3 rounded-lg hover:from-orange-700 hover:to-red-700 transition-colors font-medium flex items-center justify-center space-x-2"
+                  disabled={isSubmitting}
+                  className="flex-1 bg-gradient-to-r from-orange-600 to-red-600 text-white px-6 py-3 rounded-lg hover:from-orange-700 hover:to-red-700 transition-colors font-medium flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Send className="h-4 w-4" />
-                  <span>Enviar Reporte</span>
+                  {isSubmitting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                      <span>Enviando...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4" />
+                      <span>Enviar Reporte</span>
+                    </>
+                  )}
                 </button>
               </div>
             </form>
