@@ -5,6 +5,8 @@ import HomePage from '../pages/HomePage';
 import CatalogPage from '../pages/CatalogPage';
 import CategoriesPage from '../pages/CategoriesPage';
 import ProcedureDetailPage from '../pages/ProcedureDetailPage';
+import InstitutionsPage from '../pages/InstitutionsPage';
+import InstitutionDetailPage from '../pages/InstitutionDetailPage';
 import ObservatoryPage from '../pages/ObservatoryPage';
 import AssistantPage from '../pages/AssistantPage';
 import ExperiencesPage from '../pages/ExperiencesPage';
@@ -25,6 +27,11 @@ const AppRouter: React.FC = () => {
           <Route path="/catalogo/:category" element={<CatalogPage />} />
           <Route path="/categorias" element={<CategoriesPage />} />
           <Route path="/tramite/:id" element={<ProcedureDetailPage />} />
+          <Route path="/procedures/:id" element={<ProcedureDetailPage />} />
+          <Route path="/instituciones" element={<InstitutionsPage />} />
+          <Route path="/institutions" element={<InstitutionsPage />} />
+          <Route path="/instituciones/:id" element={<InstitutionDetailPage />} />
+          <Route path="/institutions/:id" element={<InstitutionDetailPage />} />
           <Route path="/observatorio" element={<ObservatoryPage />} />
           <Route path="/asistente-tramites" element={<AssistantPage />} />
           <Route path="/experiencias" element={<ExperiencesPage />} />

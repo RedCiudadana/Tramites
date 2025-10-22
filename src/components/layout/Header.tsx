@@ -17,6 +17,7 @@ export default function Header({ onSearchOpen }: HeaderProps) {
   const menuItems = [
     { path: '/', label: t('nav.home') },
     { path: '/catalogo', label: t('nav.catalog') },
+    { path: '/instituciones', label: t('nav.institutions') },
     { path: '/experiencias', label: t('nav.experiences') },
     { path: '/observatorio', label: t('nav.observatory') },
     { path: '/ayuda', label: t('nav.help') }
