@@ -202,8 +202,130 @@
   },
   "buttons": {
     "scrollToTop": "Volver arriba",
-    "reportProblem": "Reportar un problema",
+    "reportProblem": "Reportar Problemas",
     "reportTitle": "Reportar Problema",
     "reportDescription": "Ayúdanos a mejorar reportando información desactualizada o errores"
+  },
+  "reportModal": {
+    "title": "Reportar Problemas",
+    "subtitle": "Informa sobre cambios en procesos o información desactualizada",
+    "problemType": "Tipo de problema",
+    "problemTypePlaceholder": "Selecciona el tipo de problema",
+    "problemTypes": {
+      "outdatedInfo": "Información desactualizada",
+      "wrongRequirements": "Requisitos incorrectos",
+      "changedProcess": "Proceso ha cambiado",
+      "wrongContact": "Información de contacto incorrecta",
+      "newProcedure": "Nuevo trámite no listado",
+      "other": "Otro problema"
+    },
+    "procedureName": "Nombre del trámite",
+    "procedureNamePlaceholder": "Ej: Renovación de DPI, Inscripción de empresa...",
+    "institution": "Institución",
+    "institutionPlaceholder": "Ej: RENAP, Registro Mercantil, Municipalidad...",
+    "description": "Descripción del problema",
+    "descriptionPlaceholder": "Describe detalladamente qué información está incorrecta, qué ha cambiado, o qué problema encontraste...",
+    "contactInfo": "Información de contacto (opcional)",
+    "contactName": "Nombre",
+    "contactNamePlaceholder": "Tu nombre",
+    "contactEmail": "Correo electrónico",
+    "contactEmailPlaceholder": "tu@email.com",
+    "contactNote": "Opcional: Si proporcionas tu contacto, podremos informarte cuando actualicemos la información.",
+    "cancel": "Cancelar",
+    "send": "Enviar Reporte",
+    "sending": "Enviando...",
+    "successTitle": "¡Reporte enviado exitosamente!",
+    "successMessage": "Gracias por tu reporte. Nuestro equipo lo revisará pronto.",
+    "errorTitle": "Error al enviar el reporte",
+    "errorMessage": "Por favor, intenta nuevamente o contacta al soporte.",
+    "whyImportantTitle": "¿Por qué es importante reportar problemas?",
+    "whyImportantDesc": "Tu reporte nos ayuda a mantener la información actualizada y precisa para todos los ciudadanos. Red Ciudadana depende de la colaboración ciudadana para verificar y actualizar constantemente la información sobre trámites gubernamentales."
+  },
+  "observatoryPage": {
+    "title": "Observatorio Ciudadano de Trámites",
+    "description": "Evaluación de la digitalización y eficiencia de los procesos gubernamentales",
+    "stats": {
+      "totalProcedures": "Total Trámites",
+      "completelyDigital": "Completamente Digitales",
+      "averageEvaluation": "Evaluación Promedio",
+      "excellentProcedures": "Trámites Excelentes"
+    },
+    "filters": {
+      "all": "Todos",
+      "digital100": "Digitales 100%",
+      "mixed50": "Mixtos 50%",
+      "inPerson": "Presenciales"
+    },
+    "table": {
+      "number": "#",
+      "procedure": "Trámite",
+      "digitalization": "Digitalización",
+      "steps": "Pasos",
+      "maturity": "Madurez",
+      "evaluation": "Evaluación",
+      "actions": "Acciones",
+      "viewDetail": "Ver detalle"
+    },
+    "methodology": {
+      "title": "Metodología de Evaluación",
+      "criteriaTitle": "Criterios Evaluados:",
+      "criteria": {
+        "completelyOnline": "Completamente en línea (0%, 50%, 100%)",
+        "attachDigitalDocs": "Adjunta documentos digitalmente",
+        "advancedSignature": "Firma electrónica avanzada",
+        "electronicResult": "Resultado electrónico",
+        "stepsRequirements": "Número de pasos y requisitos",
+        "dataExchange": "Intercambio de datos entre entidades",
+        "statusCheck": "Consulta de estado",
+        "electronicNotifications": "Notificaciones electrónicas"
+      },
+      "scaleTitle": "Escala de Evaluación:",
+      "scale": {
+        "excellent": "Excelente digitalización",
+        "good": "Buena implementación digital",
+        "partial": "Digitalización parcial",
+        "needsImprovement": "Requiere modernización"
+      },
+      "maturityTitle": "Nivel de Madurez:",
+      "maturityLevels": {
+        "mature": "Proceso maduro y optimizado",
+        "developing": "Proceso en desarrollo",
+        "basic": "Proceso básico",
+        "initial": "Proceso inicial"
+      }
+    },
+    "detailModal": {
+      "evaluation": "Evaluación",
+      "maturity": "Madurez",
+      "digitalization": "Digitalización",
+      "steps": "Pasos",
+      "evaluationTitle": "Evaluación",
+      "maturityTitle": "Madurez",
+      "indicatorsTitle": "Indicadores Evaluados",
+      "evaluationLevel": "Nivel de Evaluación",
+      "close": "Cerrar",
+      "indicators": {
+        "completelyOnline": "Completamente en Línea",
+        "attachDocs": "Adjunta Documentos Digitalmente",
+        "electronicSignature": "Firma Electrónica Avanzada",
+        "electronicResult": "Resultado Electrónico",
+        "numberOfSteps": "Número de Pasos",
+        "numberOfRequirements": "Número de Requisitos",
+        "sameEntityDocs": "Docs de Misma Entidad",
+        "unnecessaryAffidavit": "Declaración Jurada Innecesaria",
+        "exchangesData": "Intercambia Datos",
+        "interinstitutionalPortal": "Portal Interinstitucional",
+        "usesXRoadAPI": "Usa X-Road/API",
+        "statusCheck": "Consulta Estado",
+        "electronicNotification": "Notificación Electrónica",
+        "onlineInfo": "Información en Línea",
+        "alternativeAttention": "Atención Alternativa",
+        "multiLanguage": "Multi-idioma",
+        "userRating": "Calificación de Usuarios",
+        "onlyLegalRequirements": "Requisitos Solo por Ley",
+        "currentRegulations": "Normativa Vigente",
+        "goodFaithPresumption": "Presunción de Buena Fe"
+      }
+    }
   }
 }

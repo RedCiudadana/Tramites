@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Flag, X, Send, FileText, Clock, Building2, User, CheckCircle, AlertCircle } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 export default function ReportProblemsButton() {
+  const { t } = useLanguage();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -16,12 +18,12 @@ export default function ReportProblemsButton() {
   });
 
   const problemTypes = [
-    { value: 'outdated-info', label: 'Información desactualizada' },
-    { value: 'wrong-requirements', label: 'Requisitos incorrectos' },
-    { value: 'changed-process', label: 'Proceso ha cambiado' },
-    { value: 'wrong-contact', label: 'Información de contacto incorrecta' },
-    { value: 'new-procedure', label: 'Nuevo trámite no listado' },
-    { value: 'other', label: 'Otro problema' }
+    { value: 'outdated-info', label: t('reportModal.problemTypes.outdatedInfo') },
+    { value: 'wrong-requirements', label: t('reportModal.problemTypes.wrongRequirements') },
+    { value: 'changed-process', label: t('reportModal.problemTypes.changedProcess') },
+    { value: 'wrong-contact', label: t('reportModal.problemTypes.wrongContact') },
+    { value: 'new-procedure', label: t('reportModal.problemTypes.newProcedure') },
+    { value: 'other', label: t('reportModal.problemTypes.other') }
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -30,14 +32,12 @@ export default function ReportProblemsButton() {
     setSubmitStatus('idle');
 
     try {
-      // Obtener información del navegador y página
       const browserInfo = `${navigator.userAgent}`;
       const pageUrl = window.location.href;
 
-      // Preparar datos para insertar
       const reportData = {
         problem_type: formData.problemType,
-        description: `Trámite: ${formData.procedureName}\nInstitución: ${formData.institution || 'No especificada'}\n\n${formData.description}`,
+        description: `${t('reportModal.procedureName')}: ${formData.procedureName}\n${t('reportModal.institution')}: ${formData.institution || 'No especificada'}\n\n${formData.description}`,
         user_name: formData.contactName || '',
         user_email: formData.contactEmail || '',
         page_url: pageUrl,
@@ -45,7 +45,6 @@ export default function ReportProblemsButton() {
         status: 'pending'
       };
 
-      // Insertar en Supabase
       const { error } = await supabase
         .from('problem_reports')
         .insert([reportData]);
@@ -56,10 +55,8 @@ export default function ReportProblemsButton() {
         return;
       }
 
-      // Éxito
       setSubmitStatus('success');
 
-      // Limpiar formulario después de 2 segundos
       setTimeout(() => {
         setFormData({
           problemType: '',
@@ -96,11 +93,11 @@ export default function ReportProblemsButton() {
         <button
           onClick={() => setIsModalOpen(true)}
           className="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-xl transition-all hover:scale-110 transform group"
-          title="Reportar Problemas"
+          title={t('buttons.reportProblem')}
         >
           <Flag className="h-6 w-6" />
           <div className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Reportar Problemas
+            {t('buttons.reportProblem')}
             <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-4 border-transparent border-l-gray-900"></div>
           </div>
         </button>
@@ -118,8 +115,8 @@ export default function ReportProblemsButton() {
                     <Flag className="h-6 w-6" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-semibold">Reportar Problemas</h2>
-                    <p className="text-orange-100 text-sm">Informa sobre cambios en procesos o información desactualizada</p>
+                    <h2 className="text-xl font-semibold">{t('reportModal.title')}</h2>
+                    <p className="text-orange-100 text-sm">{t('reportModal.subtitle')}</p>
                   </div>
                 </div>
                 <button
@@ -137,7 +134,7 @@ export default function ReportProblemsButton() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <FileText className="h-4 w-4 inline mr-1" />
-                  Tipo de problema *
+                  {t('reportModal.problemType')} *
                 </label>
                 <select
                   name="problemType"
@@ -146,7 +143,7 @@ export default function ReportProblemsButton() {
                   required
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 >
-                  <option value="">Selecciona el tipo de problema</option>
+                  <option value="">{t('reportModal.problemTypePlaceholder')}</option>
                   {problemTypes.map(type => (
                     <option key={type.value} value={type.value}>
                       {type.label}
@@ -159,7 +156,7 @@ export default function ReportProblemsButton() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <Clock className="h-4 w-4 inline mr-1" />
-                  Nombre del trámite *
+                  {t('reportModal.procedureName')} *
                 </label>
                 <input
                   type="text"
@@ -167,7 +164,7 @@ export default function ReportProblemsButton() {
                   value={formData.procedureName}
                   onChange={handleInputChange}
                   required
-                  placeholder="Ej: Renovación de DPI, Inscripción de empresa..."
+                  placeholder={t('reportModal.procedureNamePlaceholder')}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 />
               </div>
@@ -176,14 +173,14 @@ export default function ReportProblemsButton() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <Building2 className="h-4 w-4 inline mr-1" />
-                  Institución
+                  {t('reportModal.institution')}
                 </label>
                 <input
                   type="text"
                   name="institution"
                   value={formData.institution}
                   onChange={handleInputChange}
-                  placeholder="Ej: RENAP, Registro Mercantil, Municipalidad..."
+                  placeholder={t('reportModal.institutionPlaceholder')}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 />
               </div>
@@ -191,7 +188,7 @@ export default function ReportProblemsButton() {
               {/* Description */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Descripción del problema *
+                  {t('reportModal.description')} *
                 </label>
                 <textarea
                   name="description"
@@ -199,7 +196,7 @@ export default function ReportProblemsButton() {
                   onChange={handleInputChange}
                   required
                   rows={4}
-                  placeholder="Describe detalladamente qué información está incorrecta, qué ha cambiado, o qué problema encontraste..."
+                  placeholder={t('reportModal.descriptionPlaceholder')}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                 />
               </div>
@@ -208,38 +205,38 @@ export default function ReportProblemsButton() {
               <div className="bg-gray-50 rounded-lg p-4">
                 <h3 className="font-medium text-gray-900 mb-3 flex items-center">
                   <User className="h-4 w-4 mr-1" />
-                  Información de contacto (opcional)
+                  {t('reportModal.contactInfo')}
                 </h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Nombre
+                      {t('reportModal.contactName')}
                     </label>
                     <input
                       type="text"
                       name="contactName"
                       value={formData.contactName}
                       onChange={handleInputChange}
-                      placeholder="Tu nombre"
+                      placeholder={t('reportModal.contactNamePlaceholder')}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Correo electrónico
+                      {t('reportModal.contactEmail')}
                     </label>
                     <input
                       type="email"
                       name="contactEmail"
                       value={formData.contactEmail}
                       onChange={handleInputChange}
-                      placeholder="tu@email.com"
+                      placeholder={t('reportModal.contactEmailPlaceholder')}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                     />
                   </div>
                 </div>
                 <p className="text-xs text-gray-500 mt-2">
-                  Opcional: Si proporcionas tu contacto, podremos informarte cuando actualicemos la información.
+                  {t('reportModal.contactNote')}
                 </p>
               </div>
 
@@ -248,9 +245,9 @@ export default function ReportProblemsButton() {
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-start space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="text-sm font-medium text-green-900">¡Reporte enviado exitosamente!</p>
+                    <p className="text-sm font-medium text-green-900">{t('reportModal.successTitle')}</p>
                     <p className="text-xs text-green-700 mt-1">
-                      Gracias por tu reporte. Nuestro equipo lo revisará pronto.
+                      {t('reportModal.successMessage')}
                     </p>
                   </div>
                 </div>
@@ -260,9 +257,9 @@ export default function ReportProblemsButton() {
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start space-x-3">
                   <AlertCircle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="text-sm font-medium text-red-900">Error al enviar el reporte</p>
+                    <p className="text-sm font-medium text-red-900">{t('reportModal.errorTitle')}</p>
                     <p className="text-xs text-red-700 mt-1">
-                      Por favor, intenta nuevamente o contacta al soporte.
+                      {t('reportModal.errorMessage')}
                     </p>
                   </div>
                 </div>
@@ -276,7 +273,7 @@ export default function ReportProblemsButton() {
                   disabled={isSubmitting}
                   className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Cancelar
+                  {t('reportModal.cancel')}
                 </button>
                 <button
                   type="submit"
@@ -286,12 +283,12 @@ export default function ReportProblemsButton() {
                   {isSubmitting ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                      <span>Enviando...</span>
+                      <span>{t('reportModal.sending')}</span>
                     </>
                   ) : (
                     <>
                       <Send className="h-4 w-4" />
-                      <span>Enviar Reporte</span>
+                      <span>{t('reportModal.send')}</span>
                     </>
                   )}
                 </button>
@@ -304,12 +301,10 @@ export default function ReportProblemsButton() {
                 <Flag className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="text-sm font-medium text-gray-900 mb-1">
-                    ¿Por qué es importante reportar problemas?
+                    {t('reportModal.whyImportantTitle')}
                   </p>
                   <p className="text-xs text-gray-600">
-                    Tu reporte nos ayuda a mantener la información actualizada y precisa para todos los ciudadanos. 
-                    Red Ciudadana depende de la colaboración ciudadana para verificar y actualizar constantemente 
-                    la información sobre trámites gubernamentales.
+                    {t('reportModal.whyImportantDesc')}
                   </p>
                 </div>
               </div>
