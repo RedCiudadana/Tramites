@@ -1,5 +1,4 @@
-import institutionsData from '../data/Copia de instituciones.json';
-import proceduresData from '../data/Copia de procedures.json';
+import { supabase } from './supabase';
 import observatoryData from '../data/observatory';
 
 export interface Institution {
@@ -83,71 +82,84 @@ export interface ObservatoryData {
   updated_at: string;
 }
 
-const institutions = institutionsData as Institution[];
-const procedures = proceduresData as Procedure[];
-
-const enrichedProcedures = procedures.map(procedure => {
-  const institution = institutions.find(inst => inst.id === procedure.institution_id);
-  return {
-    ...procedure,
-    institutions: institution
-  };
-});
 
 export const proceduresService = {
   async getAll(): Promise<Procedure[]> {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(enrichedProcedures), 100);
-    });
+    const { data, error } = await supabase
+      .from('procedures')
+      .select(`
+        *,
+        institutions (*)
+      `)
+      .order('name');
+
+    if (error) throw error;
+    return data || [];
   },
 
   async getById(id: string): Promise<Procedure | null> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const procedure = enrichedProcedures.find(p => p.id === id);
-        resolve(procedure || null);
-      }, 100);
-    });
+    const { data, error } = await supabase
+      .from('procedures')
+      .select(`
+        *,
+        institutions (*)
+      `)
+      .eq('id', id)
+      .maybeSingle();
+
+    if (error) throw error;
+    return data;
   },
 
   async getByCategory(category: string): Promise<Procedure[]> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const filtered = enrichedProcedures.filter(p => p.category === category);
-        resolve(filtered);
-      }, 100);
-    });
+    const { data, error } = await supabase
+      .from('procedures')
+      .select(`
+        *,
+        institutions (*)
+      `)
+      .eq('category', category)
+      .order('name');
+
+    if (error) throw error;
+    return data || [];
   },
 
   async search(query: string): Promise<Procedure[]> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const lowerQuery = query.toLowerCase();
-        const filtered = enrichedProcedures.filter(p =>
-          p.name.toLowerCase().includes(lowerQuery) ||
-          p.description.toLowerCase().includes(lowerQuery) ||
-          p.full_description.toLowerCase().includes(lowerQuery)
-        );
-        resolve(filtered);
-      }, 100);
-    });
+    const { data, error } = await supabase
+      .from('procedures')
+      .select(`
+        *,
+        institutions (*)
+      `)
+      .or(`name.ilike.%${query}%,description.ilike.%${query}%`)
+      .order('name');
+
+    if (error) throw error;
+    return data || [];
   }
 };
 
 export const institutionsService = {
   async getAll(): Promise<Institution[]> {
-    return new Promise((resolve) => {
-      setTimeout(() => resolve(institutions), 100);
-    });
+    const { data, error } = await supabase
+      .from('institutions')
+      .select('*')
+      .order('name');
+
+    if (error) throw error;
+    return data || [];
   },
 
   async getById(id: string): Promise<Institution | null> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const institution = institutions.find(i => i.id === id);
-        resolve(institution || null);
-      }, 100);
-    });
+    const { data, error } = await supabase
+      .from('institutions')
+      .select('*')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (error) throw error;
+    return data;
   }
 };
 
@@ -230,27 +242,27 @@ export const commentsService = {
 
 export const observatoryService = {
   async getAll(): Promise<any[]> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const enrichedObservatory = observatoryData.map(item => {
-          const procedure = enrichedProcedures.find(p => p.id === item.procedure_id);
-          return {
-            ...item,
-            procedure: procedure ? {
-              id: procedure.id,
-              name: procedure.name,
-              category: procedure.category,
-              subcategory: procedure.subcategory,
-              institution_id: procedure.institution_id,
-              institutions: procedure.institutions ? {
-                name: procedure.institutions.name,
-                full_name: procedure.institutions.full_name
-              } : undefined
-            } : undefined
-          };
-        });
-        resolve(enrichedObservatory);
-      }, 100);
+    const { data: procedures, error } = await supabase
+      .from('procedures')
+      .select(`
+        id,
+        name,
+        category,
+        subcategory,
+        institution_id,
+        institutions (name, full_name)
+      `);
+
+    if (error) throw error;
+
+    const enrichedObservatory = observatoryData.map(item => {
+      const procedure = procedures?.find(p => p.id === item.procedure_id);
+      return {
+        ...item,
+        procedure
+      };
     });
+
+    return enrichedObservatory;
   }
 };
