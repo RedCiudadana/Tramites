@@ -242,27 +242,12 @@ export const commentsService = {
 
 export const observatoryService = {
   async getAll(): Promise<any[]> {
-    const { data: procedures, error } = await supabase
-      .from('procedures')
-      .select(`
-        id,
-        name,
-        category,
-        subcategory,
-        institution_id,
-        institutions (name, full_name)
-      `);
-
-    if (error) throw error;
-
-    const enrichedObservatory = observatoryData.map(item => {
-      const procedure = procedures?.find(p => p.id === item.procedure_id);
-      return {
-        ...item,
-        procedure
-      };
+    // Return the observatory data directly from the file
+    // The data is now self-contained and doesn't need procedure lookups
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(observatoryData);
+      }, 100);
     });
-
-    return enrichedObservatory;
   }
 };
