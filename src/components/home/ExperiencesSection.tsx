@@ -1,59 +1,108 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Target, Utensils, Store, Home, ArrowRight, Clock, FileText } from 'lucide-react';
+import {
+  Target,
+  ArrowRight,
+  Clock,
+  FileText,
+  Sprout,
+  Globe,
+  Leaf,
+  Pill,
+  Dna,
+  Microscope,
+  Package,
+  FlaskConical,
+  Store,
+  Briefcase,
+  Plane,
+  Users,
+  Home,
+  GraduationCap,
+  Award,
+  Building2
+} from 'lucide-react';
+import { useExperiences } from '../../hooks/useExperiences';
+import { useProcedures } from '../../hooks/useProcedures';
+import loader from '../../assets/loader.gif';
 
-const featuredExperiences = [
-  {
-    id: 'panadero',
-    title: 'Quiero ser Panadero',
-    description: 'Todos los trámites necesarios para abrir tu panadería en Guatemala',
-    icon: Utensils,
-    color: 'text-amber-600',
-    bgColor: 'bg-amber-50',
-    hoverColor: 'hover:border-amber-500',
-    proceduresCount: 2,
-    estimatedTime: '45-60 días',
-    difficulty: 'Moderado'
-  },
-  {
-    id: 'negocio',
-    title: 'Quiero Abrir un Negocio',
-    description: 'Pasos para formalizar tu empresa y empezar a operar legalmente',
-    icon: Store,
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-50',
-    hoverColor: 'hover:border-blue-500',
-    proceduresCount: 1,
-    estimatedTime: '30-45 días',
-    difficulty: 'Moderado'
-  },
-  {
-    id: 'construir',
-    title: 'Quiero Construir mi Casa',
-    description: 'Permisos y licencias necesarias para construir tu vivienda',
-    icon: Home,
-    color: 'text-green-600',
-    bgColor: 'bg-green-50',
-    hoverColor: 'hover:border-green-500',
-    proceduresCount: 1,
-    estimatedTime: '60-90 días',
-    difficulty: 'Complejo'
-  }
-];
+const iconMap: Record<string, React.ElementType> = {
+  Sprout,
+  Globe,
+  Leaf,
+  Pill,
+  Dna,
+  Microscope,
+  Package,
+  FlaskConical,
+  Target,
+  Store,
+  Briefcase,
+  Plane,
+  Users,
+  Home,
+  GraduationCap,
+  Award,
+  Building2
+};
+
+const colorMap: Record<string, { icon: string; bg: string }> = {
+  'from-green-500 to-green-700': { icon: 'text-green-600', bg: 'bg-green-50' },
+  'from-blue-500 to-blue-700': { icon: 'text-blue-600', bg: 'bg-blue-50' },
+  'from-emerald-500 to-emerald-700': { icon: 'text-emerald-600', bg: 'bg-emerald-50' },
+  'from-purple-500 to-purple-700': { icon: 'text-purple-600', bg: 'bg-purple-50' },
+  'from-indigo-500 to-indigo-700': { icon: 'text-indigo-600', bg: 'bg-indigo-50' },
+  'from-cyan-500 to-cyan-700': { icon: 'text-cyan-600', bg: 'bg-cyan-50' },
+  'from-orange-500 to-orange-700': { icon: 'text-orange-600', bg: 'bg-orange-50' },
+  'from-rose-500 to-rose-700': { icon: 'text-rose-600', bg: 'bg-rose-50' },
+  'from-amber-500 to-amber-700': { icon: 'text-amber-600', bg: 'bg-amber-50' }
+};
 
 export default function ExperiencesSection() {
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'Fácil':
-        return 'bg-green-100 text-green-800';
-      case 'Moderado':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'Complejo':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
+  const { experiences, loading: experiencesLoading } = useExperiences();
+  const { procedures, loading: proceduresLoading } = useProcedures();
+
+  const featuredExperiences = useMemo(() => {
+    if (!experiences.length || !procedures.length) return [];
+
+    return experiences.slice(0, 3).map(exp => {
+      const procedureCount = procedures.filter(proc =>
+        exp.ids_procedures.includes(proc.id.toString())
+      ).length;
+
+      const colors = colorMap[exp.color] || { icon: 'text-blue-600', bg: 'bg-blue-50' };
+
+      return {
+        id: exp.id,
+        nombre: exp.nombre,
+        descripcion: exp.descripcion,
+        icon: iconMap[exp.icon] || Target,
+        color: colors.icon,
+        bgColor: colors.bg,
+        hoverColor: 'hover:border-blue-500',
+        proceduresCount: procedureCount,
+        estimatedTime: exp.duracion_estimada,
+        categoria: exp.categoria
+      };
+    });
+  }, [experiences, procedures]);
+
+  if (experiencesLoading || proceduresLoading) {
+    return (
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <img src={loader} alt="Cargando..." className="h-16 w-16 mx-auto mb-4" />
+            <p className="text-gray-600">Cargando experiencias...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!featuredExperiences.length) {
+    return null;
+  }
 
   return (
     <section className="py-16 bg-white">
@@ -82,10 +131,10 @@ export default function ExperiencesSection() {
                 <div className={`${experience.bgColor} p-6`}>
                   <Icon className={`w-12 h-12 ${experience.color} mb-4 group-hover:scale-110 transition-transform`} />
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                    {experience.title}
+                    {experience.nombre}
                   </h3>
                   <p className="text-gray-600 text-sm mb-4">
-                    {experience.description}
+                    {experience.descripcion}
                   </p>
                 </div>
 
@@ -95,8 +144,8 @@ export default function ExperiencesSection() {
                       <FileText className="w-4 h-4" />
                       {experience.proceduresCount} trámite{experience.proceduresCount !== 1 ? 's' : ''}
                     </span>
-                    <span className={`text-xs px-3 py-1 rounded-full font-semibold ${getDifficultyColor(experience.difficulty)}`}>
-                      {experience.difficulty}
+                    <span className="text-xs px-3 py-1 rounded-full font-semibold bg-blue-100 text-blue-800">
+                      {experience.categoria}
                     </span>
                   </div>
 
