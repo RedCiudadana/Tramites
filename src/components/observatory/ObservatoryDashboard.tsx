@@ -21,10 +21,12 @@ import {
 } from 'lucide-react';
 import { useObservatory, useObservatoryStats, ObservatoryData } from '../../hooks/useObservatory';
 import InfoTooltip from '../common/InfoTooltip';
+import Breadcrumb from '../common/Breadcrumb';
 
 export default function ObservatoryDashboard() {
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'digital' | 'partial' | 'none'>('all');
   const [selectedItem, setSelectedItem] = useState<ObservatoryData | null>(null);
+  const [isFiltering, setIsFiltering] = useState(false);
   const { observatoryData, loading, error } = useObservatory();
   const { stats } = useObservatoryStats();
 
@@ -69,12 +71,17 @@ export default function ObservatoryDashboard() {
     return <XCircle className="w-5 h-5 text-red-600" />;
   };
 
-  const filteredData = observatoryData.filter(item => {
-    if (selectedFilter === 'digital') return item.completamente_en_linea === 100;
-    if (selectedFilter === 'partial') return item.completamente_en_linea === 50;
-    if (selectedFilter === 'none') return item.completamente_en_linea === 0;
-    return true;
-  });
+  const filteredData = React.useMemo(() => {
+    setIsFiltering(true);
+    const filtered = observatoryData.filter(item => {
+      if (selectedFilter === 'digital') return item.completamente_en_linea === 100;
+      if (selectedFilter === 'partial') return item.completamente_en_linea === 50;
+      if (selectedFilter === 'none') return item.completamente_en_linea === 0;
+      return true;
+    });
+    setTimeout(() => setIsFiltering(false), 300);
+    return filtered;
+  }, [observatoryData, selectedFilter]);
 
   const DetailModal = ({ item, onClose }: { item: ObservatoryData; onClose: () => void }) => {
     const indicators = [
@@ -313,6 +320,9 @@ export default function ObservatoryDashboard() {
   return (
     <div className="bg-gray-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Breadcrumb */}
+        <Breadcrumb items={[{ label: 'Observatorio Ciudadano de Trámites' }]} />
+
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center space-x-3 mb-4">
@@ -385,8 +395,17 @@ export default function ObservatoryDashboard() {
           </div>
         </div>
 
-        {/* Filters */}
+        {/* Filters with loading indicator */}
         <div className="bg-white rounded-xl p-4 shadow-sm mb-8 border border-gray-100">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-sm font-medium text-gray-700">Filtrar por tipo de digitalización</h3>
+            {isFiltering && (
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-600 border-t-transparent"></div>
+                <span>Filtrando...</span>
+              </div>
+            )}
+          </div>
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setSelectedFilter('all')}

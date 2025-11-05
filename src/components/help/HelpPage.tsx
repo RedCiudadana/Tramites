@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { 
-  Search, 
-  ChevronDown, 
-  ChevronRight, 
-  HelpCircle, 
-  FileText, 
-  Users, 
-  Phone, 
-  Mail, 
+import React, { useState, useMemo } from 'react';
+import {
+  Search,
+  ChevronDown,
+  ChevronRight,
+  HelpCircle,
+  FileText,
+  Users,
+  Phone,
+  Mail,
   MessageCircle,
   Book,
   CheckCircle,
@@ -18,6 +18,8 @@ import {
   Globe,
   Download
 } from 'lucide-react';
+import Breadcrumb from '../common/Breadcrumb';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 interface FAQ {
   id: string;
@@ -36,6 +38,7 @@ export default function HelpPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('general');
   const [expandedFAQ, setExpandedFAQ] = useState<string | null>(null);
+  const [isFiltering, setIsFiltering] = useState(false);
 
   const faqCategories = [
     { id: 'general', name: 'General', icon: HelpCircle },
@@ -177,13 +180,18 @@ export default function HelpPage() {
     }
   ];
 
-  const filteredFAQs = faqs.filter(faq => {
-    const matchesCategory = selectedCategory === 'general' || faq.category === selectedCategory;
-    const matchesSearch = searchQuery === '' || 
-      faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      faq.answer.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const filteredFAQs = useMemo(() => {
+    setIsFiltering(true);
+    const filtered = faqs.filter(faq => {
+      const matchesCategory = selectedCategory === 'general' || faq.category === selectedCategory;
+      const matchesSearch = searchQuery === '' ||
+        faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        faq.answer.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+    setTimeout(() => setIsFiltering(false), 300);
+    return filtered;
+  }, [selectedCategory, searchQuery]);
 
   const toggleFAQ = (faqId: string) => {
     setExpandedFAQ(expandedFAQ === faqId ? null : faqId);
@@ -192,6 +200,9 @@ export default function HelpPage() {
   return (
     <div className="bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Breadcrumb */}
+        <Breadcrumb items={[{ label: 'Centro de Ayuda' }]} />
+
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center space-x-3 mb-4">
@@ -269,28 +280,37 @@ export default function HelpPage() {
                 />
               </div>
 
-              {/* Category Filters */}
-              <div className="flex flex-wrap gap-2 mb-6">
-                {faqCategories.map((category) => {
-                  const IconComponent = category.icon;
-                  return (
-                    <button
-                      key={category.id}
-                      onClick={() => setSelectedCategory(category.id)}
-                      className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
-                        selectedCategory === category.id
-                          ? 'bg-blue-100 text-blue-800'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      <IconComponent className="h-4 w-4" />
-                      <span className="text-sm font-medium">{category.name}</span>
-                    </button>
-                  );
-                })}
+              {/* Category Filters with loading indicator */}
+              <div className="mb-6">
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-sm text-gray-600">Filtrar por categoría</p>
+                  {isFiltering && <LoadingSpinner size="sm" inline />}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {faqCategories.map((category) => {
+                    const IconComponent = category.icon;
+                    return (
+                      <button
+                        key={category.id}
+                        onClick={() => setSelectedCategory(category.id)}
+                        className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                          selectedCategory === category.id
+                            ? 'bg-blue-100 text-blue-800'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                      >
+                        <IconComponent className="h-4 w-4" />
+                        <span className="text-sm font-medium">{category.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* FAQ List */}
+              {isFiltering ? (
+                <LoadingSpinner size="lg" text="Filtrando preguntas..." />
+              ) : (
               <div className="space-y-4">
                 {filteredFAQs.map((faq) => (
                   <div key={faq.id} className="border border-gray-200 rounded-lg">
@@ -313,8 +333,9 @@ export default function HelpPage() {
                   </div>
                 ))}
               </div>
+              )}
 
-              {filteredFAQs.length === 0 && (
+              {!isFiltering && filteredFAQs.length === 0 && (
                 <div className="text-center py-8">
                   <Search className="h-12 w-12 text-gray-400 mx-auto mb-3" />
                   <p className="text-gray-600">No se encontraron preguntas que coincidan con tu búsqueda.</p>

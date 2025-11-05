@@ -29,6 +29,8 @@ import { useProcedures } from '../hooks/useProcedures';
 import { useExperiences } from '../hooks/useExperiences';
 import { useLanguage } from '../contexts/LanguageContext';
 import InfoTooltip from '../components/common/InfoTooltip';
+import Breadcrumb from '../components/common/Breadcrumb';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 import loader from '../assets/loader.gif';
 
 const iconMap: Record<string, React.ElementType> = {
@@ -66,6 +68,7 @@ const colorMap: Record<string, { icon: string; bg: string }> = {
 export default function ExperiencesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedExperienceId, setSelectedExperienceId] = useState<string | null>(null);
+  const [isFiltering, setIsFiltering] = useState(false);
 
   const { procedures, loading: proceduresLoading } = useProcedures();
   const { experiences, loading: experiencesLoading } = useExperiences();
@@ -78,13 +81,19 @@ export default function ExperiencesPage() {
   }, [experiences, selectedExperienceId]);
 
   const filteredExperiences = useMemo(() => {
-    if (!searchQuery) return experiences;
+    setIsFiltering(true);
+    if (!searchQuery) {
+      setTimeout(() => setIsFiltering(false), 200);
+      return experiences;
+    }
     const query = searchQuery.toLowerCase();
-    return experiences.filter(exp =>
+    const filtered = experiences.filter(exp =>
       exp.nombre.toLowerCase().includes(query) ||
       exp.descripcion.toLowerCase().includes(query) ||
       exp.categoria.toLowerCase().includes(query)
     );
+    setTimeout(() => setIsFiltering(false), 300);
+    return filtered;
   }, [experiences, searchQuery]);
 
   const getExperienceProcedures = (experienceId: string) => {
@@ -136,6 +145,16 @@ export default function ExperiencesPage() {
       <div className="min-h-screen bg-gray-50">
         <div className="bg-gradient-to-r from-blue-800 to-blue-900 text-white py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Breadcrumb */}
+            <div className="mb-6">
+              <Breadcrumb
+                items={[
+                  { label: t('experiences.title'), path: '/experiencias' },
+                  { label: selectedExperience.nombre }
+                ]}
+              />
+            </div>
+
             <button
               onClick={() => setSelectedExperienceId(null)}
               className="mb-6 flex items-center gap-2 text-white hover:text-blue-100 font-semibold"
@@ -287,6 +306,11 @@ export default function ExperiencesPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="bg-gradient-to-r from-blue-800 to-blue-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Breadcrumb */}
+          <div className="mb-6">
+            <Breadcrumb items={[{ label: t('experiences.title') }]} />
+          </div>
+
           <div className="text-center">
             <Target className="w-16 h-16 mx-auto mb-4" />
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -308,6 +332,7 @@ export default function ExperiencesPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Search bar */}
         <div className="mb-8">
           <div className="relative max-w-2xl mx-auto">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -321,6 +346,18 @@ export default function ExperiencesPage() {
           </div>
         </div>
 
+        {/* Results count with loading indicator */}
+        <div className="mb-6 flex items-center justify-between">
+          <p className="text-gray-600">
+            {filteredExperiences.length} {filteredExperiences.length === 1 ? 'experiencia' : 'experiencias'}
+          </p>
+          {isFiltering && <LoadingSpinner size="sm" inline />}
+        </div>
+
+        {/* Experiences grid */}
+        {isFiltering ? (
+          <LoadingSpinner size="lg" text="Filtrando experiencias..." />
+        ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredExperiences.map((experience) => {
             const IconComponent = iconMap[experience.icon] || Target;
@@ -368,8 +405,9 @@ export default function ExperiencesPage() {
             );
           })}
         </div>
+        )}
 
-        {filteredExperiences.length === 0 && (
+        {!isFiltering && filteredExperiences.length === 0 && (
           <div className="text-center py-12">
             <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
