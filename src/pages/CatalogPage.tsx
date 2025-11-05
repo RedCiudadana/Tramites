@@ -6,6 +6,7 @@ import loader from '../assets/loader.gif';
 import CatalogHero from '../components/catalog/CatalogHero';
 import Breadcrumb from '../components/common/Breadcrumb';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import EmptyState from '../components/common/EmptyState';
 
 const CatalogPage: React.FC = () => {
   const navigate = useNavigate();
@@ -201,23 +202,29 @@ const CatalogPage: React.FC = () => {
 
         {/* No Results */}
         {!isFiltering && filteredProcedures.length === 0 && (
-          <div className="text-center py-12 bg-white rounded-lg">
-            <Search className="h-16 w-16 mx-auto text-gray-400 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              No se encontraron trámites
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Intenta con otros términos de búsqueda o ajusta los filtros
-            </p>
-            <button
-              onClick={() => {
-                setSearchQuery('');
-                setCategoryFilter('');
-              }}
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
-            >
-              Limpiar búsqueda
-            </button>
+          <div>
+            <EmptyState
+              title="No se encontraron trámites"
+              description={
+                searchQuery || categoryFilter
+                  ? "Intenta con otros términos de búsqueda o ajusta los filtros"
+                  : "No hay trámites disponibles en este momento"
+              }
+              type="search"
+              searchQuery={searchQuery}
+              showHomeLink={false}
+            />
+            <div className="mt-6 text-center">
+              <button
+                onClick={() => {
+                  setSearchQuery('');
+                  setCategoryFilter('');
+                }}
+                className="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors font-semibold shadow-lg hover:shadow-xl"
+              >
+                Limpiar búsqueda y filtros
+              </button>
+            </div>
           </div>
         )}
       </div>

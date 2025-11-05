@@ -31,6 +31,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import InfoTooltip from '../components/common/InfoTooltip';
 import Breadcrumb from '../components/common/Breadcrumb';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import EmptyState from '../components/common/EmptyState';
 import loader from '../assets/loader.gif';
 
 const iconMap: Record<string, React.ElementType> = {
@@ -408,15 +409,20 @@ export default function ExperiencesPage() {
         )}
 
         {!isFiltering && filteredExperiences.length === 0 && (
-          <div className="text-center py-12">
-            <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              No se encontraron experiencias
-            </h3>
-            <p className="text-gray-600">
-              Intenta con otros términos de búsqueda
-            </p>
-          </div>
+          <EmptyState
+            title="No se encontraron experiencias"
+            description="Intenta con otros términos de búsqueda o explora nuestras sugerencias"
+            type="search"
+            searchQuery={searchQuery}
+            suggestions={[
+              'Exportar semillas',
+              'Abrir un negocio',
+              'Registro sanitario',
+              'Importar productos',
+              'Patente de comercio'
+            ]}
+            showHomeLink={false}
+          />
         )}
       </div>
     </div>

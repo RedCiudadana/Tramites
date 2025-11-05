@@ -291,15 +291,35 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 </div>
               )}
             </div>
-          ) : query.trim() !== '' ? (
-            <div className="p-8 text-center">
-              <div className="text-gray-400 mb-2">
-                <Search className="h-12 w-12 mx-auto" />
+          ) : query.trim() !== '' && query.length >= 3 ? (
+            <div className="p-6">
+              <div className="text-center">
+                <div className="text-gray-400 mb-3">
+                  <Search className="h-12 w-12 mx-auto" />
+                </div>
+                <p className="text-gray-900 font-semibold mb-2">
+                  No se encontraron trámites para "{query}"
+                </p>
+                <p className="text-sm text-gray-600 mb-6">
+                  Intenta con otros términos o explora las sugerencias populares
+                </p>
+
+                {/* Quick suggestions in modal */}
+                <div className="bg-blue-50 rounded-lg p-4 border border-blue-100">
+                  <p className="text-sm font-medium text-gray-700 mb-3">Búsquedas populares:</p>
+                  <div className="flex flex-wrap gap-2 justify-center">
+                    {['Licencia', 'Pasaporte', 'DPI', 'Acta'].map((term) => (
+                      <button
+                        key={term}
+                        onClick={() => setQuery(term)}
+                        className="px-3 py-1 bg-white rounded-md text-sm text-gray-700 hover:bg-blue-600 hover:text-white transition-colors border border-blue-200"
+                      >
+                        {term}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
-              <p className="text-gray-600">No se encontraron trámites para "{query}"</p>
-              <p className="text-sm text-gray-500 mt-1">
-                Intenta con otros términos de búsqueda
-              </p>
             </div>
           ) : !showSuggestions ? (
             <div className="p-8 text-center">
