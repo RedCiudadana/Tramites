@@ -1,19 +1,23 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Filter, Building2, Clock, User, ChevronRight, ArrowRight } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Search, Filter, Building2, Clock, User, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useProcedures } from '../hooks/useProcedures';
 import loader from '../assets/loader.gif';
 import CatalogHero from '../components/catalog/CatalogHero';
+import Breadcrumb from '../components/common/Breadcrumb';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 
 const CatalogPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
   const [showFilters, setShowFilters] = useState(false);
+  const [isFiltering, setIsFiltering] = useState(false);
 
   const { procedures, loading } = useProcedures();
 
   const filteredProcedures = useMemo(() => {
+    setIsFiltering(true);
     let filtered = procedures;
 
     if (searchQuery) {
@@ -29,6 +33,7 @@ const CatalogPage: React.FC = () => {
       filtered = filtered.filter(p => p.category === categoryFilter);
     }
 
+    setTimeout(() => setIsFiltering(false), 300);
     return filtered;
   }, [procedures, searchQuery, categoryFilter]);
 
@@ -71,13 +76,7 @@ const CatalogPage: React.FC = () => {
   return (
     <div className="bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-6">
-          <Link to="/" className="hover:text-blue-800 transition-colors">
-            Inicio
-          </Link>
-          <ChevronRight className="h-4 w-4" />
-          <span className="text-gray-900 font-medium">Catálogo de Trámites</span>
-        </nav>
+        <Breadcrumb items={[{ label: 'Catálogo de Trámites' }]} />
 
         <CatalogHero totalProcedures={procedures.length} />
 
@@ -141,14 +140,18 @@ const CatalogPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Results Header */}
-        <div className="mb-6">
+        {/* Results Header with Loading Indicator */}
+        <div className="mb-6 flex items-center justify-between">
           <p className="text-gray-600">
             Mostrando <span className="font-semibold text-gray-900">{filteredProcedures.length}</span> de <span className="font-semibold text-gray-900">{procedures.length}</span> trámites
           </p>
+          {isFiltering && <LoadingSpinner size="sm" inline />}
         </div>
 
         {/* Procedures List */}
+        {isFiltering ? (
+          <LoadingSpinner size="lg" text="Filtrando trámites..." />
+        ) : (
         <div className="grid gap-6">
           {filteredProcedures.map((procedure) => (
             <div
@@ -194,9 +197,10 @@ const CatalogPage: React.FC = () => {
             </div>
           ))}
         </div>
+        )}
 
         {/* No Results */}
-        {filteredProcedures.length === 0 && (
+        {!isFiltering && filteredProcedures.length === 0 && (
           <div className="text-center py-12 bg-white rounded-lg">
             <Search className="h-16 w-16 mx-auto text-gray-400 mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">

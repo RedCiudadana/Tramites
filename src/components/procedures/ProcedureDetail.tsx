@@ -1,11 +1,11 @@
 import React from 'react';
-import { 
-  Clock, 
-  Building2, 
-  User, 
-  Users, 
-  FileText, 
-  CheckCircle, 
+import {
+  Clock,
+  Building2,
+  User,
+  Users,
+  FileText,
+  CheckCircle,
   ArrowLeft,
   ExternalLink,
   Phone,
@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Procedure } from '../../lib/data';
+import Breadcrumb from '../common/Breadcrumb';
 
 interface ProcedureDetailProps {
   procedure: Procedure;
@@ -66,6 +67,14 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
   return (
     <div className="bg-gray-50 min-h-screen">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Breadcrumb */}
+        <Breadcrumb
+          items={[
+            { label: 'Catálogo de Trámites', path: '/catalogo' },
+            { label: procedure.name }
+          ]}
+        />
+
         {/* Back Button */}
         <div className="mb-6">
           <Link

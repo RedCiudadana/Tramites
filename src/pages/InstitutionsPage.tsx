@@ -1,20 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Building2, Search, Globe, Phone, Mail, MapPin, Clock, ExternalLink } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useInstitutions } from '../hooks/useInstitutions';
+import Breadcrumb from '../components/common/Breadcrumb';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 
 export default function InstitutionsPage() {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const { institutions, loading, error } = useInstitutions();
   const [searchQuery, setSearchQuery] = useState('');
+  const [isFiltering, setIsFiltering] = useState(false);
 
-  const filteredInstitutions = institutions.filter(institution =>
-    institution.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    institution.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    institution.description?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredInstitutions = useMemo(() => {
+    setIsFiltering(true);
+    const filtered = institutions.filter(institution =>
+      institution.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      institution.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      institution.description?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setTimeout(() => setIsFiltering(false), 300);
+    return filtered;
+  }, [institutions, searchQuery]);
 
   if (loading) {
     return (
@@ -40,6 +48,9 @@ export default function InstitutionsPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Breadcrumb */}
+        <Breadcrumb items={[{ label: t('institutions.title') }]} />
+
         {/* Header */}
         <div className="bg-gradient-to-r from-orange-600 to-red-600 rounded-2xl shadow-xl p-8 mb-8 text-white">
           <div className="flex items-center space-x-3 mb-4">
@@ -108,15 +119,18 @@ export default function InstitutionsPage() {
           </div>
         </div>
 
-        {/* Results Count */}
-        <div className="mb-6">
+        {/* Results Count with Loading Indicator */}
+        <div className="mb-6 flex items-center justify-between">
           <p className="text-gray-600">
             {filteredInstitutions.length} {t('institutions.results')}
           </p>
+          {isFiltering && <LoadingSpinner size="sm" inline />}
         </div>
 
         {/* Institutions Grid */}
-        {filteredInstitutions.length === 0 ? (
+        {isFiltering ? (
+          <LoadingSpinner size="lg" text={t('common.loading')} />
+        ) : filteredInstitutions.length === 0 ? (
           <div className="bg-white rounded-lg shadow p-12 text-center">
             <Building2 className="h-16 w-16 text-gray-400 mx-auto mb-4" />
             <p className="text-xl text-gray-600 mb-2">{t('institutions.noResults')}</p>

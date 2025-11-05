@@ -159,6 +159,7 @@
   },
   "common": {
     "loading": "Cargando...",
+    "filtering": "Filtrando resultados...",
     "error": "Error",
     "search": "Buscar",
     "filter": "Filtrar",

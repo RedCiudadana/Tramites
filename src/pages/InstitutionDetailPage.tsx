@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { supabase } from '../lib/supabase';
+import Breadcrumb from '../components/common/Breadcrumb';
 
 interface Institution {
   id: number | string;
@@ -116,6 +117,14 @@ export default function InstitutionDetailPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Breadcrumb */}
+        <Breadcrumb
+          items={[
+            { label: t('institutions.title'), path: '/instituciones' },
+            { label: institution.name }
+          ]}
+        />
+
         {/* Back Button */}
         <button
           onClick={() => navigate('/institutions')}
