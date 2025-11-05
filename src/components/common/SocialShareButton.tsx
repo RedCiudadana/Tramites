@@ -48,7 +48,7 @@ export default function SocialShareButton({
     {
       name: 'WhatsApp',
       icon: MessageCircle,
-      url: `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`,
+      url: `https://api.whatsapp.com/send?text=${encodedTitle}%0A%0A${encodedDescription ? encodedDescription + '%0A%0A' : ''}${encodedUrl}`,
       color: 'hover:bg-green-600',
       bgColor: 'bg-green-600'
     },
@@ -77,20 +77,7 @@ export default function SocialShareButton({
   };
 
   const handleNativeShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: title,
-          text: description,
-          url: shareUrl
-        });
-        setIsOpen(false);
-      } catch (err) {
-        console.error('Error sharing:', err);
-      }
-    } else {
-      setIsOpen(!isOpen);
-    }
+    setIsOpen(!isOpen);
   };
 
   return (
@@ -106,7 +93,7 @@ export default function SocialShareButton({
       </button>
 
       {/* Share Modal */}
-      {isOpen && !navigator.share && (
+      {isOpen && (
         <>
           {/* Backdrop */}
           <div
@@ -138,20 +125,20 @@ export default function SocialShareButton({
             </p>
 
             {/* Social Platforms */}
-            <div className="grid grid-cols-5 gap-3 mb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-6">
               {socialPlatforms.map((platform) => {
                 const Icon = platform.icon;
                 return (
                   <button
                     key={platform.name}
                     onClick={() => handleShare(platform)}
-                    className={`flex flex-col items-center gap-2 p-3 rounded-xl ${platform.color} hover:scale-105 transition-all group bg-gray-50`}
+                    className={`flex flex-col items-center gap-2 p-4 rounded-xl hover:shadow-lg hover:scale-105 transition-all group bg-gray-50 border border-gray-200`}
                     title={`Compartir en ${platform.name}`}
                   >
-                    <div className={`${platform.bgColor} text-white p-3 rounded-full group-hover:scale-110 transition-transform`}>
-                      <Icon className="h-5 w-5" />
+                    <div className={`${platform.bgColor} text-white p-3 rounded-full group-hover:scale-110 transition-transform shadow-md`}>
+                      <Icon className="h-6 w-6" />
                     </div>
-                    <span className="text-xs font-medium text-gray-700">{platform.name}</span>
+                    <span className="text-xs font-semibold text-gray-700">{platform.name}</span>
                   </button>
                 );
               })}
@@ -159,28 +146,28 @@ export default function SocialShareButton({
 
             {/* Copy Link */}
             <div className="border-t border-gray-200 pt-6">
-              <p className="text-sm font-medium text-gray-700 mb-3">O copia el enlace</p>
-              <div className="flex items-center gap-2">
-                <div className="flex-1 bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 overflow-hidden">
-                  <p className="truncate">{shareUrl}</p>
+              <p className="text-sm font-medium text-gray-700 mb-3">O copia el enlace directo</p>
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                <div className="flex-1 bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 text-sm text-gray-700 overflow-hidden">
+                  <p className="truncate font-mono text-xs">{shareUrl}</p>
                 </div>
                 <button
                   onClick={copyToClipboard}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                  className={`flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium transition-all shadow-sm whitespace-nowrap ${
                     copied
-                      ? 'bg-green-100 text-green-700'
-                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                      ? 'bg-green-100 text-green-700 border-2 border-green-500'
+                      : 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-md'
                   }`}
                 >
                   {copied ? (
                     <>
-                      <Check className="h-4 w-4" />
-                      <span>Copiado</span>
+                      <Check className="h-5 w-5" />
+                      <span>¡Copiado!</span>
                     </>
                   ) : (
                     <>
-                      <Link2 className="h-4 w-4" />
-                      <span>Copiar</span>
+                      <Link2 className="h-5 w-5" />
+                      <span>Copiar enlace</span>
                     </>
                   )}
                 </button>
