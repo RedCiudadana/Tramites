@@ -15,12 +15,12 @@ export default function Header({ onSearchOpen }: HeaderProps) {
   const { t } = useLanguage();
 
   const menuItems = [
-    { path: '/', label: t('nav.home') },
-    { path: '/catalogo', label: t('nav.catalog') },
-    { path: '/instituciones', label: t('nav.institutions') },
-    { path: '/experiencias', label: t('nav.experiences') },
-    { path: '/observatorio', label: t('nav.observatory') },
-    { path: '/ayuda', label: t('nav.help') }
+    { path: '/', label: t('nav.home'), description: t('nav.homeDesc') },
+    { path: '/catalogo', label: t('nav.catalog'), description: t('nav.catalogDesc') },
+    { path: '/instituciones', label: t('nav.institutions'), description: t('nav.institutionsDesc') },
+    { path: '/experiencias', label: t('nav.experiences'), description: t('nav.experiencesDesc') },
+    { path: '/observatorio', label: t('nav.observatory'), description: t('nav.observatoryDesc') },
+    { path: '/ayuda', label: t('nav.help'), description: t('nav.helpDesc') }
   ];
 
   const isActive = (path: string) => {
@@ -45,6 +45,7 @@ export default function Header({ onSearchOpen }: HeaderProps) {
               <Link
                 key={item.path}
                 to={item.path}
+                title={item.description}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   isActive(item.path)
                     ? 'bg-blue-50 text-blue-800 shadow-sm'
@@ -85,13 +86,14 @@ export default function Header({ onSearchOpen }: HeaderProps) {
                   key={item.path}
                   to={item.path}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`text-left px-4 py-3 text-sm font-medium transition-colors rounded-lg ${
+                  className={`text-left px-4 py-3 transition-colors rounded-lg ${
                     isActive(item.path)
                       ? 'text-blue-800 bg-blue-50'
                       : 'text-gray-700 hover:text-blue-800 hover:bg-gray-50'
                   }`}
                 >
-                  {item.label}
+                  <div className="text-sm font-medium">{item.label}</div>
+                  <div className="text-xs text-gray-500 mt-0.5">{item.description}</div>
                 </Link>
               ))}
             </div>

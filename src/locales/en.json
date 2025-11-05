@@ -1,12 +1,18 @@
 {
   "nav": {
     "home": "Home",
+    "homeDesc": "Main page with access to all services",
     "catalog": "Catalog",
+    "catalogDesc": "Explore all available procedures",
     "categories": "Categories",
     "institutions": "Institutions",
+    "institutionsDesc": "Complete directory of government entities",
     "experiences": "Experiences",
+    "experiencesDesc": "Learn step by step how to complete common procedures",
     "observatory": "Observatory",
+    "observatoryDesc": "Evaluation of digitalization of government processes",
     "help": "Help",
+    "helpDesc": "Frequently asked questions and assistance",
     "about": "About"
   },
   "header": {

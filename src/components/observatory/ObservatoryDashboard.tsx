@@ -20,6 +20,7 @@ import {
   BookOpen
 } from 'lucide-react';
 import { useObservatory, useObservatoryStats, ObservatoryData } from '../../hooks/useObservatory';
+import InfoTooltip from '../common/InfoTooltip';
 
 export default function ObservatoryDashboard() {
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'digital' | 'partial' | 'none'>('all');
@@ -318,10 +319,16 @@ export default function ObservatoryDashboard() {
             <div className="bg-blue-100 p-3 rounded-xl">
               <BarChart3 className="h-8 w-8 text-blue-600" />
             </div>
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Observatorio Ciudadano de Trámites
-              </h1>
+            <div className="flex-1">
+              <div className="flex items-center gap-2">
+                <h1 className="text-3xl font-bold text-gray-900">
+                  Observatorio Ciudadano de Trámites
+                </h1>
+                <InfoTooltip
+                  text="El Observatorio evalúa el nivel de digitalización de los trámites gubernamentales usando 8 criterios diferentes, incluyendo procesos en línea, firma digital, y más."
+                  position="right"
+                />
+              </div>
               <p className="text-gray-600">
                 Evaluación de la digitalización y eficiencia de los procesos gubernamentales
               </p>

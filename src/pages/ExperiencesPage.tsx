@@ -28,6 +28,7 @@ import {
 import { useProcedures } from '../hooks/useProcedures';
 import { useExperiences } from '../hooks/useExperiences';
 import { useLanguage } from '../contexts/LanguageContext';
+import InfoTooltip from '../components/common/InfoTooltip';
 import loader from '../assets/loader.gif';
 
 const iconMap: Record<string, React.ElementType> = {
@@ -288,9 +289,17 @@ export default function ExperiencesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <Target className="w-16 h-16 mx-auto mb-4" />
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              {t('experiences.title')}
-            </h1>
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <h1 className="text-4xl md:text-5xl font-bold">
+                {t('experiences.title')}
+              </h1>
+              <div className="mt-2">
+                <InfoTooltip
+                  text="Las Experiencias Guiadas te muestran todos los trámites necesarios para alcanzar una meta específica, organizados paso a paso en el orden correcto."
+                  position="bottom"
+                />
+              </div>
+            </div>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
               {t('experiences.description')}
             </p>

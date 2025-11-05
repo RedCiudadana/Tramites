@@ -1,12 +1,18 @@
 {
   "nav": {
     "home": "Inicio",
+    "homeDesc": "Página principal con acceso a todos los servicios",
     "catalog": "Catálogo",
+    "catalogDesc": "Explora todos los trámites disponibles",
     "categories": "Categorías",
     "institutions": "Instituciones",
+    "institutionsDesc": "Directorio completo de entidades gubernamentales",
     "experiences": "Experiencias",
+    "experiencesDesc": "Aprende paso a paso cómo realizar trámites comunes",
     "observatory": "Observatorio",
+    "observatoryDesc": "Evaluación de digitalización de procesos gubernamentales",
     "help": "Ayuda",
+    "helpDesc": "Preguntas frecuentes y asistencia",
     "about": "Acerca de"
   },
   "header": {
