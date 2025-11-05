@@ -157,12 +157,13 @@ export default function ReportProblemsButton() {
       <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-40">
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-xl transition-all hover:scale-110 transform group"
-          title={t('buttons.reportProblem')}
+          className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-3 rounded-full shadow-xl transition-all hover:scale-105 transform group flex items-center gap-2"
+          title="Reportar cambios o error"
         >
-          <Flag className="h-6 w-6" />
-          <div className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            {t('buttons.reportProblem')}
+          <Flag className="h-5 w-5" />
+          <span className="text-sm font-semibold hidden lg:block">Reportar cambios o error</span>
+          <div className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none lg:hidden">
+            Reportar cambios o error
             <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-4 border-transparent border-l-gray-900"></div>
           </div>
         </button>
@@ -180,8 +181,8 @@ export default function ReportProblemsButton() {
                     <Flag className="h-6 w-6" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-semibold">{t('reportModal.title')}</h2>
-                    <p className="text-orange-100 text-sm">{t('reportModal.subtitle')}</p>
+                    <h2 className="text-xl font-semibold">Reportar cambios o error</h2>
+                    <p className="text-orange-100 text-sm">Ayúdanos a mantener la información actualizada</p>
                   </div>
                 </div>
                 <button
@@ -203,9 +204,15 @@ export default function ReportProblemsButton() {
                     <p className="text-sm font-medium text-blue-900 mb-1">
                       Completa el formulario para reportar un problema
                     </p>
-                    <p className="text-xs text-blue-700">
+                    <p className="text-xs text-blue-700 mb-2">
                       Todos los campos marcados con * son obligatorios. Tu información de contacto es opcional pero nos ayudará a darte seguimiento.
                     </p>
+                    <div className="flex items-center gap-2 bg-white rounded-lg px-3 py-2 border border-blue-200">
+                      <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0" />
+                      <p className="text-xs text-gray-700">
+                        <span className="font-semibold text-green-700">Almacenamiento seguro:</span> Todos los reportes se guardan automáticamente en nuestra base de datos para revisión y seguimiento.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
