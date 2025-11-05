@@ -16,6 +16,18 @@ export default function ReportProblemsButton() {
     contactEmail: '',
     contactName: ''
   });
+  const [errors, setErrors] = useState({
+    problemType: '',
+    procedureName: '',
+    description: '',
+    contactEmail: ''
+  });
+  const [touched, setTouched] = useState({
+    problemType: false,
+    procedureName: false,
+    description: false,
+    contactEmail: false
+  });
 
   const problemTypes = [
     { value: 'outdated-info', label: t('reportModal.problemTypes.outdatedInfo') },
@@ -26,8 +38,53 @@ export default function ReportProblemsButton() {
     { value: 'other', label: t('reportModal.problemTypes.other') }
   ];
 
+  const validateField = (name: string, value: string) => {
+    switch (name) {
+      case 'problemType':
+        return value ? '' : 'Por favor selecciona un tipo de problema';
+      case 'procedureName':
+        return value.trim().length >= 3 ? '' : 'El nombre debe tener al menos 3 caracteres';
+      case 'description':
+        return value.trim().length >= 10 ? '' : 'La descripción debe tener al menos 10 caracteres';
+      case 'contactEmail':
+        if (!value) return '';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(value) ? '' : 'Por favor ingresa un email válido';
+      default:
+        return '';
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setTouched(prev => ({ ...prev, [name]: true }));
+    setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate all fields
+    const newErrors = {
+      problemType: validateField('problemType', formData.problemType),
+      procedureName: validateField('procedureName', formData.procedureName),
+      description: validateField('description', formData.description),
+      contactEmail: validateField('contactEmail', formData.contactEmail)
+    };
+
+    setErrors(newErrors);
+    setTouched({
+      problemType: true,
+      procedureName: true,
+      description: true,
+      contactEmail: true
+    });
+
+    // Check if there are any errors
+    if (Object.values(newErrors).some(error => error !== '')) {
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
@@ -84,6 +141,14 @@ export default function ReportProblemsButton() {
       ...prev,
       [name]: value
     }));
+
+    // Real-time validation if field has been touched
+    if (touched[name as keyof typeof touched]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: validateField(name, value)
+      }));
+    }
   };
 
   return (
@@ -130,6 +195,21 @@ export default function ReportProblemsButton() {
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
+              {/* Info Banner */}
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="flex items-start space-x-3">
+                  <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm font-medium text-blue-900 mb-1">
+                      Completa el formulario para reportar un problema
+                    </p>
+                    <p className="text-xs text-blue-700">
+                      Todos los campos marcados con * son obligatorios. Tu información de contacto es opcional pero nos ayudará a darte seguimiento.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               {/* Problem Type */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -140,8 +220,13 @@ export default function ReportProblemsButton() {
                   name="problemType"
                   value={formData.problemType}
                   onChange={handleInputChange}
+                  onBlur={handleBlur}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 transition-colors ${
+                    touched.problemType && errors.problemType
+                      ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
+                      : 'border-gray-300 focus:ring-orange-500 focus:border-orange-500'
+                  }`}
                 >
                   <option value="">{t('reportModal.problemTypePlaceholder')}</option>
                   {problemTypes.map(type => (
@@ -150,6 +235,12 @@ export default function ReportProblemsButton() {
                     </option>
                   ))}
                 </select>
+                {touched.problemType && errors.problemType && (
+                  <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
+                    <AlertCircle className="h-4 w-4" />
+                    {errors.problemType}
+                  </p>
+                )}
               </div>
 
               {/* Procedure Name */}
@@ -163,10 +254,21 @@ export default function ReportProblemsButton() {
                   name="procedureName"
                   value={formData.procedureName}
                   onChange={handleInputChange}
+                  onBlur={handleBlur}
                   required
                   placeholder={t('reportModal.procedureNamePlaceholder')}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 transition-colors ${
+                    touched.procedureName && errors.procedureName
+                      ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
+                      : 'border-gray-300 focus:ring-orange-500 focus:border-orange-500'
+                  }`}
                 />
+                {touched.procedureName && errors.procedureName && (
+                  <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
+                    <AlertCircle className="h-4 w-4" />
+                    {errors.procedureName}
+                  </p>
+                )}
               </div>
 
               {/* Institution */}
@@ -194,11 +296,29 @@ export default function ReportProblemsButton() {
                   name="description"
                   value={formData.description}
                   onChange={handleInputChange}
+                  onBlur={handleBlur}
                   required
                   rows={4}
                   placeholder={t('reportModal.descriptionPlaceholder')}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 transition-colors ${
+                    touched.description && errors.description
+                      ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
+                      : 'border-gray-300 focus:ring-orange-500 focus:border-orange-500'
+                  }`}
                 />
+                <div className="flex items-center justify-between mt-1">
+                  <div>
+                    {touched.description && errors.description && (
+                      <p className="text-sm text-red-600 flex items-center gap-1">
+                        <AlertCircle className="h-4 w-4" />
+                        {errors.description}
+                      </p>
+                    )}
+                  </div>
+                  <p className={`text-xs ${formData.description.length >= 10 ? 'text-green-600' : 'text-gray-500'}`}>
+                    {formData.description.length} caracteres
+                  </p>
+                </div>
               </div>
 
               {/* Contact Information */}
@@ -230,9 +350,20 @@ export default function ReportProblemsButton() {
                       name="contactEmail"
                       value={formData.contactEmail}
                       onChange={handleInputChange}
+                      onBlur={handleBlur}
                       placeholder={t('reportModal.contactEmailPlaceholder')}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      className={`w-full px-3 py-2 border rounded-lg focus:ring-2 transition-colors ${
+                        touched.contactEmail && errors.contactEmail
+                          ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
+                          : 'border-gray-300 focus:ring-orange-500 focus:border-orange-500'
+                      }`}
                     />
+                    {touched.contactEmail && errors.contactEmail && (
+                      <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
+                        <AlertCircle className="h-4 w-4" />
+                        {errors.contactEmail}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <p className="text-xs text-gray-500 mt-2">
@@ -242,13 +373,27 @@ export default function ReportProblemsButton() {
 
               {/* Success/Error Messages */}
               {submitStatus === 'success' && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start space-x-3">
-                  <CheckCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="text-sm font-medium text-blue-900">{t('reportModal.successTitle')}</p>
-                    <p className="text-xs text-blue-700 mt-1">
-                      {t('reportModal.successMessage')}
-                    </p>
+                <div className="bg-green-50 border-2 border-green-200 rounded-lg p-6 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <div className="flex items-start space-x-3">
+                    <div className="bg-green-100 p-2 rounded-full">
+                      <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-lg font-bold text-green-900 mb-2">{t('reportModal.successTitle')}</p>
+                      <p className="text-sm text-green-800 mb-3">
+                        {t('reportModal.successMessage')}
+                      </p>
+                      <div className="bg-white rounded-lg p-3 border border-green-200">
+                        <p className="text-xs text-green-700 font-medium">
+                          ¿Qué sigue?
+                        </p>
+                        <ul className="text-xs text-green-800 mt-2 space-y-1">
+                          <li>• Nuestro equipo revisará tu reporte en las próximas 24-48 horas</li>
+                          <li>• Te notificaremos cuando actualicemos la información</li>
+                          <li>• Puedes seguir navegando mientras procesamos tu reporte</li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
