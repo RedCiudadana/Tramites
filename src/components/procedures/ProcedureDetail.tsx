@@ -19,6 +19,7 @@ import {
 import { Link } from 'react-router-dom';
 import { Procedure } from '../../lib/data';
 import Breadcrumb from '../common/Breadcrumb';
+import SocialShareButton from '../common/SocialShareButton';
 
 interface ProcedureDetailProps {
   procedure: Procedure;
@@ -88,7 +89,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
 
         {/* Header */}
         <div className="bg-white rounded-xl shadow-sm p-8 mb-8 border border-gray-100">
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
             <div className="flex-1">
               <div className="flex items-center space-x-3 mb-4">
                 <h1 className="text-3xl font-bold text-gray-900">{procedure.name}</h1>
@@ -132,6 +133,18 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Share Button */}
+            <div className="flex flex-col gap-3">
+              <SocialShareButton
+                title={`${procedure.name} - Red Ciudadana`}
+                description={procedure.description || procedure.full_description}
+                hashtags={['RedCiudadana', 'TrámitesGuatemala', 'Transparencia']}
+              />
+              <p className="text-xs text-gray-500 text-center">
+                Comparte este trámite
+              </p>
             </div>
           </div>
         </div>
