@@ -19,50 +19,62 @@ interface FAQ {
 const faqs: FAQ[] = [
   {
     id: '1',
-    question: '¿Qué es Red Ciudadana?',
-    answer: 'Red Ciudadana es una organización de sociedad civil que recopila, verifica y organiza información sobre trámites gubernamentales para facilitar el acceso ciudadano a los servicios públicos. Nuestro objetivo es empoderar a los ciudadanos con información clara y completa.',
-    category: 'identidad',
+    question: '¿Cómo buscar un trámite?',
+    answer: 'Hay varias formas: 1) Usa el buscador en la parte superior y escribe el nombre del trámite. 2) Ve a "Catálogo" y explora por categorías. 3) Usa el buscador rápido que aparece con sugerencias automáticas. 4) Navega por "Experiencias Guiadas" para trámites relacionados a un objetivo.',
+    category: 'tramites',
     relatedProcedures: []
   },
   {
     id: '2',
-    question: '¿Cómo funciona el portal de información?',
-    answer: 'Nuestro portal organiza información verificada sobre trámites gubernamentales. Puedes buscar por categorías, usar nuestro buscador inteligente, o consultar el observatorio ciudadano para ver análisis de eficiencia de procesos.',
-    category: 'negocios',
+    question: '¿Qué significa experiencia guiada?',
+    answer: 'Son conjuntos de trámites organizados por objetivos. Por ejemplo, "Abrir un negocio" incluye registro de empresa, patente de comercio, inscripción SAT, etc. Te muestran el camino completo para lograr tu objetivo.',
+    category: 'tramites',
     relatedProcedures: []
   },
   {
     id: '3',
-    question: '¿La información está actualizada?',
-    answer: 'Sí, nuestro equipo de investigación ciudadana verifica y actualiza constantemente la información. También contamos con una red de colaboradores que nos ayudan a mantener los datos al día.',
-    category: 'justicia',
+    question: '¿Cómo uso el buscador con sugerencias?',
+    answer: 'Al escribir verás 3 tipos de sugerencias: búsquedas recientes (si ya has usado el buscador), búsquedas populares (trámites más consultados), y palabras clave que coinciden. Navega con flechas del teclado y presiona Enter.',
+    category: 'tramites',
     relatedProcedures: []
   },
   {
     id: '4',
-    question: '¿Puedo realizar trámites directamente aquí?',
-    answer: 'No, este portal es únicamente informativo. Te proporcionamos toda la información necesaria para que llegues preparado a las oficinas gubernamentales o portales oficiales donde debes realizar tu trámite.',
-    category: 'salud'
+    question: '¿Qué es el Observatorio Ciudadano?',
+    answer: 'Es nuestra herramienta de análisis que evalúa eficiencia de procesos gubernamentales. Muestra estadísticas de tiempos, satisfacción ciudadana, digitalización y complejidad. Hace los procesos más transparentes.',
+    category: 'observatorio'
   },
   {
     id: '5',
-    question: '¿Qué es el Observatorio Ciudadano?',
-    answer: 'Es nuestro sistema de análisis independiente que evalúa la eficiencia y accesibilidad de los procesos gubernamentales desde la perspectiva ciudadana, midiendo tiempos, satisfacción y nivel de digitalización.',
-    category: 'educacion'
+    question: '¿Cómo filtro por categoría?',
+    answer: 'En el Catálogo, usa los filtros en la parte superior: por categorías (identidad, negocios, salud, etc.), tipo de usuario (persona/empresa), y modalidad (digital/presencial/mixto). Los filtros se actualizan en tiempo real.',
+    category: 'tramites'
   },
   {
     id: '6',
-    question: '¿Cómo puedo contribuir con información?',
-    answer: 'Puedes reportar cambios en procesos, compartir tu experiencia, verificar información existente, o contactarnos con actualizaciones. Tu contribución ayuda a mantener la información actualizada para todos.',
-    category: 'vivienda'
+    question: '¿Puedo hacer trámites aquí?',
+    answer: 'No, este portal es informativo. Te damos toda la información para que llegues preparado a oficinas gubernamentales o portales oficiales. Incluimos requisitos, pasos, tiempos y enlaces directos.',
+    category: 'general'
+  },
+  {
+    id: '7',
+    question: '¿Qué información tiene cada trámite?',
+    answer: 'Cada trámite incluye: requisitos completos, pasos detallados, tiempos estimados, información institucional, costos, horarios, enlaces oficiales, y botón para compartir en redes sociales.',
+    category: 'tramites'
+  },
+  {
+    id: '8',
+    question: '¿Cómo comparto un trámite?',
+    answer: 'En cada página de trámite hay un botón "Compartir". Puedes compartir en Facebook, Twitter, LinkedIn, WhatsApp, Email, o copiar el enlace. Ayuda a otros ciudadanos compartiendo información útil.',
+    category: 'general'
   }
 ];
 
 const quickActions = [
-  { icon: Search, label: 'Buscar información', action: 'search' },
-  { icon: Building2, label: 'Ver observatorio', action: 'observatory' },
-  { icon: Clock, label: 'Categorías', action: 'categories' },
-  { icon: FileText, label: 'Centro de ayuda', action: 'help' }
+  { icon: Search, label: 'Buscar trámite', action: 'search' },
+  { icon: FileText, label: 'Experiencias guiadas', action: 'experiences' },
+  { icon: Building2, label: 'Observatorio', action: 'observatory' },
+  { icon: Clock, label: 'Usar filtros', action: 'filters' }
 ];
 
 export default function Chatbot() {
@@ -107,34 +119,46 @@ export default function Chatbot() {
 
   const generateBotResponse = (userInput: string): string => {
     const input = userInput.toLowerCase();
-    
-    // Check for Red Ciudadana specific keywords
-    if (input.includes('red ciudadana') || input.includes('organizacion') || input.includes('que es')) {
-      return 'Red Ciudadana es una organización de sociedad civil que trabaja por la transparencia y el acceso a la información pública. Recopilamos y verificamos información sobre trámites gubernamentales para empoderar a los ciudadanos. ¿Te gustaría saber más sobre algún servicio específico?';
+
+    // Check for specific user questions
+    if (input.includes('buscar') || input.includes('como busco') || input.includes('encontrar tramite')) {
+      return 'Hay varias formas de buscar: 1) Usa el buscador en la parte superior y escribe el nombre del trámite. 2) Ve a "Catálogo" y explora por categorías. 3) Usa el buscador rápido con sugerencias automáticas. 4) Navega por "Experiencias Guiadas" para trámites relacionados a un objetivo. ¿Qué trámite necesitas?';
     }
-    
-    if (input.includes('observatorio') || input.includes('analisis') || input.includes('eficiencia')) {
-      return 'Nuestro Observatorio Ciudadano analiza la eficiencia de los procesos gubernamentales desde la perspectiva ciudadana. Evaluamos digitalización, tiempos, satisfacción y accesibilidad. ¿Te interesa ver el análisis de algún trámite específico?';
+
+    if (input.includes('experiencia guiada') || input.includes('experiencias') || input.includes('objetivo')) {
+      return 'Las experiencias guiadas son conjuntos de trámites organizados por objetivos. Por ejemplo, "Abrir un negocio" incluye registro de empresa, patente de comercio, inscripción SAT, etc. Te muestran el camino completo para lograr tu objetivo. ¿Qué objetivo tienes en mente?';
     }
-    
-    if (input.includes('informacion') || input.includes('actualizada') || input.includes('verificada')) {
-      return 'Toda nuestra información es verificada por nuestro equipo de investigación ciudadana y actualizada constantemente. También contamos con una red de colaboradores que nos ayudan a mantener los datos al día. ¿Buscas información sobre algún trámite específico?';
+
+    if (input.includes('sugerencias') || input.includes('buscador') || input.includes('autocompletar')) {
+      return 'Al escribir en el buscador verás 3 tipos de sugerencias: búsquedas recientes (si ya has usado el buscador), búsquedas populares (trámites más consultados), y palabras clave que coinciden. Navega con flechas del teclado y presiona Enter. ¿Quieres probarlo?';
     }
-    
-    if (input.includes('tramite') || input.includes('proceso') || input.includes('documentos')) {
-      return 'Tenemos información detallada sobre más de 120 trámites organizados por categorías: identidad, negocios, vivienda, educación, salud y justicia. Cada trámite incluye requisitos, pasos y tiempos estimados. ¿Qué tipo de trámite te interesa?';
+
+    if (input.includes('filtro') || input.includes('categoria') || input.includes('filtrar')) {
+      return 'En el Catálogo puedes filtrar por: categorías (identidad, negocios, salud, etc.), tipo de usuario (persona/empresa), y modalidad (digital/presencial/mixto). Los filtros se actualizan en tiempo real. ¿Qué tipo de trámite buscas?';
     }
-    
-    if (input.includes('contribuir') || input.includes('ayudar') || input.includes('colaborar')) {
-      return 'Puedes contribuir de varias formas: reportando cambios en procesos, compartiendo tu experiencia con trámites, verificando información existente, o contactándonos con actualizaciones. Tu participación fortalece nuestra comunidad informada. ¿Te interesa alguna forma específica de colaborar?';
+
+    if (input.includes('compartir') || input.includes('redes sociales') || input.includes('enviar')) {
+      return 'En cada página de trámite hay un botón "Compartir". Puedes compartir en Facebook, Twitter, LinkedIn, WhatsApp, Email, o copiar el enlace. Ayuda a otros ciudadanos compartiendo información útil. ¿Te gustaría compartir algún trámite?';
     }
-    
+
+    if (input.includes('observatorio') || input.includes('analisis') || input.includes('estadisticas')) {
+      return 'El Observatorio Ciudadano analiza la eficiencia de procesos gubernamentales. Muestra estadísticas de tiempos, satisfacción ciudadana, digitalización y complejidad. Hace los procesos más transparentes. ¿Te interesa ver el observatorio?';
+    }
+
+    if (input.includes('realizar') || input.includes('hacer tramite') || input.includes('aqui')) {
+      return 'No, este portal es informativo. Te damos toda la información para que llegues preparado a oficinas gubernamentales o portales oficiales. Incluimos requisitos, pasos, tiempos y enlaces directos. ¿Qué trámite necesitas consultar?';
+    }
+
+    if (input.includes('informacion') || input.includes('que incluye') || input.includes('que tiene')) {
+      return 'Cada trámite incluye: requisitos completos, pasos detallados, tiempos estimados, información institucional, costos, horarios, enlaces oficiales, y botón para compartir. Todo verificado y actualizado. ¿Quieres ver un ejemplo?';
+    }
+
     if (input.includes('contacto') || input.includes('ayuda') || input.includes('soporte')) {
-      return 'Puedes contactarnos por teléfono (+502 2440-0000), correo (info@redciudadana.org.gt), o seguirnos en redes sociales. También tenemos un centro de ayuda completo con preguntas frecuentes. ¿Necesitas ayuda con algo específico?';
+      return 'Puedes contactarnos por correo (info@redciudadana.org.gt) o visitar nuestro Centro de Ayuda con preguntas frecuentes. ¿Necesitas ayuda con algo específico?';
     }
-    
+
     // Default response
-    return 'Como asistente de Red Ciudadana, puedo ayudarte a encontrar información sobre trámites gubernamentales, explicarte cómo funciona nuestro observatorio, o guiarte sobre cómo contribuir con la comunidad. ¿En qué puedo ayudarte específicamente?';
+    return 'Puedo ayudarte con: buscar trámites, explicar experiencias guiadas, usar el buscador con sugerencias, filtrar por categoría, compartir trámites, o consultar el observatorio. ¿Qué te gustaría saber?';
   };
 
   const handleFAQClick = (faq: FAQ) => {
@@ -160,16 +184,16 @@ export default function Chatbot() {
     let response = '';
     switch (action) {
       case 'search':
-        response = 'Puedes usar el buscador en la parte superior de la página para encontrar información sobre cualquier trámite. También puedes navegar por categorías o preguntarme directamente. ¿Qué información necesitas?';
+        response = 'Para buscar trámites: 1) Usa el buscador en la parte superior y escribe el nombre. 2) Ve a "Catálogo" para explorar por categorías. 3) Usa el buscador rápido con sugerencias automáticas. El buscador muestra búsquedas recientes, populares y palabras clave. ¿Qué trámite necesitas?';
+        break;
+      case 'experiences':
+        response = 'Las experiencias guiadas agrupan trámites por objetivos. Por ejemplo, "Abrir un negocio" incluye todos los trámites necesarios: registro, patente, SAT, etc. Te muestran el camino completo paso a paso. Encuentra experiencias en el menú principal. ¿Qué objetivo tienes?';
         break;
       case 'observatory':
-        response = 'El Observatorio Ciudadano analiza la eficiencia de procesos gubernamentales evaluando digitalización, tiempos, satisfacción y accesibilidad. Puedes ver análisis detallados y comparaciones. ¿Te interesa algún análisis específico?';
+        response = 'El Observatorio analiza la eficiencia de procesos gubernamentales con estadísticas de: tiempos promedio, satisfacción ciudadana, nivel de digitalización y complejidad. Es transparencia en acción. Accede desde el menú principal. ¿Te interesa ver algún análisis?';
         break;
-      case 'categories':
-        response = 'Organizamos la información en 6 categorías: Identidad, Negocios, Vivienda, Educación, Salud y Justicia. Cada categoría contiene trámites relacionados con información completa y verificada. ¿Qué categoría te interesa explorar?';
-        break;
-      case 'help':
-        response = 'Nuestro Centro de Ayuda incluye preguntas frecuentes, guías de uso, información de contacto y recursos adicionales. También puedes contribuir reportando cambios o compartiendo experiencias. ¿Necesitas ayuda con algo específico?';
+      case 'filters':
+        response = 'En el Catálogo puedes filtrar por: 1) Categorías (identidad, negocios, salud, educación, etc.), 2) Tipo de usuario (persona física o empresa), 3) Modalidad (digital, presencial o mixto). Los resultados se actualizan en tiempo real. ¿Qué tipo de trámite buscas?';
         break;
     }
 

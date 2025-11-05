@@ -49,6 +49,15 @@ export default function HelpPage() {
     { id: 'red-ciudadana', name: 'Red Ciudadana', icon: Users }
   ];
 
+  const quickQuestions = [
+    { text: '¿Cómo buscar un trámite?', icon: Search },
+    { text: '¿Qué significa experiencia guiada?', icon: FileText },
+    { text: '¿Cómo uso el buscador?', icon: Search },
+    { text: '¿Qué es el Observatorio?', icon: Building2 },
+    { text: '¿Cómo filtro por categoría?', icon: FileText },
+    { text: '¿Puedo hacer trámites aquí?', icon: HelpCircle }
+  ];
+
   const faqs: FAQ[] = [
     // General
     {
@@ -73,32 +82,56 @@ export default function HelpPage() {
     // Trámites
     {
       id: '4',
-      question: '¿Cómo busco información sobre un trámite específico?',
-      answer: 'Puedes usar el buscador en la página principal, navegar por categorías, o usar nuestro chatbot. También puedes filtrar por tipo de usuario (persona/empresa) y modalidad (digital/presencial).',
+      question: '¿Cómo buscar un trámite?',
+      answer: 'Hay varias formas de buscar: 1) Usa el buscador en la parte superior de cualquier página y escribe el nombre del trámite. 2) Haz clic en "Catálogo" en el menú y explora por categorías. 3) Usa el botón de búsqueda flotante para acceder al buscador rápido con sugerencias automáticas. 4) Navega por "Experiencias Guiadas" si buscas trámites relacionados a un objetivo específico.',
       category: 'tramites'
     },
     {
       id: '5',
-      question: '¿Qué información encuentro sobre cada trámite?',
-      answer: 'Para cada trámite encontrarás: requisitos completos, pasos detallados, tiempos estimados, información institucional, costos, horarios de atención y enlaces a portales oficiales.',
+      question: '¿Qué significa experiencia guiada?',
+      answer: 'Las experiencias guiadas son conjuntos de trámites organizados por objetivos comunes. Por ejemplo, "Abrir un negocio" incluye todos los trámites necesarios como registro de empresa, patente de comercio, inscripción en SAT, etc. Te muestran el camino completo para lograr un objetivo específico, ahorrándote tiempo en buscar cada trámite por separado.',
       category: 'tramites'
     },
     {
       id: '6',
+      question: '¿Cómo uso el buscador con sugerencias?',
+      answer: 'Al escribir en el buscador, verás sugerencias automáticas en tres tipos: 1) Búsquedas recientes (si has usado el buscador antes), 2) Búsquedas populares (los trámites más consultados), y 3) Palabras clave que coinciden con tu búsqueda. Puedes navegar con las flechas del teclado y presionar Enter para seleccionar.',
+      category: 'tramites'
+    },
+    {
+      id: '7',
+      question: '¿Cómo filtro por categoría en el catálogo?',
+      answer: 'En la página del Catálogo, encontrarás filtros en la parte superior. Puedes filtrar por: 1) Categorías (identidad, negocios, salud, etc.), 2) Tipo de usuario (persona o empresa), y 3) Modalidad (digital, presencial o mixto). Los filtros se actualizan en tiempo real mientras escribes en el buscador.',
+      category: 'tramites'
+    },
+    {
+      id: '8',
+      question: '¿Qué información encuentro sobre cada trámite?',
+      answer: 'Para cada trámite encontrarás: requisitos completos, pasos detallados, tiempos estimados, información institucional, costos, horarios de atención, enlaces a portales oficiales, y un botón para compartir el trámite en redes sociales.',
+      category: 'tramites'
+    },
+    {
+      id: '9',
       question: '¿Los trámites digitales se pueden hacer completamente en línea?',
       answer: 'Los trámites marcados como "digitales" generalmente se pueden completar en línea, pero algunos pueden requerir pasos presenciales. Siempre verifica en el portal oficial de la institución.',
+      category: 'tramites'
+    },
+    {
+      id: '10',
+      question: '¿Qué es el Observatorio Ciudadano?',
+      answer: 'El Observatorio es nuestra herramienta de análisis independiente que evalúa la eficiencia y accesibilidad de los procesos gubernamentales. Muestra estadísticas sobre tiempos promedio, satisfacción ciudadana, nivel de digitalización, y complejidad de cada trámite. Es una forma de hacer los procesos más transparentes y presionar por mejoras.',
       category: 'tramites'
     },
 
     // Instituciones
     {
-      id: '7',
+      id: '11',
       question: '¿Dónde encuentro información de contacto de las instituciones?',
-      answer: 'En cada página de trámite incluimos información completa de la institución: dirección, teléfonos, correos, horarios de atención y sitio web oficial.',
+      answer: 'En cada página de trámite incluimos información completa de la institución: dirección, teléfonos, correos, horarios de atención y sitio web oficial. También puedes ir a la sección "Instituciones" en el menú principal para ver un directorio completo.',
       category: 'instituciones'
     },
     {
-      id: '8',
+      id: '12',
       question: '¿Cómo sé si una institución tiene servicios en línea?',
       answer: 'Indicamos claramente qué trámites son digitales, presenciales o mixtos. También proporcionamos enlaces directos a los portales oficiales de cada institución.',
       category: 'instituciones'
@@ -106,7 +139,7 @@ export default function HelpPage() {
 
     // Documentos
     {
-      id: '9',
+      id: '13',
       question: '¿Qué documentos necesito tener siempre listos?',
       answer: 'Los documentos más comunes son: DPI vigente, partida de nacimiento certificada, comprobante de residencia reciente, y fotografías tamaño cédula. Cada trámite tiene requisitos específicos.',
       category: 'documentos'
@@ -279,6 +312,37 @@ export default function HelpPage() {
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
+
+              {/* Quick Questions */}
+              {!searchQuery && (
+                <div className="mb-6 bg-blue-50 rounded-lg p-4 border border-blue-100">
+                  <p className="text-sm font-medium text-gray-700 mb-3 flex items-center gap-2">
+                    <HelpCircle className="h-4 w-4 text-blue-600" />
+                    Preguntas comunes - Click para ver respuesta
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {quickQuestions.map((q, index) => {
+                      const IconComponent = q.icon;
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => {
+                            const faq = faqs.find(f => f.question === q.text);
+                            if (faq) {
+                              setExpandedFAQ(faq.id);
+                              setSelectedCategory(faq.category);
+                            }
+                          }}
+                          className="inline-flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-blue-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all text-sm font-medium group"
+                        >
+                          <IconComponent className="h-4 w-4 text-blue-600 group-hover:text-white" />
+                          {q.text}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
 
               {/* Category Filters with loading indicator */}
               <div className="mb-6">
