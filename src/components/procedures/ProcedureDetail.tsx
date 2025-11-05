@@ -20,6 +20,7 @@ import { Link } from 'react-router-dom';
 import { Procedure } from '../../lib/data';
 import Breadcrumb from '../common/Breadcrumb';
 import SocialShareButton from '../common/SocialShareButton';
+import { AcronymText } from '../common/AcronymTooltip';
 
 interface ProcedureDetailProps {
   procedure: Procedure;
@@ -105,7 +106,7 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
               )}
 
               <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                {procedure.full_description}
+                <AcronymText text={procedure.full_description} />
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -162,7 +163,9 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
             {requirements.map((requirement, index) => (
               <div key={index} className="flex items-start space-x-3 p-4 bg-orange-50 rounded-lg border border-orange-100">
                 <CheckCircle className="h-5 w-5 text-orange-600 mt-0.5 flex-shrink-0" />
-                <p className="text-gray-800">{requirement}</p>
+                <p className="text-gray-800">
+                  <AcronymText text={requirement} />
+                </p>
               </div>
             ))}
           </div>
@@ -183,7 +186,9 @@ export default function ProcedureDetail({ procedure }: ProcedureDetailProps) {
                 <div className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold flex-shrink-0">
                   {index + 1}
                 </div>
-                <p className="text-gray-800 pt-1">{step}</p>
+                <p className="text-gray-800 pt-1">
+                  <AcronymText text={step} />
+                </p>
               </div>
             ))}
           </div>

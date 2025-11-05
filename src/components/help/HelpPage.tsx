@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import Breadcrumb from '../common/Breadcrumb';
 import LoadingSpinner from '../common/LoadingSpinner';
+import AcronymTooltip from '../common/AcronymTooltip';
 
 interface FAQ {
   id: string;
@@ -141,13 +142,13 @@ export default function HelpPage() {
     {
       id: '13',
       question: '¿Qué documentos necesito tener siempre listos?',
-      answer: 'Los documentos más comunes son: DPI vigente, partida de nacimiento certificada, comprobante de residencia reciente, y fotografías tamaño cédula. Cada trámite tiene requisitos específicos.',
+      answer: 'Los documentos más comunes son: DPI (Documento Personal de Identificación) vigente, partida de nacimiento certificada, comprobante de residencia reciente, y fotografías tamaño cédula. Cada trámite tiene requisitos específicos.',
       category: 'documentos'
     },
     {
-      id: '10',
+      id: '14',
       question: '¿Dónde obtengo certificaciones de documentos?',
-      answer: 'Las partidas de nacimiento se obtienen en RENAP, las certificaciones académicas en tu institución educativa, y otros documentos en sus respectivas instituciones emisoras.',
+      answer: 'Las partidas de nacimiento se obtienen en RENAP (Registro Nacional de las Personas), las certificaciones académicas en tu institución educativa, y otros documentos en sus respectivas instituciones emisoras.',
       category: 'documentos'
     },
 
@@ -247,9 +248,17 @@ export default function HelpPage() {
             </h1>
           </div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Encuentra respuestas a tus preguntas sobre trámites, instituciones y cómo usar 
+            Encuentra respuestas a tus preguntas sobre trámites, instituciones y cómo usar
             la información de Red Ciudadana para tener éxito en tus gestiones gubernamentales.
           </p>
+
+          {/* Acronym Tooltip Demo */}
+          <div className="mt-6 inline-flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-lg border border-blue-200">
+            <User className="h-4 w-4 text-blue-600" />
+            <p className="text-sm text-gray-700">
+              Los acrónimos como <AcronymTooltip acronym="DPI" /> y <AcronymTooltip acronym="SAT" /> tienen tooltips informativos
+            </p>
+          </div>
         </div>
 
         {/* Quick Contact */}

@@ -3,6 +3,7 @@ import { Search, X, ArrowRight, TrendingUp, Clock, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useProcedureSearch } from '../../hooks/useProcedures';
 import { Procedure } from '../../lib/data';
+import { AcronymText } from './AcronymTooltip';
 
 interface SearchModalProps {
   isOpen: boolean;
