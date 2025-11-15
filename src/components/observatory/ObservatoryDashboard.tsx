@@ -19,7 +19,7 @@ import {
   Scale,
   BookOpen
 } from 'lucide-react';
-import { useObservatory, useObservatoryStats, ObservatoryData } from '../../hooks/useObservatory';
+import { useObservatory, calculateStats, ObservatoryData } from '../../hooks/useObservatory';
 import InfoTooltip from '../common/InfoTooltip';
 import Breadcrumb from '../common/Breadcrumb';
 
@@ -28,7 +28,9 @@ export default function ObservatoryDashboard() {
   const [selectedItem, setSelectedItem] = useState<ObservatoryData | null>(null);
   const [isFiltering, setIsFiltering] = useState(false);
   const { observatoryData, loading, error } = useObservatory();
-  const { stats } = useObservatoryStats();
+
+  // Calculate stats from the loaded data
+  const stats = React.useMemo(() => calculateStats(observatoryData), [observatoryData]);
 
   if (loading) {
     return (

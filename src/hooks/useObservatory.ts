@@ -40,9 +40,12 @@ export function useObservatory() {
       setLoading(true);
       setError(null);
       const data = await observatoryService.getAll();
+      console.log('Observatory data loaded:', data?.length || 0, 'items');
       setObservatoryData(data || []);
     } catch (err) {
+      console.error('Error loading observatory data:', err);
       setError(err instanceof Error ? err.message : 'Error al cargar datos del observatorio');
+      setObservatoryData([]);
     } finally {
       setLoading(false);
     }
@@ -60,10 +63,8 @@ export function useObservatory() {
   };
 }
 
-export function useObservatoryStats() {
-  const { observatoryData, loading, error } = useObservatory();
-
-  const stats = {
+export function calculateStats(observatoryData: ObservatoryData[]) {
+  return {
     totalProcedures: observatoryData.length,
     averageEvaluation: observatoryData.length > 0
       ? Math.round(observatoryData.reduce((sum, item) => sum + item.evaluation_score, 0) / observatoryData.length)
@@ -72,10 +73,16 @@ export function useObservatoryStats() {
     partialDigitalProcedures: observatoryData.filter(item => item.completamente_en_linea === 50).length,
     nonDigitalProcedures: observatoryData.filter(item => item.completamente_en_linea === 0).length,
     excellentProcedures: observatoryData.filter(item => item.maturity_level >= 4.0).length,
-    bestProcedures: observatoryData
+    bestProcedures: [...observatoryData]
       .sort((a, b) => b.maturity_level - a.maturity_level)
       .slice(0, 5)
   };
+}
+
+export function useObservatoryStats() {
+  const { observatoryData, loading, error } = useObservatory();
+
+  const stats = calculateStats(observatoryData);
 
   return {
     stats,
