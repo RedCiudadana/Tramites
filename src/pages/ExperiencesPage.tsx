@@ -23,7 +23,11 @@ import {
   Users,
   Home,
   GraduationCap,
-  Award
+  Award,
+  Rocket,
+  CreditCard,
+  BookOpen,
+  UserCheck
 } from 'lucide-react';
 import { useProcedures } from '../hooks/useProcedures';
 import { useExperiences } from '../hooks/useExperiences';
@@ -66,9 +70,25 @@ const colorMap: Record<string, { icon: string; bg: string }> = {
   'from-amber-500 to-amber-700': { icon: 'text-amber-600', bg: 'bg-amber-50' }
 };
 
+type CategoryFilter = 'all' | 'business' | 'identity' | 'education' | 'employment';
+
+const categoryMapping: Record<string, CategoryFilter> = {
+  'Emprendimiento': 'business',
+  'Negocios': 'business',
+  'Emprendimiento Formal': 'business',
+  'Comercio Exterior': 'business',
+  'Propiedad Intelectual': 'business',
+  'Identidad': 'identity',
+  'Documentos': 'identity',
+  'Educación': 'education',
+  'Recursos Humanos': 'employment',
+  'Construcción': 'business'
+};
+
 export default function ExperiencesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedExperienceId, setSelectedExperienceId] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>('all');
   const [isFiltering, setIsFiltering] = useState(false);
 
   const { procedures, loading: proceduresLoading } = useProcedures();
@@ -83,19 +103,35 @@ export default function ExperiencesPage() {
 
   const filteredExperiences = useMemo(() => {
     setIsFiltering(true);
-    if (!searchQuery) {
-      setTimeout(() => setIsFiltering(false), 200);
-      return experiences;
+
+    let filtered = experiences;
+
+    // Filter by category
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter(exp => {
+        const expCategory = categoryMapping[exp.categoria];
+        return expCategory === selectedCategory;
+      });
     }
-    const query = searchQuery.toLowerCase();
-    const filtered = experiences.filter(exp =>
-      exp.nombre.toLowerCase().includes(query) ||
-      exp.descripcion.toLowerCase().includes(query) ||
-      exp.categoria.toLowerCase().includes(query)
-    );
+
+    // Filter by search query
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(exp =>
+        exp.nombre.toLowerCase().includes(query) ||
+        exp.descripcion.toLowerCase().includes(query) ||
+        exp.categoria.toLowerCase().includes(query)
+      );
+    }
+
     setTimeout(() => setIsFiltering(false), 300);
     return filtered;
-  }, [experiences, searchQuery]);
+  }, [experiences, searchQuery, selectedCategory]);
+
+  const getCategoryCount = (category: CategoryFilter) => {
+    if (category === 'all') return experiences.length;
+    return experiences.filter(exp => categoryMapping[exp.categoria] === category).length;
+  };
 
   const getExperienceProcedures = (experienceId: string) => {
     const experience = experiences.find(exp => exp.id === experienceId);
@@ -347,10 +383,169 @@ export default function ExperiencesPage() {
           </div>
         </div>
 
+        {/* Category Filters */}
+        <div className="mb-8 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+              Filtrar por categoría
+            </h3>
+            {selectedCategory !== 'all' && (
+              <button
+                onClick={() => setSelectedCategory('all')}
+                className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+              >
+                Limpiar filtro
+              </button>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+            <button
+              onClick={() => setSelectedCategory('all')}
+              className={`flex items-center gap-3 p-4 rounded-lg border-2 transition-all ${
+                selectedCategory === 'all'
+                  ? 'border-blue-500 bg-blue-50 shadow-md'
+                  : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
+              }`}
+            >
+              <div className={`p-2 rounded-lg ${
+                selectedCategory === 'all' ? 'bg-blue-100' : 'bg-gray-100'
+              }`}>
+                <Target className={`w-5 h-5 ${
+                  selectedCategory === 'all' ? 'text-blue-600' : 'text-gray-600'
+                }`} />
+              </div>
+              <div className="text-left">
+                <div className={`font-semibold ${
+                  selectedCategory === 'all' ? 'text-blue-900' : 'text-gray-900'
+                }`}>
+                  Todas
+                </div>
+                <div className="text-sm text-gray-600">
+                  {getCategoryCount('all')} experiencias
+                </div>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setSelectedCategory('business')}
+              className={`flex items-center gap-3 p-4 rounded-lg border-2 transition-all ${
+                selectedCategory === 'business'
+                  ? 'border-blue-500 bg-blue-50 shadow-md'
+                  : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
+              }`}
+            >
+              <div className={`p-2 rounded-lg ${
+                selectedCategory === 'business' ? 'bg-blue-100' : 'bg-gray-100'
+              }`}>
+                <Rocket className={`w-5 h-5 ${
+                  selectedCategory === 'business' ? 'text-blue-600' : 'text-gray-600'
+                }`} />
+              </div>
+              <div className="text-left">
+                <div className={`font-semibold ${
+                  selectedCategory === 'business' ? 'text-blue-900' : 'text-gray-900'
+                }`}>
+                  Negocios y emprendimiento
+                </div>
+                <div className="text-sm text-gray-600">
+                  {getCategoryCount('business')} experiencias
+                </div>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setSelectedCategory('identity')}
+              className={`flex items-center gap-3 p-4 rounded-lg border-2 transition-all ${
+                selectedCategory === 'identity'
+                  ? 'border-green-500 bg-green-50 shadow-md'
+                  : 'border-gray-200 hover:border-green-300 hover:bg-gray-50'
+              }`}
+            >
+              <div className={`p-2 rounded-lg ${
+                selectedCategory === 'identity' ? 'bg-green-100' : 'bg-gray-100'
+              }`}>
+                <CreditCard className={`w-5 h-5 ${
+                  selectedCategory === 'identity' ? 'text-green-600' : 'text-gray-600'
+                }`} />
+              </div>
+              <div className="text-left">
+                <div className={`font-semibold ${
+                  selectedCategory === 'identity' ? 'text-green-900' : 'text-gray-900'
+                }`}>
+                  Identidad y documentos
+                </div>
+                <div className="text-sm text-gray-600">
+                  {getCategoryCount('identity')} experiencias
+                </div>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setSelectedCategory('education')}
+              className={`flex items-center gap-3 p-4 rounded-lg border-2 transition-all ${
+                selectedCategory === 'education'
+                  ? 'border-purple-500 bg-purple-50 shadow-md'
+                  : 'border-gray-200 hover:border-purple-300 hover:bg-gray-50'
+              }`}
+            >
+              <div className={`p-2 rounded-lg ${
+                selectedCategory === 'education' ? 'bg-purple-100' : 'bg-gray-100'
+              }`}>
+                <BookOpen className={`w-5 h-5 ${
+                  selectedCategory === 'education' ? 'text-purple-600' : 'text-gray-600'
+                }`} />
+              </div>
+              <div className="text-left">
+                <div className={`font-semibold ${
+                  selectedCategory === 'education' ? 'text-purple-900' : 'text-gray-900'
+                }`}>
+                  Educación y formación
+                </div>
+                <div className="text-sm text-gray-600">
+                  {getCategoryCount('education')} experiencias
+                </div>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setSelectedCategory('employment')}
+              className={`flex items-center gap-3 p-4 rounded-lg border-2 transition-all ${
+                selectedCategory === 'employment'
+                  ? 'border-orange-500 bg-orange-50 shadow-md'
+                  : 'border-gray-200 hover:border-orange-300 hover:bg-gray-50'
+              }`}
+            >
+              <div className={`p-2 rounded-lg ${
+                selectedCategory === 'employment' ? 'bg-orange-100' : 'bg-gray-100'
+              }`}>
+                <UserCheck className={`w-5 h-5 ${
+                  selectedCategory === 'employment' ? 'text-orange-600' : 'text-gray-600'
+                }`} />
+              </div>
+              <div className="text-left">
+                <div className={`font-semibold ${
+                  selectedCategory === 'employment' ? 'text-orange-900' : 'text-gray-900'
+                }`}>
+                  Trabajo y empleo
+                </div>
+                <div className="text-sm text-gray-600">
+                  {getCategoryCount('employment')} experiencias
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+
         {/* Results count with loading indicator */}
         <div className="mb-6 flex items-center justify-between">
           <p className="text-gray-600">
             {filteredExperiences.length} {filteredExperiences.length === 1 ? 'experiencia' : 'experiencias'}
+            {selectedCategory !== 'all' && (
+              <span className="ml-2 text-blue-600 font-medium">
+                en la categoría seleccionada
+              </span>
+            )}
           </p>
           {isFiltering && <LoadingSpinner size="sm" inline />}
         </div>
