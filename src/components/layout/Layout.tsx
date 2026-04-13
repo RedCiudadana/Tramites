@@ -9,6 +9,7 @@ import ScrollTopButton from '../common/ScrollTopButton';
 import SearchModal from '../common/SearchModal';
 import ReportProblemsButton from '../common/ReportProblemsButton';
 import PromoPopup from '../common/PromoPopup';
+import WhatsAppButton from '../common/WhatsAppButton';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -31,6 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <Footer />
       {/* <Chatbot /> */}
       <ReportProblemsButton />
+      <WhatsAppButton />
       <PromoPopup />
 
       <SearchModal
