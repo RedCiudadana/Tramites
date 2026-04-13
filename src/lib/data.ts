@@ -1,5 +1,8 @@
-import { supabase } from './supabase';
+import institutionsData from '../data/institutions';
+import proceduresData from '../data/procedures';
 import observatoryData from '../data/observatory';
+import type { InstitutionData } from '../data/institutions';
+import type { ProcedureData } from '../data/procedures';
 
 export interface Institution {
   id: string;
@@ -82,84 +85,82 @@ export interface ObservatoryData {
   updated_at: string;
 }
 
+function mapInstitution(raw: InstitutionData): Institution {
+  return {
+    ...raw,
+    id: String(raw.id),
+    category: '',
+  };
+}
+
+function mapProcedure(raw: ProcedureData, institution?: InstitutionData): Procedure {
+  return {
+    ...raw,
+    id: String(raw.id),
+    institution_id: String(raw.institution_id),
+    requirements: raw.requirements.split(', '),
+    steps: raw.steps.split(', '),
+    codigo_moneda: raw.codigo_moneda ?? undefined,
+    costo: raw.costo ?? undefined,
+    documento_obtenible: raw.documento_obtenible ?? undefined,
+    enlace: raw.enlace ?? undefined,
+    institutions: institution ? mapInstitution(institution) : undefined,
+  };
+}
 
 export const proceduresService = {
   async getAll(): Promise<Procedure[]> {
-    const { data, error } = await supabase
-      .from('procedures')
-      .select(`
-        *,
-        institutions (*)
-      `)
-      .order('name');
-
-    if (error) throw error;
-    return data || [];
+    const sorted = [...proceduresData].sort((a, b) => a.name.localeCompare(b.name));
+    return sorted.map(p => {
+      const inst = institutionsData.find(i => i.id === p.institution_id);
+      return mapProcedure(p, inst);
+    });
   },
 
   async getById(id: string): Promise<Procedure | null> {
-    const { data, error } = await supabase
-      .from('procedures')
-      .select(`
-        *,
-        institutions (*)
-      `)
-      .eq('id', id)
-      .maybeSingle();
-
-    if (error) throw error;
-    return data;
+    const numId = Number(id);
+    const raw = proceduresData.find(p => p.id === numId);
+    if (!raw) return null;
+    const inst = institutionsData.find(i => i.id === raw.institution_id);
+    return mapProcedure(raw, inst);
   },
 
   async getByCategory(category: string): Promise<Procedure[]> {
-    const { data, error } = await supabase
-      .from('procedures')
-      .select(`
-        *,
-        institutions (*)
-      `)
-      .eq('category', category)
-      .order('name');
-
-    if (error) throw error;
-    return data || [];
+    const filtered = proceduresData
+      .filter(p => p.category === category)
+      .sort((a, b) => a.name.localeCompare(b.name));
+    return filtered.map(p => {
+      const inst = institutionsData.find(i => i.id === p.institution_id);
+      return mapProcedure(p, inst);
+    });
   },
 
   async search(query: string): Promise<Procedure[]> {
-    const { data, error } = await supabase
-      .from('procedures')
-      .select(`
-        *,
-        institutions (*)
-      `)
-      .or(`name.ilike.%${query}%,description.ilike.%${query}%`)
-      .order('name');
-
-    if (error) throw error;
-    return data || [];
+    const lower = query.toLowerCase();
+    const filtered = proceduresData
+      .filter(p =>
+        p.name.toLowerCase().includes(lower) ||
+        p.description.toLowerCase().includes(lower)
+      )
+      .sort((a, b) => a.name.localeCompare(b.name));
+    return filtered.map(p => {
+      const inst = institutionsData.find(i => i.id === p.institution_id);
+      return mapProcedure(p, inst);
+    });
   }
 };
 
 export const institutionsService = {
   async getAll(): Promise<Institution[]> {
-    const { data, error } = await supabase
-      .from('institutions')
-      .select('*')
-      .order('name');
-
-    if (error) throw error;
-    return data || [];
+    const sorted = [...institutionsData].sort((a, b) => a.name.localeCompare(b.name));
+    return sorted.map(mapInstitution);
   },
 
   async getById(id: string): Promise<Institution | null> {
-    const { data, error } = await supabase
-      .from('institutions')
-      .select('*')
-      .eq('id', id)
-      .maybeSingle();
-
-    if (error) throw error;
-    return data;
+    const numId = Number(id);
+    const raw = institutionsData.find(i => i.id === numId);
+    if (!raw) return null;
+    return mapInstitution(raw);
   }
 };
 
@@ -242,12 +243,7 @@ export const commentsService = {
 
 export const observatoryService = {
   async getAll(): Promise<any[]> {
-    const { data, error } = await supabase
-      .from('observatory')
-      .select('*')
-      .order('evaluation_score', { ascending: false });
-
-    if (error) throw error;
-    return data || [];
+    const sorted = [...observatoryData].sort((a, b) => b.evaluation_score - a.evaluation_score);
+    return sorted;
   }
 };

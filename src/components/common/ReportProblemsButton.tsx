@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Flag, X, Send, FileText, Clock, Building2, User, CheckCircle, AlertCircle } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 export default function ReportProblemsButton() {
@@ -93,24 +92,20 @@ export default function ReportProblemsButton() {
       const pageUrl = window.location.href;
 
       const reportData = {
+        id: Date.now().toString(),
         problem_type: formData.problemType,
         description: `${t('reportModal.procedureName')}: ${formData.procedureName}\n${t('reportModal.institution')}: ${formData.institution || 'No especificada'}\n\n${formData.description}`,
         user_name: formData.contactName || '',
         user_email: formData.contactEmail || '',
         page_url: pageUrl,
         browser_info: browserInfo,
-        status: 'pending'
+        status: 'pending',
+        created_at: new Date().toISOString()
       };
 
-      const { error } = await supabase
-        .from('problem_reports')
-        .insert([reportData]);
-
-      if (error) {
-        console.error('Error al guardar reporte:', error);
-        setSubmitStatus('error');
-        return;
-      }
+      const existing = JSON.parse(localStorage.getItem('problem_reports') || '[]');
+      existing.push(reportData);
+      localStorage.setItem('problem_reports', JSON.stringify(existing));
 
       setSubmitStatus('success');
 

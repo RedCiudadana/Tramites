@@ -5,7 +5,8 @@ import {
   ExternalLink, FileText, CheckCircle, Info
 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { supabase } from '../lib/supabase';
+import institutionsData from '../data/institutions';
+import proceduresData from '../data/procedures';
 import Breadcrumb from '../components/common/Breadcrumb';
 
 interface Institution {
@@ -44,34 +45,33 @@ export default function InstitutionDetailPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchInstitutionData = async () => {
+    const fetchInstitutionData = () => {
       try {
         setLoading(true);
+        const numId = Number(id);
 
-        // Fetch institution
-        const { data: instData, error: instError } = await supabase
-          .from('institutions')
-          .select('*')
-          .eq('id', id)
-          .maybeSingle();
-
-        if (instError) throw instError;
+        const instData = institutionsData.find(i => i.id === numId);
         if (!instData) {
           setError('Institution not found');
           setLoading(false);
           return;
         }
 
-        setInstitution(instData);
+        setInstitution({
+          ...instData,
+          id: instData.id,
+        });
 
-        // Fetch procedures for this institution
-        const { data: procData, error: procError } = await supabase
-          .from('procedures')
-          .select('*')
-          .eq('institution_id', id);
-
-        if (procError) throw procError;
-        setProcedures(procData || []);
+        const procData = proceduresData.filter(p => p.institution_id === numId);
+        setProcedures(procData.map(p => ({
+          id: p.id,
+          name: p.name,
+          description: p.description,
+          category: p.category,
+          duration: p.duration,
+          is_digital: p.is_digital,
+          type: p.type,
+        })));
 
       } catch (err) {
         console.error('Error fetching institution:', err);
