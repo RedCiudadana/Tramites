@@ -15,6 +15,7 @@ import TermsPage from '../pages/TermsPage';
 import PrivacyPage from '../pages/PrivacyPage';
 import AccessibilityPage from '../pages/AccessibilityPage';
 import AboutPage from '../pages/AboutPage';
+import DatabasePage from '../pages/DatabasePage';
 import NotFoundPage from '../pages/NotFoundPage';
 
 const AppRouter: React.FC = () => {
@@ -40,6 +41,7 @@ const AppRouter: React.FC = () => {
           <Route path="/privacidad" element={<PrivacyPage />} />
           <Route path="/accesibilidad" element={<AccessibilityPage />} />
           <Route path="/acerca-de" element={<AboutPage />} />
+          <Route path="/base-de-datos" element={<DatabasePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Layout>
